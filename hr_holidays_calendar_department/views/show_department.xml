@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <odoo>
 
-    <record id="show_department" model="ir.ui.view">
-        <field name="name">show_department</field>
-        <field name="model">hr.leave.report.calendar</field>
-        <field name="inherit_id" ref="hr_holidays_calendar.hr_leave_report_calendar_view"/>
-        <field name="arch" type="xml">
-          <xpath expr="//field[@name='name']" position="after">
-            <field name="department_id"/>
-          </xpath>
-        </field>
-    </record>
+  <record id="show_department" model="ir.ui.view">
+    <field name="name">show_department</field>
+    <field name="model">hr.leave.report.calendar</field>
+    <field name="inherit_id" ref="hr_holidays_calendar.hr_leave_report_calendar_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='display_name']" position="after">
+        <field name="department_id"/>
+      </xpath>
+    </field>
+  </record>
 
 </odoo>

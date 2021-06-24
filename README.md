@@ -12,6 +12,7 @@ git clone git@github.com:mint-system/odoo-apps-hr.git ./addons/hr
 
 ## Available modules
 
-| Module                                                                | Summary                                      |
-| --------------------------------------------------------------------- | -------------------------------------------- |
+| Module                                                              | Summary                                      |
+| ------------------------------------------------------------------- | -------------------------------------------- |
 | [hr_holidays_calendar_department](hr_holidays_calendar_department/) | Adds department field and filters to report. |
+| [hr_birthday_calendar](hr_birthday_calendar/)                       | Add birthday calendar view.                  |

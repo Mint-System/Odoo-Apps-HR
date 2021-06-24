@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+
+  <record id="show_birthday_public" model="ir.ui.view">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='work_location']" position="after">
+          <field name="birthday_public"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="hr.hr_employee_public_view_form"/>
+    <field name="mode">extension</field>
+    <field name="model">hr.employee.public</field>
+    <field name="name">Mint System: hr.employee.public.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+
+  <record id="add_birthday_public_calendar_view" model="ir.ui.view">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <calendar mode="month" date_start="birthday_public" date_stop="birthday_public" string="Birthday Calendar"/>
+    </field>
+    <field name="mode">primary</field>
+    <field name="model">hr.employee.public</field>
+    <field name="name">Mint System: Default calendar view for hr.employee.public</field>
+    <field name="priority">16</field>
+    <field name="type">calendar</field>
+  </record>
+
+  <record id="hr.hr_employee_public_action" model="ir.actions.act_window">
+    <field name="limit">80</field>
+    <field name="name">Personal</field>
+    <field name="res_model">hr.employee.public</field>
+    <field name="search_view_id" ref="hr.hr_employee_public_view_search"/>
+    <field name="target">current</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="view_mode">kanban,tree,form,calendar</field>
+  </record>
+
+</odoo>

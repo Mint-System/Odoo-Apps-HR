@@ -13,6 +13,16 @@ Adds department field and filters to report.
   :width: 100
   :alt: Icon
 
+Usage
+~~~~~
+
+Reinit module by calling the init method.
+
+.. code-block:: bash
+
+    env["hr.leave.report.calendar"].init()
+
+
 Configuration
 ~~~~~~~~~~~~~
 

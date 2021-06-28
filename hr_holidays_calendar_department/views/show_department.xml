@@ -6,8 +6,9 @@
     <field name="model">hr.leave.report.calendar</field>
     <field name="inherit_id" ref="hr_holidays_calendar.hr_leave_report_calendar_view"/>
     <field name="arch" type="xml">
-      <xpath expr="//field[@name='display_name']" position="after">
+      <xpath expr="//field" position="after">
         <field name="department_id"/>
+        <field name="holiday_status_id"/>
       </xpath>
     </field>
   </record>

@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+
+  <record id="hr_hr_employee_view_form_add_shortname" model="ir.ui.view">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='department_id']" position="before">
+          <field name="shortname"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="hr.hr_employee_public_view_form"/>
+    <field name="mode">extension</field>
+    <field name="model">hr.employee.public</field>
+    <field name="name">Mint System: hr.employee.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+
+  <record id="hr_hr_employee_public_view_search_add_shortname" model="ir.ui.view">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='name']" position="after">
+          <field name="shortname"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="hr.hr_employee_public_view_search"/>
+    <field name="mode">extension</field>
+    <field name="model">hr.employee.public</field>
+    <field name="name">Mint System: hr.employee.public.search customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+
+</odoo>

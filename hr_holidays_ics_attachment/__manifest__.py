@@ -1,5 +1,5 @@
 {
-    'name': "HR holidays .ics Attachment",
+    'name': "HR Holidays .ics Attachment",
 
     'summary': """
         Attach .ics file to leave approval message.

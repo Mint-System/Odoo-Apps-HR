@@ -3,7 +3,7 @@
     :alt: License: GPL-3
 
 ===========================
-HR holidays .ics Attachment
+HR Holidays .ics Attachment
 ===========================
 
 Attach .ics file to leave approval message.

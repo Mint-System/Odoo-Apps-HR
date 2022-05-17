@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+  <record id="view_search" model="ir.ui.view">
+    <field name="name">hr_employee_skill.view_search</field>
+    <field name="model">hr.employee.skill</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="employee_id"/>
+        <field name="skill_type_id"/>
+        <group expand="0" string="Group By">
+            <filter name="group_employee_id" string="Employee" domain="[]" context="{'group_by': 'employee_id'}"/>
+        </group>
+      </search>
+    </field>
+  </record>
+
   <record id="view_tree" model="ir.ui.view">
     <field name="name">hr_employee_skill.view_tree</field>
     <field name="model">hr.employee.skill</field>

@@ -34,6 +34,7 @@
     <field name="model">hr.employee.skill</field>
     <field name="arch" type="xml">
       <pivot>
+        <field name="skill_type_id" type="col"/>
         <field name="skill_id" type="col"/>
         <field name="employee_id" type="row"/>
         <field name="level_progress" type="measure" />

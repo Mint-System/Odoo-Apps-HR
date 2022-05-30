@@ -10,7 +10,7 @@ class HolidaysAllocation(models.Model):
 
     def toggle_active(self):
         for allocation in self:
-            allocation.state = 'cancel'
+            # allocation.state = 'cancel'
             # Archive all related leaves
             leaves = self.env['hr.leave'].search([
                 ('holiday_status_id', '=', allocation.holiday_status_id.id),

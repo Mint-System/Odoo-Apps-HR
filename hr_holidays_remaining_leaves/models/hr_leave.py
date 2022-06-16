@@ -15,6 +15,7 @@ class HolidaysAllocation(models.Model):
 
             # Get number of days for all validated leaves filtered by employee and leave type
             leaves = self.env['hr.leave'].search([
+                ('active', 'in', [True, False]),
                 ('employee_id', '=', allocation.employee_id.id),
                 ('state', '=', 'validate'),
                 ('holiday_status_id', '=',  allocation.holiday_status_id.id)

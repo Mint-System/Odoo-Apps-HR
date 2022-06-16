@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="view_hr_leave_allocation_filter_active" model="ir.ui.view">
+        <field name="name">view_hr_leave_allocation_filter_active</field>
+        <field name="model">hr.leave.allocation</field>
+        <field name="inherit_id" ref="hr_holidays.view_hr_leave_allocation_filter"/>
+        <field name="arch" type="xml">
+            <filter name="validated" position="after">
+                <filter string="Archived" name="active" domain="[('active', '=', False)]"/>
+            </filter>
+        </field>
+    </record>
+
+</odoo>

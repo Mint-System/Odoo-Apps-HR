@@ -10,5 +10,5 @@ class HolidaysRequest(models.Model):
 
     def toggle_active(self):
         res = super(HolidaysRequest, self).toggle_active()
-        self.state = 'cancel'
+        # self.state = 'cancel'
         return res

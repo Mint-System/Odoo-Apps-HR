@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="apply" model="ir.ui.view">
+        <field name="name">hr_recruitment_firstname.apply</field>
+        <field name="priority">100</field>
+        <field name="inherit_id" ref="website_hr_recruitment.apply" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//label[@for='partner_name']/../.." position="replace">
+                <div class="form-group row form-field o_website_form_required_custom">
+                    <div class="col-lg-3 col-md-4 text-right">
+                        <label class="col-form-label" for="firstname">Your Firstname</label>
+                    </div>
+                    <div class="col-lg-7 col-md-8">
+                        <input type="text" class="form-control o_website_form_input" name="firstname" required="" />
+                    </div>
+                </div>
+                <div class="form-group row form-field o_website_form_required_custom">
+                    <div class="col-lg-3 col-md-4 text-right">
+                        <label class="col-form-label" for="lastname">Your Lastname</label>
+                    </div>
+                    <div class="col-lg-7 col-md-8">
+                        <input type="text" class="form-control o_website_form_input" name="lastname" required="" />
+                    </div>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

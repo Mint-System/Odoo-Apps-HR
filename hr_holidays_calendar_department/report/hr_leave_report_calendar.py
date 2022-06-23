@@ -27,5 +27,5 @@ class LeaveReportCalendar(models.Model):
             LEFT JOIN hr_employee em
                 ON em.id = hl.employee_id
         WHERE 
-            hl.state = 'validate');
+            hl.state = 'validate' AND hl.active = true);
         """)

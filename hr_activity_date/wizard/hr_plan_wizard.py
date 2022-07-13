@@ -7,6 +7,18 @@ from datetime import datetime, timedelta
 class HrPlanWizard(models.TransientModel):
     _inherit = 'hr.plan.wizard'
 
+    def _prepare_activity_values(self, activity_type, responsible, date_deadline=False):
+        """Hook to insert values"""
+        return {
+            'res_id': self.employee_id.id,
+            'res_model_id': self.env['ir.model']._get('hr.employee').id,
+            'summary': activity_type.summary,
+            'note': activity_type.note,
+            'activity_type_id': activity_type.activity_type_id.id,
+            'user_id': responsible.id,
+            'date_deadline': date_deadline,
+        }
+
     def action_launch(self):
         """OVERWRITE set date deadline"""
         contract_id =  self.employee_id.contract_id
@@ -28,15 +40,8 @@ class HrPlanWizard(models.TransientModel):
                 if activity_type.activity_date_offset_days != 0:
                     date_deadline = date_deadline + timedelta(days=activity_type.activity_date_offset_days)
 
-                self.env['mail.activity'].create({
-                    'res_id': self.employee_id.id,
-                    'res_model_id': self.env['ir.model']._get('hr.employee').id,
-                    'summary': activity_type.summary,
-                    'note': activity_type.note,
-                    'activity_type_id': activity_type.activity_type_id.id,
-                    'user_id': responsible.id,
-                    'date_deadline': date_deadline,
-                })
+                values = self._prepare_activity_values(activity_type, responsible, date_deadline)
+                self.env['mail.activity'].create(values)
 
         return {
             'type': 'ir.actions.act_window',

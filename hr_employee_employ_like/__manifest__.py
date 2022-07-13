@@ -1,14 +1,14 @@
 {
-    "name": "HR Activity Date",
+    "name": "HR Employee Employ Like",
     "summary": """
-        Launch HR activities with date based on contract dates.
+        Set employee as reference for onboarding process.
     """,
     "author": "Mint System GmbH, Odoo Community Association (OCA)",
     "website": "https://www.mint-system.ch",
     "category": "Human Resources",
-    "version": "13.0.1.1.0",
+    "version": "14.0.1.0.0",
     "license": "AGPL-3",
-    "depends": ["hr_contract"],
+    "depends": ["hr_activity_date"],
     "data": ["views/hr.xml"],
     "installable": True,
     "application": False,

@@ -1,6 +1,6 @@
 from odoo import fields, models
 
-class HrEmployee(models.Model):
-    _inherit = "hr.employee"
+class HrEmployeePublic(models.Model):
+    _inherit = "hr.employee.public"
 
     employ_like_id = fields.Many2one('hr.employee', string='Employ like')

@@ -1,7 +1,7 @@
 from odoo import _, api, fields, models
 import logging
 _logger = logging.getLogger(__name__)
-from werkzeug import url_encode
+from werkzeug.urls import url_encode
 
 
 class HrPlanWizard(models.TransientModel):

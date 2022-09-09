@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="hr_plan_activity_type_view_form" model="ir.ui.view">
+    <field name="name">hr_activity_date.hr_plan_activity_type_view_form</field>
+    <field name="model">hr.plan.activity.type</field>
+    <field name="inherit_id" ref="hr.hr_plan_activity_type_view_form" />
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='activity_type_id']" position="after">
+        <field name="activity_date_input"/>
+        <field name="activity_date_offset_days"/>
+      </xpath>
+    </field>
+  </record>
+
+</odoo>

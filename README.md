@@ -14,6 +14,7 @@ git clone git@github.com:mint-system/odoo-apps-hr.git ./addons/hr
 
 | Module | Summary |
 | --- | --- |
+| [fleet_employee_vehicle_request](fleet_employee_vehicle_request) |         Bridge module for fleet and employee vehicle request. |
 | [hr_activity_date](hr_activity_date) |         Launch HR activities with date based on contract dates. |
 | [hr_birthday_calendar](hr_birthday_calendar) |         Add birthday calendar view. |
 | [hr_employee_employ_like](hr_employee_employ_like) |         Set employee as reference for onboarding process. |

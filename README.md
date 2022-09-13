@@ -12,6 +12,7 @@ git clone git@github.com:mint-system/odoo-apps-hr.git ./addons/hr
 
 ## Available modules
 
-| Module                                 | Summary                             |
-| -------------------------------------- | ----------------------------------- |
-| [hr_employee_skill](hr_employee_skill) | Views to manage HR employee skills. |
+| Module | Summary |
+| --- | --- |
+| [hr_attendance_kiosk_mode_color](hr_attendance_kiosk_mode_color) |         Colored backgrounds for the attendance kiosk mode. |
+| [hr_employee_skill](hr_employee_skill) |         Views to manage HR employee skills. |

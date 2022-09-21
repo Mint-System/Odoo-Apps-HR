@@ -24,4 +24,5 @@ git clone git@github.com:mint-system/odoo-apps-hr.git ./addons/hr
 | [hr_holidays_remaining_leaves](hr_holidays_remaining_leaves) |         Show remaining leaves per employee in allocation overview. |
 | [hr_recruitment_firstname](hr_recruitment_firstname) |         First and lastname on applicant form. |
 | [hr_shortname](hr_shortname) |         Set public shortname foreach employee. |
+| [hr_vehicle_request_calendar](hr_vehicle_request_calendar) |         Calendar views for vehicle requests and confirmation message with .ics file. |
 | [hr_vehicle_request](hr_vehicle_request) |         Employees can request and reserve cars. |

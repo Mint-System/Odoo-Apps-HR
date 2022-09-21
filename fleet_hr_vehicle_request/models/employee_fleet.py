@@ -8,7 +8,7 @@ class EmployeeFleet(models.Model):
 
     state = fields.Selection(tracking=True)
     odometer = fields.Float(string='Last Odometer Value', copy=False)
-    private_usage = fields.Boolean()
+    private_usage = fields.Boolean(states={'draft': [('readonly', False)]})
 
     def returned(self):
         if not self.odometer:

@@ -7,13 +7,16 @@ class FleetReservedTime(models.Model):
     _name = 'fleet.reserved'
     _description = 'Reserved Time'
 
-    def _get_default_employee(self):
-        self.env.user.employee_id
-
-    employee = fields.Many2one('hr.employee', default=_get_default_employee)
+    employee = fields.Many2one('hr.employee', default=lambda self: self.env.user.employee_id)
     date_from = fields.Datetime(string='Reserved Date From')
     date_to = fields.Datetime(string='Reserved Date To')
     reserved_obj = fields.Many2one('fleet.vehicle')
+
+    def name_get(self):
+        res = []
+        for rec in self:
+            res.append((rec.id, rec.reserved_obj.display_name))
+        return res
 
 class FleetVehicleInherit(models.Model):
     _inherit = 'fleet.vehicle'
@@ -110,19 +113,20 @@ class EmployeeFleet(models.Model):
     # @api.onchange('date_from', 'date_to')
     # def check_availability(self):
     #     if self.date_from and self.date_to:
-    #         for reservation in self.fleet.reserved_time:
+    #         vehicle_ids = self.env['fleet.vehicle'].search([])
+    #         for reservation in vehicle_ids.reserved_time:
     #             if reservation.date_from and reservation.date_to:
     #                 if reservation.date_from <= self.date_from <= reservation.date_to:
-    #                     self.fleet.write({'check_availability': False})
+    #                     vehicle_ids.write({'check_availability': False})
     #                 elif self.date_from < reservation.date_from:
     #                     if reservation.date_from <= self.date_to <= reservation.date_to:
-    #                         self.fleet.write({'check_availability': False})
+    #                         vehicle_ids.write({'check_availability': False})
     #                     elif self.date_to > reservation.date_to:
-    #                         self.fleet.write({'check_availability': False})
+    #                         vehicle_ids.write({'check_availability': False})
     #                     else:
-    #                         self.fleet.write({'check_availability': True})
+    #                         vehicle_ids.write({'check_availability': True})
     #                 else:
-    #                     self.fleet.write({'check_availability': True})
+    #                     vehicle_ids.write({'check_availability': True})
 
     reserved_fleet_id = fields.Many2one('fleet.reserved', invisible=1, copy=False)
     name = fields.Char(string='Request Number', copy=False)

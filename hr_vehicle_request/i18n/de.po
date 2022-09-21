@@ -244,7 +244,7 @@ msgstr "Zurückweisen"
 #. module: hr_vehicle_request
 #: model:ir.model.fields.selection,name:hr_vehicle_request.selection__employee_fleet__state__reject
 msgid "Rejected"
-msgstr "zurückgewiesen"
+msgstr "Zurückgewiesen"
 
 #. module: hr_vehicle_request
 #: model:ir.model.fields,field_description:hr_vehicle_request.field_employee_fleet__name

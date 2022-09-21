@@ -11,17 +11,17 @@ class EmployeeFleet(models.Model):
     private_usage = fields.Boolean()
 
     def returned(self):
-        if self.private_usage and not self.odometer:
-            raise Warning(_('On private usage the last Odometer value must be logged.'))
+        if not self.odometer:
+            raise Warning(_('Odometer value cannot be null.'))
         super().returned()
-        self.env['fleet.vehicle.assignation.log'].create({
+        self.env['fleet.vehicle.assignation.log'].sudo().create({
             'date_start': self.date_from,
             'date_end': self.date_to,
             'vehicle_id': self.fleet.id,
             'driver_id': self.employee.user_partner_id.id 
         })
         if self.odometer:
-            self.env['fleet.vehicle.odometer'].create({
+            self.env['fleet.vehicle.odometer'].sudo().create({
                 'date': self.returned_date,
                 'value': self.odometer,
                 'vehicle_id': self.fleet.id,

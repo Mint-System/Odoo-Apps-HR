@@ -1,0 +1,47 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* fleet_hr_vehicle_request
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-21 09:31+0000\n"
+"PO-Revision-Date: 2022-09-21 09:31+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: fleet_hr_vehicle_request
+#: model:ir.model,name:fleet_hr_vehicle_request.model_employee_fleet
+msgid "Employee Vehicle Request"
+msgstr "Mitarbeiter Fahrzeuganfrage"
+
+#. module: fleet_hr_vehicle_request
+#: model:ir.model.fields,field_description:fleet_hr_vehicle_request.field_employee_fleet__odometer
+msgid "Last Odometer Value"
+msgstr "Letzter Kilometerstand"
+
+#. module: fleet_hr_vehicle_request
+#: code:addons/fleet_hr_vehicle_request/models/employee_fleet.py:0
+#, python-format
+msgid "Odometer value cannot be null."
+msgstr "Der letzte Kilometerstand darf nicht Null sein."
+
+#. module: fleet_hr_vehicle_request
+#: model:ir.model.fields,field_description:fleet_hr_vehicle_request.field_employee_fleet__private_usage
+msgid "Private Usage"
+msgstr "Private Nutzung"
+
+#. module: fleet_hr_vehicle_request
+#: model_terms:ir.ui.view,arch_db:fleet_hr_vehicle_request.fleet_vehicle_view_form
+msgid "Reservation"
+msgstr ""
+
+#. module: fleet_hr_vehicle_request
+#: model:ir.model.fields,field_description:fleet_hr_vehicle_request.field_employee_fleet__state
+msgid "State"
+msgstr "Status"

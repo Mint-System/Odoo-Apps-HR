@@ -2,14 +2,14 @@
 <odoo>
 
   <record id="employee_fleet_form_view" model="ir.ui.view">
-    <field name="name">fleet_employee_vehicle_request.employee_fleet_form_view</field>
+    <field name="name">fleet_hr_vehicle_request.employee_fleet_form_view</field>
     <field name="model">employee.fleet</field>
-    <field name="inherit_id" ref="employee_vehicle_request.employee_fleet_form_view" />
+    <field name="inherit_id" ref="hr_vehicle_request.employee_fleet_form_view" />
     <field name="arch" type="xml">
 
       <xpath expr="//field[@name='purpose']" position="after">
         <field name="private_usage" widget="boolean_toggle" />
-        <field name="odometer" attrs="{'invisible': ['|',('private_usage', '!=', True), ('state', 'not in', ['confirm'])], 'required': [('private_usage', '=', True)]}" />
+        <field name="odometer" attrs="{'invisible': [('state', 'not in', ['confirm'])], 'required': True}" />
       </xpath>
 
       <xpath expr="//field[@name='employee']" position="attributes">

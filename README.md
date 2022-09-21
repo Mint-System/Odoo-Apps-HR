@@ -14,7 +14,7 @@ git clone git@github.com:mint-system/odoo-apps-hr.git ./addons/hr
 
 | Module | Summary |
 | --- | --- |
-| [fleet_employee_vehicle_request](fleet_employee_vehicle_request) |         Bridge module for fleet and employee vehicle request. |
+| [fleet_hr_vehicle_request](fleet_hr_vehicle_request) |         Bridge module for fleet and employee vehicle request. |
 | [hr_activity_date](hr_activity_date) |         Launch HR activities with date based on contract dates. |
 | [hr_birthday_calendar](hr_birthday_calendar) |         Add birthday calendar view. |
 | [hr_employee_employ_like](hr_employee_employ_like) |         Set employee as reference for onboarding process. |
@@ -24,3 +24,4 @@ git clone git@github.com:mint-system/odoo-apps-hr.git ./addons/hr
 | [hr_holidays_remaining_leaves](hr_holidays_remaining_leaves) |         Show remaining leaves per employee in allocation overview. |
 | [hr_recruitment_firstname](hr_recruitment_firstname) |         First and lastname on applicant form. |
 | [hr_shortname](hr_shortname) |         Set public shortname foreach employee. |
+| [hr_vehicle_request](hr_vehicle_request) |         Employees can request and reserve cars. |

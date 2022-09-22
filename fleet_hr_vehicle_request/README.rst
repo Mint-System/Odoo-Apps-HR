@@ -2,11 +2,11 @@
     :target: http://www.gnu.org/licenses/gpl-3.0-standalone.html
     :alt: License: GPL-3
 
-==============================
-Fleet Employee Vehicle Request
-==============================
+========================
+Fleet HR Vehicle Request
+========================
 
-Module summary.
+Bridge module for fleet and employee vehicle request.
 
 For a detailed documentation have a look at https://www.odoo-wiki.org/.
 
@@ -14,15 +14,6 @@ For a detailed documentation have a look at https://www.odoo-wiki.org/.
   :height: 100
   :width: 100
   :alt: Icon
-
-Usage
-~~~~~
-
-Clone module into Odoo addon directory.
-
-.. code-block:: bash
-
-    git clone git@github.com:mint-system/odoo-app-fleet-employee-vehicle-request.git ./addons/fleet_employee_vehicle_request
 
 Configuration
 ~~~~~~~~~~~~~

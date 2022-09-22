@@ -8,7 +8,7 @@
     "category": "Human Resources",
     "version": "13.0.1.0.0",
     "license": "AGPL-3",
-    "depends": ["hr_vehicle_request","calendar"],
+    "depends": ["hr_vehicle_request", "calendar"],
     "data": ["views/employee_fleet.xml"],
     "installable": True,
     "application": False,

@@ -25,11 +25,12 @@
         <field name="arch" type="xml">
             <form string="Employee Fleet Request">
                 <header>
-                    <button name='send' string="Send Request" type="object" class='oe_highlight' states="draft" />
-                    <button name='approve' string="Approve" type="object" class='oe_highlight' states="waiting" groups="hr.group_hr_manager,hr.group_hr_user" />
-                    <button name='reject' string="Reject" type="object" states="waiting" groups="hr.group_hr_manager,hr.group_hr_user" />
-                    <button name='cancel' string="Cancel" type="object" states="draft,waiting" />
-                    <button name='returned' string="Return" type="object" class='oe_highlight' states="confirm" groups="hr.group_hr_manager,fleet.fleet_group_user" />
+                    <button name="send" string="Send Request" type="object" class="oe_highlight" states="draft" />
+                    <button name="approve" string="Approve" type="object" class="oe_highlight" states="waiting" groups="hr.group_hr_manager,hr.group_hr_user" />
+                    <button name="reject" string="Reject" type="object" states="waiting" groups="hr.group_hr_manager,hr.group_hr_user" />
+                    <button name="cancel" string="Cancel" type="object" states="draft,waiting" />
+                    <button name="draft" string="Draft" type="object" states="reject,cancel" />
+                    <button name="returned" string="Return" type="object" class="oe_highlight" states="confirm" groups="hr.group_hr_manager,fleet.fleet_group_user" />
                     <field name="state" widget="statusbar" statusbar_visible="draft,waiting,confirm,return" />
                 </header>
                 <sheet>

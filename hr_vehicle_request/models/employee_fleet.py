@@ -7,7 +7,7 @@ class FleetReservedTime(models.Model):
     _name = 'fleet.reserved'
     _description = 'Reserved Time'
 
-    employee = fields.Many2one('hr.employee', default=lambda self: self.env.user.employee_id)
+    employee = fields.Many2one('hr.employee')
     date_from = fields.Datetime(string='Reserved Date From')
     date_to = fields.Datetime(string='Reserved Date To')
     reserved_obj = fields.Many2one('fleet.vehicle')
@@ -29,6 +29,46 @@ class EmployeeFleet(models.Model):
     _name = 'employee.fleet'
     _description = 'Employee Vehicle Request'
     _inherit = 'mail.thread'
+
+    @api.constrains('date_from', 'date_to')
+    def onchange_date_to(self):
+        for reservation in self:
+            if reservation.date_from > reservation.date_to:
+                raise Warning(_('Date To must be greater than Date From.'))
+
+    # @api.onchange('date_from', 'date_to')
+    # def check_availability(self):
+    #     if self.date_from and self.date_to:
+    #         vehicle_ids = self.env['fleet.vehicle'].search([])
+    #         for reservation in vehicle_ids.reserved_time:
+    #             if reservation.date_from and reservation.date_to:
+    #                 if reservation.date_from <= self.date_from <= reservation.date_to:
+    #                     vehicle_ids.write({'check_availability': False})
+    #                 elif self.date_from < reservation.date_from:
+    #                     if reservation.date_from <= self.date_to <= reservation.date_to:
+    #                         vehicle_ids.write({'check_availability': False})
+    #                     elif self.date_to > reservation.date_to:
+    #                         vehicle_ids.write({'check_availability': False})
+    #                     else:
+    #                         vehicle_ids.write({'check_availability': True})
+    #                 else:
+    #                     vehicle_ids.write({'check_availability': True})
+
+    reserved_fleet_id = fields.Many2one('fleet.reserved', invisible=1, copy=False)
+    name = fields.Char(string='Request Number', copy=False)
+    employee = fields.Many2one('hr.employee', required=1, readonly=True, states={'draft': [('readonly', False)]}, default=lambda self: self.env.user.employee_id)
+    req_date = fields.Date(string='Requested Date', default=fields.Date.context_today, required=1, readonly=True, states={'draft': [('readonly', False)]}, help='Requested Date')
+    fleet = fields.Many2one('fleet.vehicle', string='Vehicle', required=1, readonly=True, states={'draft': [('readonly', False)]})
+    date_from = fields.Datetime(string='From', required=1, readonly=True, states={'draft': [('readonly', False)]})
+    date_to = fields.Datetime(string='To', required=1, readonly=True, states={'draft': [('readonly', False)]})
+    returned_date = fields.Datetime(readonly=1)
+    purpose = fields.Text(string='Purpose', required=1, readonly=True, states={'draft': [('readonly', False)]}, help='Purpose')
+    state = fields.Selection([('draft', 'Draft'), ('waiting', 'Waiting for Approval'), ('cancel', 'Cancel'), ('confirm', 'Approved'), ('reject', 'Rejected'), ('return', 'Returned')], string='State', default='draft')
+
+    def unlink(self):
+        if self.reserved_fleet_id:
+            self.reserved_fleet_id.unlink()
+        return super().unlink()
 
     @api.model
     def create(self, vals):
@@ -99,42 +139,10 @@ class EmployeeFleet(models.Model):
             self.reserved_fleet_id.unlink()
         self.state = 'cancel'
 
+    def draft(self):
+        self.state = 'draft'
+
     def returned(self):
         self.reserved_fleet_id.sudo().unlink()
         self.returned_date = fields.datetime.now()
         self.state = 'return'
-
-    @api.constrains('date_from', 'date_to')
-    def onchange_date_to(self):
-        for reservation in self:
-            if reservation.date_from > reservation.date_to:
-                raise Warning(_('Date To must be greater than Date From.'))
-
-    # @api.onchange('date_from', 'date_to')
-    # def check_availability(self):
-    #     if self.date_from and self.date_to:
-    #         vehicle_ids = self.env['fleet.vehicle'].search([])
-    #         for reservation in vehicle_ids.reserved_time:
-    #             if reservation.date_from and reservation.date_to:
-    #                 if reservation.date_from <= self.date_from <= reservation.date_to:
-    #                     vehicle_ids.write({'check_availability': False})
-    #                 elif self.date_from < reservation.date_from:
-    #                     if reservation.date_from <= self.date_to <= reservation.date_to:
-    #                         vehicle_ids.write({'check_availability': False})
-    #                     elif self.date_to > reservation.date_to:
-    #                         vehicle_ids.write({'check_availability': False})
-    #                     else:
-    #                         vehicle_ids.write({'check_availability': True})
-    #                 else:
-    #                     vehicle_ids.write({'check_availability': True})
-
-    reserved_fleet_id = fields.Many2one('fleet.reserved', invisible=1, copy=False)
-    name = fields.Char(string='Request Number', copy=False)
-    employee = fields.Many2one('hr.employee', required=1, readonly=True, states={'draft': [('readonly', False)]})
-    req_date = fields.Date(string='Requested Date', default=fields.Date.context_today, required=1, readonly=True, states={'draft': [('readonly', False)]}, help='Requested Date')
-    fleet = fields.Many2one('fleet.vehicle', string='Vehicle', required=1, readonly=True, states={'draft': [('readonly', False)]})
-    date_from = fields.Datetime(string='From', required=1, readonly=True, states={'draft': [('readonly', False)]})
-    date_to = fields.Datetime(string='To', required=1, readonly=True, states={'draft': [('readonly', False)]})
-    returned_date = fields.Datetime(readonly=1)
-    purpose = fields.Text(string='Purpose', required=1, readonly=True, states={'draft': [('readonly', False)]}, help='Purpose')
-    state = fields.Selection([('draft', 'Draft'), ('waiting', 'Waiting for Approval'), ('cancel', 'Cancel'), ('confirm', 'Approved'), ('reject', 'Rejected'), ('return', 'Returned')], string='State', default='draft')

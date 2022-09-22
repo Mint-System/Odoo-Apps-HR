@@ -31,4 +31,17 @@
 
     <menuitem id="fleet_reserved_sub_menu" name="Vehicle Reservations" parent="hr_vehicle_request.employee_fleet_menu" sequence="1" groups="fleet.fleet_group_user" action="action_fleet_reserved" />
 
+    <record id="employee_fleet_form_view" model="ir.ui.view">
+        <field name="name">hr_vehicle_request_calendar.employee_fleet_form_view</field>
+        <field name="model">employee.fleet</field>
+        <field name="inherit_id" ref="hr_vehicle_request.employee_fleet_form_view" />
+        <field name="arch" type="xml">
+    
+          <xpath expr="//field[@name='date_to']" position="after">
+            <field name="meeting_id" attrs="{'invisible': [('meeting_id', '=', False)]}" />
+          </xpath>
+
+        </field>
+      </record>
+
 </odoo>

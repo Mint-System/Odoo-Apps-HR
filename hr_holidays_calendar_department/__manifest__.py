@@ -6,7 +6,7 @@
     "author": "Mint System GmbH, Odoo Community Association (OCA)",
     "website": "https://www.mint-system.ch",
     "category": "Human Resources",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.1",
     "license": "AGPL-3",
     "depends": ["hr_holidays"],
     "data": ["report/hr_leave_report_calendar_views.xml", "views/show_department.xml"],

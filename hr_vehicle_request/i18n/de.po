@@ -142,7 +142,7 @@ msgid ""
 "Hi %s,<br>Sorry, Your vehicle request for the reference %s is Rejected."
 msgstr ""
 "Hallo %s,<br>Entschuldigung, Ihre Fahrzeuganfrage mit Referenz %s wurde "
-"zurückgewiesen."
+"Zurückgewiesen."
 
 #. module: hr_vehicle_request
 #: code:addons/hr_vehicle_request/models/employee_fleet.py:0

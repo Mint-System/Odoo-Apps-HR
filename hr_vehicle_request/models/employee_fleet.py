@@ -18,6 +18,7 @@ class FleetReservedTime(models.Model):
             res.append((rec.id, rec.reserved_obj.display_name))
         return res
 
+
 class FleetVehicleInherit(models.Model):
     _inherit = 'fleet.vehicle'
 

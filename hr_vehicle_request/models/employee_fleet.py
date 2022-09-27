@@ -91,7 +91,9 @@ class EmployeeFleet(models.Model):
                         check_availability = False
                 else:
                     check_availability = False
-        if not check_availability:
+        if check_availability:
+            raise Warning(_('Sorry this vehicle is already requested by another employee.'))
+        else:
             reserved_id = self.fleet.reserved_time.create({
                 'employee': self.employee.id,
                 'date_from': self.date_from,
@@ -100,50 +102,46 @@ class EmployeeFleet(models.Model):
             })
             self.write({'reserved_fleet_id': reserved_id.id})
             self.state = 'waiting'
-        else:
-            raise Warning(_('Sorry this vehicle is already requested by another employee.'))
+
+            # Send message
+            self.message_post(
+                subject=_('%s: Validation') % self.name,
+                body=_('Hi %s,<br>You have received the vehicle request %s for validation.') % (self.fleet.manager_id.name, self.name),
+                partner_ids=[self.fleet.manager_id.partner_id.id])
 
     def approve(self):
         self.fleet.fleet_status = True
         self.state = 'confirm'
-        mail_content = _('Hi %s,<br>Your vehicle request for the reference %s is approved.') % (self.employee.name, self.name)
-        main_content = {
-            'subject': _('%s: Approved') % self.name,
-            'author_id': self.env.user.partner_id.id,
-            'body_html': mail_content,
-            'email_to': self.employee.work_email,
-        }
-        mail_id = self.env['mail.mail'].create(main_content)
-        mail_id.mail_message_id.body = mail_content
-        mail_id.send()
-        if self.employee.user_id:
-            mail_id.mail_message_id.write({'partner_ids': [(4, self.employee.user_id.partner_id.id)]})
+
+        # Send message
+        self.message_post(
+            subject=_('%s: Approved') % self.name,
+            body=_('Hi %s,<br>Your vehicle request for the reference %s is approved.') % (self.employee.name, self.name),
+            partner_ids=[self.employee.user_partner_id.id])
 
     def reject(self):
-        self.reserved_fleet_id.unlink()
+        if self.reserved_fleet_id:
+            self.reserved_fleet_id.unlink()
         self.state = 'reject'
-        mail_content = _('Hi %s,<br>Sorry, Your vehicle request for the reference %s is Rejected.') % (self.employee.name, self.name)
-        main_content = {
-            'subject': _('%s: Approved') % self.name,
-            'author_id': self.env.user.partner_id.id,
-            'body_html': mail_content,
-            'email_to': self.employee.work_email,
-        }
-        mail_id = self.env['mail.mail'].create(main_content)
-        mail_id.mail_message_id.body = mail_content
-        mail_id.send()
-        if self.employee.user_id:
-            mail_id.mail_message_id.write({'partner_ids': [(4, self.employee.user_id.partner_id.id)]})
+
+        # Send message
+        self.message_post(
+            subject=_('%s: Rejected') % self.name,
+            body=_('Hi %s,<br>Sorry, Your vehicle request for the reference %s is Rejected.') % (self.employee.name, self.name),
+            partner_ids=[self.employee.user_partner_id.id])
 
     def cancel(self):
         if self.reserved_fleet_id:
-            self.reserved_fleet_id.unlink()
+            # Employee can cancel
+            self.reserved_fleet_id.sudo().unlink()
         self.state = 'cancel'
 
     def draft(self):
         self.state = 'draft'
 
     def returned(self):
-        self.reserved_fleet_id.sudo().unlink()
+        if self.reserved_fleet_id:
+            # Employee can return
+            self.reserved_fleet_id.sudo().unlink()
         self.returned_date = fields.datetime.now()
         self.state = 'return'

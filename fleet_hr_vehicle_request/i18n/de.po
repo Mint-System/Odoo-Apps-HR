@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-21 09:31+0000\n"
-"PO-Revision-Date: 2022-09-21 09:31+0000\n"
+"POT-Creation-Date: 2022-09-27 07:45+0000\n"
+"PO-Revision-Date: 2022-09-27 07:45+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,6 +26,11 @@ msgid "Last Odometer Value"
 msgstr "Letzter Kilometerstand"
 
 #. module: fleet_hr_vehicle_request
+#: model:ir.model,name:fleet_hr_vehicle_request.model_fleet_vehicle_odometer
+msgid "Odometer log for a vehicle"
+msgstr "Fahrtenbuch für ein Fahrzeug"
+
+#. module: fleet_hr_vehicle_request
 #: code:addons/fleet_hr_vehicle_request/models/employee_fleet.py:0
 #, python-format
 msgid "Odometer value cannot be null."
@@ -37,11 +42,21 @@ msgid "Private Usage"
 msgstr "Private Nutzung"
 
 #. module: fleet_hr_vehicle_request
+#: model:ir.model.fields,field_description:fleet_hr_vehicle_request.field_fleet_vehicle_odometer__request_id
+msgid "Request"
+msgstr "Anfrage"
+
+#. module: fleet_hr_vehicle_request
 #: model_terms:ir.ui.view,arch_db:fleet_hr_vehicle_request.fleet_vehicle_view_form
 msgid "Reservation"
-msgstr ""
+msgstr "Reservation"
 
 #. module: fleet_hr_vehicle_request
 #: model:ir.model.fields,field_description:fleet_hr_vehicle_request.field_employee_fleet__state
 msgid "State"
 msgstr "Status"
+
+#. module: fleet_hr_vehicle_request
+#: model:ir.model.fields,field_description:fleet_hr_vehicle_request.field_employee_fleet__trip
+msgid "Trip"
+msgstr "Distanz"

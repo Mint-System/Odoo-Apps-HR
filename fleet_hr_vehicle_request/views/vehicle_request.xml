@@ -10,10 +10,24 @@
       <xpath expr="//field[@name='purpose']" position="after">
         <field name="private_usage" widget="boolean_toggle" />
         <field name="odometer" attrs="{'invisible': [('state', 'not in', ['confirm'])], 'required': True}" />
+        <field name="trip" attrs="{'invisible': [('state', 'not in', ['return'])]}" />
       </xpath>
 
       <xpath expr="//field[@name='employee']" position="attributes">
         <attribute name="domain">[('user_id','!=',False)]</attribute>
+      </xpath>
+
+    </field>
+  </record>
+
+  <record id="employee_fleet_tree_view" model="ir.ui.view">
+    <field name="name">fleet_hr_vehicle_request.employee_fleet_tree_view</field>
+    <field name="model">employee.fleet</field>
+    <field name="inherit_id" ref="hr_vehicle_request.employee_fleet_tree_view" />
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[@name='state']" position="after">
+        <field name="trip" />
       </xpath>
 
     </field>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="fleet_vehicle_view_form" model="ir.ui.view">
+        <field name="name">fleet_hr_vehicle_request.fleet_vehicle_view_form</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group/group[5]" position="after">
+                <group string="Reservation">
+                    <field name="reserved_time">
+                        <tree>
+                            <field name="date_from" />
+                            <field name="date_to" />
+                        </tree>
+                    </field>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

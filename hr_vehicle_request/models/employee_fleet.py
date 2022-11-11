@@ -110,7 +110,6 @@ class EmployeeFleet(models.Model):
                 partner_ids=[self.fleet.manager_id.partner_id.id])
 
     def approve(self):
-        self.fleet.fleet_status = True
         self.state = 'confirm'
 
         # Send message

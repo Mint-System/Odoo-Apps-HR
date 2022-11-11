@@ -1,19 +1,18 @@
 {
-    "name": "HR Vehicle Request",
+    "name": "HR Expense Vehicle Request",
     "summary": """
-        Employees can request and reserve cars.
+        Create expenses from retourned vehicle requests.
     """,
     "author": "Mint System GmbH, Odoo Community Association (OCA)",
     "website": "https://www.mint-system.ch",
     "category": "Human Resources",
-    "version": "14.0.1.0.1",
+    "version": "14.0.1.0.0",
     "license": "AGPL-3",
-    "depends": ["hr", "fleet"],
+    "depends": ["hr_expense", "fleet_hr_vehicle_request"],
     "data": [
-        "security/ir.model.access.csv",
-        "security/security.xml",
-        "views/employee_fleet.xml",
-        "data/data.xml",
+        "data/hr_expense.xml",
+        "views/hr_expense.xml",
+        "views/vehicle_request.xml",
     ],
     "installable": True,
     "application": False,

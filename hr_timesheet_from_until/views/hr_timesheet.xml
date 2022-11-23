@@ -7,8 +7,8 @@
     <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree" />
     <field name="arch" type="xml">
       <field name="date" position="after">
-        <field name="from_time" widget="timesheet_uom" decoration-danger="from_time &gt; 24" />
-        <field name="until_time" widget="timesheet_uom" decoration-danger="until_time &gt; 24" />
+        <field name="from_time" widget="timesheet_uom" />
+        <field name="until_time" widget="timesheet_uom" />
       </field>
     </field>
   </record>

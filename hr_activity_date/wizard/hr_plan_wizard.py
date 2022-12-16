@@ -2,6 +2,7 @@ from odoo import _, api, fields, models
 import logging
 _logger = logging.getLogger(__name__)
 from datetime import datetime, timedelta
+from odoo.exceptions import UserError
 
 
 class HrPlanWizard(models.TransientModel):
@@ -23,6 +24,9 @@ class HrPlanWizard(models.TransientModel):
         """OVERWRITE set date deadline"""
         contract_id =  self.employee_id.contract_id
 
+        if not contract_id:
+            raise UserError(_('This user does not have an active contract.'))
+
         for activity_type in self.plan_id.plan_activity_type_ids:
             responsible = activity_type.get_responsible_id(self.employee_id)
 
@@ -35,7 +39,7 @@ class HrPlanWizard(models.TransientModel):
                     date_deadline = contract_id.date_start
                 if activity_type.activity_date_input == 'end' and contract_id.date_end:
                     date_deadline = contract_id.date_end
-                
+    
                 # Apply offset
                 if activity_type.activity_date_offset_days != 0:
                     date_deadline = date_deadline + timedelta(days=activity_type.activity_date_offset_days)

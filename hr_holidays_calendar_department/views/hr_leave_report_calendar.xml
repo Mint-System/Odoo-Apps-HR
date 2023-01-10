@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<odoo>
+
+  <record id="show_department" model="ir.ui.view">
+    <field name="name">hr_holidays_calendar_department.hr_leave_report_calendar_view</field>
+    <field name="model">hr.leave.report.calendar</field>
+    <field name="inherit_id" ref="hr_holidays.hr_leave_report_calendar_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field" position="after">
+        <field name="department_id"/>
+        <field name="holiday_status_id"/>
+      </xpath>
+    </field>
+  </record>
+
+  <record id="hr_leave_report_calendar_view_form" model="ir.ui.view">
+    <field name="name">hr_holidays_calendar_department.hr_leave_report_calendar_view_form</field>
+    <field name="model">hr.leave.report.calendar</field>
+    <field name="inherit_id" ref="hr_holidays.hr_leave_report_calendar_view_form" />
+    <field name="arch" type="xml">
+      <field name="name" position="after">
+        <field name="holiday_status_id"/>
+      </field>
+    </field>
+  </record>
+
+</odoo>

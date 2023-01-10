@@ -11,21 +11,19 @@ class LeaveReportCalendar(models.Model):
         self._cr.execute("""CREATE OR REPLACE VIEW hr_leave_report_calendar AS
         (SELECT 
             row_number() OVER() AS id,
-            ce.name AS name,
+            CONCAT(em.name, ': ', hl.duration_display) AS name,
             hl.date_from AS start_datetime,
             hl.date_to AS stop_datetime,
             hl.employee_id AS employee_id,
             hl.state AS state,
-            em.department_id AS department_id,
             hl.holiday_status_id AS holiday_status_id,
             em.company_id AS company_id,
+            em.department_id AS department_id,
             CASE
                 WHEN hl.holiday_type = 'employee' THEN rr.tz
                 ELSE %s
             END AS tz
         FROM hr_leave hl
-            LEFT JOIN calendar_event ce
-                ON ce.id = hl.meeting_id
             LEFT JOIN hr_employee em
                 ON em.id = hl.employee_id
             LEFT JOIN resource_resource rr

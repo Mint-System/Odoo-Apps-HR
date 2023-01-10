@@ -16,18 +16,16 @@ class EmployeeFleet(models.Model):
             'description': self.purpose,
             'start': self.date_from,
             'stop': self.date_to,
-            'partner_ids': [self.employee.user_partner_id.id],
+            'partner_ids': [(4, self.employee.user_partner_id.id)],
             'user_id': self.employee.user_id.id,
-            'state': 'open',
             'privacy': 'confidential',
             'show_as': 'busy',
         }
         return meeting_values
 
     def approve(self):
-        """Overwrite approve method."""
+        """#OVERWRITE Approve method."""
         self.ensure_one()
-        self.fleet.fleet_status = True
         self.state = 'confirm'
         
         # Generate meeting

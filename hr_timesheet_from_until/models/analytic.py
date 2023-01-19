@@ -6,8 +6,8 @@ _logger = logging.getLogger(__name__)
 class AccountAnalyticLine(models.Model):
     _inherit = 'account.analytic.line'
 
-    from_time = fields.Float(default=0.0)
-    until_time = fields.Float(default=0.0, )
+    from_time = fields.Float(default=0.0, group_operator=None)
+    until_time = fields.Float(default=0.0, group_operator=None)
     unit_amount = fields.Float(compute='_compute_unit_amount', readonly=False, store=True)
 
     def _convert(self, time):

@@ -1,15 +1,14 @@
 {
-    "name": "HR Timesheet From Until",
+    "name": "HR Timesheet Multiline Name",
     "summary": """
-        Calculate duration from start and end time fields.
+        Enable multiline text for analytic line name.
     """,
     "author": "Mint System GmbH, Odoo Community Association (OCA)",
     "website": "https://www.mint-system.ch",
     "category": "Human Resources",
-    "version": "15.0.1.2.1",
+    "version": "15.0.1.0.0",
     "license": "AGPL-3",
     "depends": ["hr_timesheet"],
-    "data": ["views/hr_timesheet.xml"],
     "installable": True,
     "application": False,
     "auto_install": False,

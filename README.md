@@ -15,6 +15,7 @@ git clone git@github.com:mint-system/odoo-apps-hr.git ./addons/hr
 | Module | Summary |
 | --- | --- |
 | [hr_attendance_kiosk_mode_color](hr_attendance_kiosk_mode_color) |         Colored backgrounds for the attendance kiosk mode. |
+| [hr_employee_attendance_report](hr_employee_attendance_report) |         Attendance and leave report. |
 | [hr_employee_skill](hr_employee_skill) |         Views to manage HR employee skills. |
 | [hr_holidays_remaining_leaves](hr_holidays_remaining_leaves) |         Show remaining leaves per employee in allocation overview. |
 | [hr_timesheet_from_until](hr_timesheet_from_until) |         Calculate duration from start and end time fields. |

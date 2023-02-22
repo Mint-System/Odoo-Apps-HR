@@ -14,6 +14,7 @@ git clone git@github.com:mint-system/odoo-apps-hr.git ./addons/hr
 
 | Module | Summary |
 | --- | --- |
+| [hr_attendance_ip_check](hr_attendance_ip_check) |         Allow attendance check in from specified ip networks only. |
 | [hr_attendance_kiosk_mode_color](hr_attendance_kiosk_mode_color) |         Colored backgrounds for the attendance kiosk mode. |
 | [hr_employee_attendance_report](hr_employee_attendance_report) |         Attendance and leave report. |
 | [hr_employee_skill](hr_employee_skill) |         Views to manage HR employee skills. |

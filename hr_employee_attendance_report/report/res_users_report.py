@@ -137,6 +137,7 @@ class ReportResUsers(models.AbstractModel):
             # Get active allocations
             allocation_ids = self.env['hr.leave.allocation'].search([
                 ('employee_id', '=', employee.id),
+                '|',
                 ('date_to', '>=', now),
                 ('date_from', '<=', now)
             ])

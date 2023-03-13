@@ -10,7 +10,6 @@ class HrPlanWizard(models.TransientModel):
     def _prepare_activity_values(self, activity_type, responsible, date_deadline=False):
         res = super()._prepare_activity_values(activity_type, responsible, date_deadline)
         if self.employee_id.employ_like_id:
-            _logger.warning(res)
             url = '/web#%s' % url_encode({
                 'id': self.employee_id.employ_like_id.id,
                 'model': 'hr.employee.public',

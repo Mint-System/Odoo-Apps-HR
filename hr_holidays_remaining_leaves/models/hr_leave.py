@@ -2,7 +2,7 @@ from odoo import api, fields, models, _
 import logging
 _logger = logging.getLogger(__name__)
 from odoo.tools.float_utils import float_round
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class HolidaysAllocation(models.Model):
@@ -24,6 +24,7 @@ class HolidaysAllocation(models.Model):
         
         now = fields.Datetime.now()
         now = datetime.combine(now, datetime.min.time())
+        # yesterday = now - timedelta(days=1)        
 
         for allocation in self:
 
@@ -46,7 +47,7 @@ class HolidaysAllocation(models.Model):
             # Check for leaves that are active and calculate the exact number of hours and days  
             active_leave_hours = 0
             active_leave_days = 0
-            for leave in leaves.filtered(lambda l: l.date_from < now < l.date_to):
+            for leave in leaves.filtered(lambda l: l.date_from < now < l.date_to):                
                 result = self._get_number_of_days_and_hours(leave.date_from, now, leave.employee_id.id)
                 active_leave_days = result['days']
                 active_leave_hours = result['hours']

@@ -14,14 +14,4 @@ git clone git@github.com:mint-system/odoo-apps-hr.git ./addons/hr
 
 | Module | Summary |
 | --- | --- |
-| [hr_attendance_ip_check](hr_attendance_ip_check) |         Allow attendance check in from specified ip networks only. |
-| [hr_attendance_kiosk_mode_color](hr_attendance_kiosk_mode_color) |         Colored backgrounds for the attendance kiosk mode. |
-| [hr_attendance_overtime_hours](hr_attendance_overtime_hours) |         Show planned and worked hours in overtime view. |
-| [hr_attendance_overtime_negative_hours](hr_attendance_overtime_negative_hours) |         Show negative hours in leave overview. |
-| [hr_employee_attendance_report](hr_employee_attendance_report) |         Attendance and leave report. |
 | [hr_employee_skill](hr_employee_skill) |         Views to manage HR employee skills. |
-| [hr_holidays_remaining_leaves](hr_holidays_remaining_leaves) |         Show remaining leaves per employee in allocation overview. |
-| [hr_timesheet_from_until](hr_timesheet_from_until) |         Calculate duration from start and end time fields. |
-| [hr_timesheet_multiline_name](hr_timesheet_multiline_name) |         Enable multiline text for analytic line name. |
-| [hr_work_entry_profile](hr_work_entry_profile) |         User can access their work entries from the profile view. |
-| [resource_calendar_get_days](resource_calendar_get_days) |         Calculate number of leave days relative to company working hours. |

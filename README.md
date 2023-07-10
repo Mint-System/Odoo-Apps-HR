@@ -24,4 +24,5 @@ git clone git@github.com:mint-system/odoo-apps-hr.git ./addons/hr
 | [hr_timesheet_from_until](hr_timesheet_from_until) |         Calculate duration from start and end time fields. |
 | [hr_timesheet_multiline_name](hr_timesheet_multiline_name) |         Enable multiline text for analytic line name. |
 | [hr_work_entry_profile](hr_work_entry_profile) |         User can access their work entries from the profile view. |
+| [project_timesheet_limit](project_timesheet_limit) |         Option to limit timesheet amount on task to planned hours. |
 | [resource_calendar_get_days](resource_calendar_get_days) |         Calculate number of leave days relative to company working hours. |

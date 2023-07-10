@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="edit_project" model="ir.ui.view">
+        <field name="name">project_timesheet_limit.edit_project</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project" />
+        <field name="priority">50</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='allow_timesheets']/../.." position="inside">
+                <div class="o_setting_left_pane">
+                    <field name="limit_timehseet_amount" />
+                </div>
+                <div class="o_setting_right_pane">
+                    <label for="limit_timehseet_amount" />
+                    <div class="text-muted">
+                        Limit timesheet amount to planned hours.
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

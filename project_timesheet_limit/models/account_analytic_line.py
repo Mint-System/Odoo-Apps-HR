@@ -20,4 +20,4 @@ class AccountAnalyticLine(models.Model):
             task_id = self.env['project.task'].browse(vals.get('task_id'))
             if task_id:
                 task_id._check_limit_timehseet_amount(vals.get('unit_amount'))
-        super().create(vals_list)
+        return super(AccountAnalyticLine, self).create(vals_list)

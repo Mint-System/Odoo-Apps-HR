@@ -40,8 +40,8 @@ msgstr "Projekt"
 #: code:addons/project_timesheet_limit/models/project.py:0
 #, python-format
 msgid ""
-"The timesheeted amount exceeds the planned hours (%(planned_hours)s) of this"
-" task."
-msgstr ""
-"Die erfasste Zeit überschreittet die geplante Zeit (%(planned_hours)s) dieser"
+"The timesheeted amount exceeds the planned hours (%(planned_hours)s) of the "
+"task."
+"Die erfasste Zeit überschreitet die geplante Zeit (%(planned_hours)s) der"
 " Aufgabe."
+    

@@ -11,16 +11,13 @@ class AccountAnalyticLine(models.Model):
     def _check_limit_timehseet_amount(self):
         """Check if timesheeted amount surpasses the tasks planned hours."""
         for line in self.filtered(lambda l: l.task_id):
-            line.task_id._check_limit_timehseet_amount()
+            line.task_id._check_limit_timehseet_amount(line.unit_amount, line)
 
-            # effective_hours = line.task_id.effective_hours + line.task_id.subtask_effective_hours # - line.unit_amount
-            # planned_hours = line.task_id.planned_hours + line.task_id.subtask_planned_hours
-
-            # _logger.warning([ line.task_id.effective_hours, line.task_id.planned_hours])
-            # _logger.warning([line.task_id.subtask_effective_hours, line.task_id.subtask_planned_hours])
-            # _logger.warning([effective_hours, planned_hours])
-            
-            # if effective_hours > planned_hours:
-            #     raise UserError(_('The timesheeted amount exceeds the planned hours (%(planned_hours)s) of this task.') % {
-            #         'planned_hours': line.task_id.planned_hours
-            #     })
+    @api.model_create_multi
+    def create(self, vals_list):
+        """Check if timesheeted amount surpasses the tasks planned hours."""
+        for vals in vals_list:
+            task_id = self.env['project.task'].browse(vals.get('task_id'))
+            if task_id:
+                task_id._check_limit_timehseet_amount(vals.get('unit_amount'))
+        super().create(vals_list)

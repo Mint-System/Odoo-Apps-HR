@@ -1,10 +1,12 @@
 import logging
-from odoo import models, fields
+
+from odoo import fields, models
+
 _logger = logging.getLogger(__name__)
 
 
 class HolidaysRequest(models.Model):
-    _inherit = 'hr.leave'
+    _inherit = "hr.leave"
 
     active = fields.Boolean(default=True)
 

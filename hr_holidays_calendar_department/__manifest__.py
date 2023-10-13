@@ -9,7 +9,10 @@
     "version": "14.0.1.1.0",
     "license": "AGPL-3",
     "depends": ["hr_holidays"],
-    "data": ["report/hr_leave_report_calendar.xml", "views/hr_leave_report_calendar.xml"],
+    "data": [
+        "report/hr_leave_report_calendar.xml",
+        "views/hr_leave_report_calendar.xml",
+    ],
     "installable": True,
     "application": False,
     "images": ["images/screen.png"],

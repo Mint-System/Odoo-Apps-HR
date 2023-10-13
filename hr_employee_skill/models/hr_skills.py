@@ -1,7 +1,7 @@
-from odoo import api, fields, models, _
+from odoo import fields, models
 
 
 class EmployeeSkill(models.Model):
-    _inherit = 'hr.employee.skill'
+    _inherit = "hr.employee.skill"
 
-    level_progress = fields.Integer(related='skill_level_id.level_progress',store=True)
+    level_progress = fields.Integer(related="skill_level_id.level_progress", store=True)

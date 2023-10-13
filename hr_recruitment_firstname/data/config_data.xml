@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo> 
+<odoo>
     <function model="ir.model.fields" name="formbuilder_whitelist">
         <value>hr.applicant</value>
         <value eval="[

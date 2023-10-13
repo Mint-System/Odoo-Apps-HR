@@ -33,7 +33,7 @@
     <field name="view_mode">tree,pivot,form</field>
   </record>
 
-  <menuitem name="Skills" id="menu_hr_employee_skill" 
+  <menuitem name="Skills" id="menu_hr_employee_skill"
     parent="hr.menu_hr_root" sequence="5" action="open_view_tree"
     groups="hr.group_hr_manager,hr.group_hr_user,base.group_user" />
 

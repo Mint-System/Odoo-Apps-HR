@@ -31,7 +31,7 @@ class HrExpense(models.Model):
         """Set fleet owner as manager."""
         res = super()._create_sheet_from_expenses()
 
-        if self.request_ids and self.request_ids[0].fleet.manager_id:
-            res.write({"user_id": self.request_ids[0].fleet.manager_id.id})
+        if self.request_ids and self.request_ids[0].vehicle_id.manager_id:
+            res.write({"user_id": self.request_ids[0].vehicle_id.manager_id.id})
 
         return res

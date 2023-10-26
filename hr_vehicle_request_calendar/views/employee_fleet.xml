@@ -7,7 +7,7 @@
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="date_from" date_stop="date_to" string="Vehicle Requests"
-                mode="month" quick_add="False" color="fleet" event_open_popup="True"></calendar>
+                mode="month" quick_add="False" color="vehicle_id" event_open_popup="True"></calendar>
         </field>
     </record>
 
@@ -17,7 +17,7 @@
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar string="Vehicle Reservations" date_start="date_from" date_stop="date_to"
-                mode="month" quick_add="False" color="reserved_obj" event_open_popup="True"></calendar>
+                mode="month" quick_add="False" color="vehicle_id" event_open_popup="True"></calendar>
         </field>
     </record>
 

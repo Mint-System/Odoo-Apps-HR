@@ -7,17 +7,14 @@
         <field name="prefix">VR</field>
     </record>
 
-    <record model="ir.ui.view" id="fleet_vehicle_view_form">
+    <!-- <record model="ir.ui.view" id="fleet_vehicle_view_form">
         <field name="name">hr_vehicle_request.fleet_vehicle_view_form</field>
         <field name="model">fleet.vehicle</field>
         <field name="inherit_id" ref="fleet.fleet_vehicle_view_form" />
         <field name="arch" type="xml">
-            <field name="car_value" position="after">
-                <field name="check_availability" invisible="1" />
-                <field name="reserved_time" invisible="1" />
-            </field>
+            
         </field>
-    </record>
+    </record> -->
 
     <record model='ir.ui.view' id='employee_fleet_form_view'>
         <field name="name">hr_vehicle_request.employee_fleet_form_view</field>
@@ -25,13 +22,18 @@
         <field name="arch" type="xml">
             <form string="Employee Fleet Request">
                 <header>
-                    <button name="send" string="Send Request" type="object" class="oe_highlight" states="draft" />
-                    <button name="approve" string="Approve" type="object" class="oe_highlight" states="waiting" groups="hr.group_hr_manager,hr.group_hr_user" />
-                    <button name="reject" string="Reject" type="object" states="waiting" groups="hr.group_hr_manager,hr.group_hr_user" />
+                    <button name="send" string="Send Request" type="object" class="oe_highlight"
+                        states="draft" />
+                    <button name="approve" string="Approve" type="object" class="oe_highlight"
+                        states="waiting" groups="hr.group_hr_manager,hr.group_hr_user" />
+                    <button name="reject" string="Reject" type="object" states="waiting"
+                        groups="hr.group_hr_manager,hr.group_hr_user" />
                     <button name="cancel" string="Cancel" type="object" states="draft,waiting" />
                     <button name="draft" string="Draft" type="object" states="reject,cancel" />
-                    <button name="returned" string="Return" type="object" class="oe_highlight" states="confirm" groups="hr.group_hr_manager,fleet.fleet_group_user" />
-                    <field name="state" widget="statusbar" statusbar_visible="draft,waiting,confirm,return" />
+                    <button name="returned" string="Return" type="object" class="oe_highlight"
+                        states="confirm" groups="hr.group_hr_manager,fleet.fleet_group_user" />
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,waiting,confirm,return" />
                 </header>
                 <sheet>
                     <h1>
@@ -42,11 +44,14 @@
                             <field name="employee" options="{'no_create': True}" />
                             <field name="date_from" />
                             <field name="date_to" />
-                            <field name="returned_date" attrs="{'invisible': [('state','!=','return')]}" />
+                            <field name="returned_date"
+                                attrs="{'invisible': [('state','!=','return')]}" />
                         </group>
                         <group>
                             <field name="req_date" />
-                            <field name="fleet" domain="[('check_availability','=',True)]" options="{'no_create': True}" />
+                            <field name="available_vehicle_ids" invisible="1" />
+                            <field name="vehicle_id" domain="[('id','in', available_vehicle_ids)]"
+                                options="{'no_create': True}" />
                             <field name="purpose" />
                         </group>
                     </group>
@@ -63,10 +68,11 @@
         <field name="name">hr_vehicle_request.employee_fleet_tree_view</field>
         <field name="model">employee.fleet</field>
         <field name="arch" type="xml">
-            <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" decoration-success="state == 'confirm'">
+            <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'"
+                decoration-success="state == 'confirm'">
                 <field name="name" />
                 <field name="employee" />
-                <field name="fleet" />
+                <field name="vehicle_id" />
                 <field name="date_from" />
                 <field name="date_to" />
                 <field name="state" />
@@ -81,18 +87,20 @@
             <search string="Custody">
                 <field name="name" />
                 <field name="employee" />
-                <field name="fleet" />
+                <field name="vehicle_id" />
                 <field name="date_from" />
                 <field name="date_to" />
                 <field name="state" />
                 <separator />
                 <group expand="0" string="Group By">
                     <filter string="Status" name="state" domain="[]" context="{'group_by':'state'}" />
-                    <filter string="Employee" name="employee" domain="[]" context="{'group_by':'employee'}" />
-                    <filter string="Vehicle" name="vehicle" domain="[]" context="{'group_by':'fleet'}" />
+                    <filter string="Employee" name="employee" domain="[]"
+                        context="{'group_by':'employee'}" />
+                    <filter string="Vehicle" name="vehicle" domain="[]"
+                        context="{'group_by':'vehicle_id'}" />
                 </group>
                 <searchpanel>
-                    <field name="state"/>
+                    <field name="state" />
                 </searchpanel>
             </search>
         </field>
@@ -108,7 +116,9 @@
         </field>
     </record>
 
-    <menuitem id="employee_fleet_menu" name="Vehicle Request" parent="hr.menu_hr_root" sequence="4" groups="fleet.fleet_group_user" />
-    <menuitem id="employee_fleet_sub_menu" name="Vehicle Request" parent="employee_fleet_menu" sequence="1" groups="fleet.fleet_group_user" action="action_employee_fleet" />
+    <menuitem id="employee_fleet_menu" name="Vehicle Request" parent="hr.menu_hr_root" sequence="4"
+        groups="fleet.fleet_group_user" />
+    <menuitem id="employee_fleet_sub_menu" name="Vehicle Request" parent="employee_fleet_menu"
+        sequence="1" groups="fleet.fleet_group_user" action="action_employee_fleet" />
 
 </odoo>

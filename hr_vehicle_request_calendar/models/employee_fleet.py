@@ -6,7 +6,7 @@ from odoo import _, fields, models
 class EmployeeFleet(models.Model):
     _inherit = "employee.fleet"
 
-    meeting_id = fields.Many2one("calendar.event", string="Meeting", readonly=True)
+    meeting_id = fields.Many2one("calendar.event", string="Meeting", readonly=True, copy=False)
 
     def _prepare_meeting_values(self):
         self.ensure_one()

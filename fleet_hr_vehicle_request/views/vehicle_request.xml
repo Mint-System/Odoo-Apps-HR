@@ -9,8 +9,10 @@
 
       <xpath expr="//field[@name='purpose']" position="after">
         <field name="private_usage" widget="boolean_toggle" />
-        <field name="odometer" attrs="{'invisible': [('state', 'not in', ['confirm'])], 'required': True}" />
-        <field name="trip" attrs="{'invisible': [('state', 'not in', ['return'])]}" />
+        <field name="vehicle_type" invisible="1" />
+        <field name="odometer"
+          attrs="{'invisible': ['|',('vehicle_type','!=','car'),('state', 'not in', ['confirm'])], 'required': True}" />
+        <field name="trip" attrs="{'invisible': ['|',('vehicle_type','!=','car'),('state', 'not in', ['return'])]}" />
       </xpath>
 
       <xpath expr="//field[@name='employee']" position="attributes">

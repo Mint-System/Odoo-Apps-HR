@@ -20,14 +20,14 @@ class EmployeeFleet(models.Model):
     )
 
     def returned(self):
-        if not self.odometer:
+        if not self.odometer and self.vehicle_type == 'car':
             raise Warning(_("Odometer value cannot be null."))
         super().returned()
         self.env["fleet.vehicle.assignation.log"].sudo().create(
             {
                 "date_start": self.date_from,
                 "date_end": self.date_to,
-                "vehicle_id": self.fleet.id,
+                "vehicle_id": self.vehicle_id.id,
                 "driver_id": self.employee.user_partner_id.id,
             }
         )
@@ -36,7 +36,7 @@ class EmployeeFleet(models.Model):
                 {
                     "date": self.returned_date,
                     "value": self.odometer,
-                    "vehicle_id": self.fleet.id,
+                    "vehicle_id": self.vehicle_id.id,
                     "driver_id": self.employee.user_partner_id.id,
                     "request_id": self.id,
                 }
@@ -46,7 +46,7 @@ class EmployeeFleet(models.Model):
     def _onchange_trip(self):
         """Calculate distance by substracting current odometer value from last."""
         last_odometer = self.env["fleet.vehicle.odometer"].search(
-            [("vehicle_id", "=", self.fleet.id)], order="value desc", limit=1
+            [("vehicle_id", "=", self.vehicle_id.id)], order="value desc", limit=1
         )
         if last_odometer:
             self.trip = self.odometer - last_odometer.value

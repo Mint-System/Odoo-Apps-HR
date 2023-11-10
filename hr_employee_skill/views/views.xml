@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
   <record id="view_search" model="ir.ui.view">
@@ -6,10 +6,15 @@
     <field name="model">hr.employee.skill</field>
     <field name="arch" type="xml">
       <search>
-        <field name="employee_id"/>
-        <field name="skill_type_id"/>
+        <field name="employee_id" />
+        <field name="skill_type_id" />
         <group expand="0" string="Group By">
-            <filter name="group_employee_id" string="Employee" domain="[]" context="{'group_by': 'employee_id'}"/>
+            <filter
+                        name="group_employee_id"
+                        string="Employee"
+                        domain="[]"
+                        context="{'group_by': 'employee_id'}"
+                    />
         </group>
       </search>
     </field>
@@ -20,11 +25,11 @@
     <field name="model">hr.employee.skill</field>
     <field name="arch" type="xml">
       <tree>
-        <field name="employee_id"/>
-        <field name="skill_type_id"/>
-        <field name="skill_id"/>
-        <field name="skill_level_id"/>
-        <field name="level_progress" widget="progressbar"/>
+        <field name="employee_id" />
+        <field name="skill_type_id" />
+        <field name="skill_id" />
+        <field name="skill_level_id" />
+        <field name="level_progress" widget="progressbar" />
       </tree>
     </field>
   </record>
@@ -34,9 +39,9 @@
     <field name="model">hr.employee.skill</field>
     <field name="arch" type="xml">
       <pivot>
-        <field name="skill_type_id" type="col"/>
-        <field name="skill_id" type="col"/>
-        <field name="employee_id" type="row"/>
+        <field name="skill_type_id" type="col" />
+        <field name="skill_id" type="col" />
+        <field name="employee_id" type="row" />
         <field name="level_progress" type="measure" />
       </pivot>
     </field>
@@ -48,8 +53,13 @@
     <field name="view_mode">tree,pivot,form</field>
   </record>
 
-  <menuitem name="Skills" id="menu_hr_employee_skill" 
-    parent="hr.menu_hr_root" sequence="5" action="open_view_tree"
-    groups="hr.group_hr_manager,hr.group_hr_user,base.group_user" />
+  <menuitem
+        name="Skills"
+        id="menu_hr_employee_skill"
+        parent="hr.menu_hr_root"
+        sequence="5"
+        action="open_view_tree"
+        groups="hr.group_hr_manager,hr.group_hr_user,base.group_user"
+    />
 
 </odoo>

@@ -6,7 +6,7 @@
 Hr Attendance Missing
 =====================
 
-Module summary.
+Create attendance entries on working days without leave.
 
 For a detailed documentation have a look at https://www.odoo-wiki.org/hr-attendance-missing.html
 

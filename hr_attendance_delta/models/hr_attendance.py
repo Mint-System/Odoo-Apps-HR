@@ -1,6 +1,6 @@
 import logging
+from datetime import datetime
 
-from datetime import datetime, date
 from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
@@ -27,8 +27,10 @@ class HrAttendance(models.Model):
                 ],
                 limit=1,
             )
-            if last_attendance:                
-                attendance.delta_hours = (attendance.check_in - last_attendance.check_out).total_seconds() / 3600
+            if last_attendance:
+                attendance.delta_hours = (
+                    attendance.check_in - last_attendance.check_out
+                ).total_seconds() / 3600
             else:
                 attendance.delta_hours = 0.0
 
@@ -45,6 +47,8 @@ class HrAttendance(models.Model):
                     ("check_in", ">=", attendance.check_out),
                 ],
                 limit=1,
-            )            
+            )
             if next_attendance:
-                next_attendance.delta_hours = (next_attendance.check_in - attendance.check_out).total_seconds() / 3600
+                next_attendance.delta_hours = (
+                    next_attendance.check_in - attendance.check_out
+                ).total_seconds() / 3600

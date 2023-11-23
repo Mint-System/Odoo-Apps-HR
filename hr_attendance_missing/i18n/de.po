@@ -33,12 +33,12 @@ msgstr ""
 #. module: hr_attendance_missing
 #: model_terms:ir.ui.view,arch_db:hr_attendance_missing.select_period
 msgid "Create"
-msgstr ""
+msgstr "Erstellen"
 
 #. module: hr_attendance_missing
 #: model:ir.actions.act_window,name:hr_attendance_missing.action_hr_employee_select_period
 msgid "Create missing attendances"
-msgstr "Erstelle fehlende Anwesenheiten"
+msgstr "Fehlende Anwesenheiten erstellen"
 
 #. module: hr_attendance_missing
 #: model:ir.model.fields,field_description:hr_attendance_missing.field_hr_attendance_missing_select_period__create_uid

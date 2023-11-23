@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+        <record id="select_period" model="ir.ui.view">
+            <field name="name">hr_attendance_missing.select_period</field>
+            <field name="model">hr_attendance_missing.select_period</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="4" colspan="6">
+                        <field name="date_from" />
+                        <field name="date_to" />
+                    </group>
+                    <footer>
+                        <button
+                        name="action_create_missing_attendances"
+                        string="Create"
+                        type="object"
+                        class="btn-primary"
+                        data-hotkey="q"
+                    />
+                        <button
+                        string="Cancel"
+                        class="btn-secondary"
+                        special="cancel"
+                        data-hotkey="z"
+                    />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_hr_employee_select_period" model="ir.actions.act_window">
+            <field name="name">Create missing attendances</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr_attendance_missing.select_period</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="hr.model_hr_employee" />
+        </record>
+
+</odoo>

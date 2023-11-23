@@ -2,6 +2,7 @@ import logging
 from datetime import datetime, timedelta
 
 from odoo import api, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 from dateutil.relativedelta import relativedelta
@@ -27,23 +28,17 @@ class HrEmployee(models.Model):
             date_from + timedelta(days=x) for x in range((date_to - date_from).days + 1)
         ]
 
-        _logger.warning([date_from, date_to, date_list])
-
+        missing_attendances = []
         for employee in self:
 
             # Get attendances
             attendances = self.env["hr.attendance"].search(
                 [("employee_id", "=", employee.id), ("check_in", ">=", date_from)]
             )
-            attendance_dates = (
-                attendances.mapped(
-                    lambda a: [a.check_in.date(), a.check_out.date()]
-                    if a.check_out
-                    else [a.check_in.date()]
-                ).flat_map(list)
-                if attendances
-                else []
+            attendance_dates = attendances.mapped("check_in") + attendances.mapped(
+                "check_out"
             )
+            attendance_dates = [dt.date() for dt in attendance_dates]
 
             # Get leaves
             leaves = self.env["hr.leave"].search(
@@ -54,52 +49,17 @@ class HrEmployee(models.Model):
                     ("date_to", ">=", date_from),
                 ]
             )
-            leave_dates = (
-                leaves.mapped(
-                    lambda l: [l.date_from.date(), l.date_to.date()]
-                    if l.date_to
-                    else [l.date_from.date()]
-                ).flat_map(list)
-                if leaves
-                else []
-            )
 
             # Get public holidays
             calendar_leaves = self.env["resource.calendar.leaves"].search(
                 [
-                    ("calendar_id", "=", employee.resource_calendar_id.id),
+                    "&", "&", "|", 
                     ("resource_id", "=", False),
+                    ("calendar_id", "=", employee.resource_calendar_id.id),
+                    ("calendar_id", "=", False),
                     "|",
                     ("date_from", ">=", date_from),
-                    ("date_to", "<=", date_from),
-                ]
-            )
-            calendar_leave_dates = (
-                calendar_leaves.mapped(
-                    lambda cl: [cl.date_from.date(), cl.date_to.date()]
-                    if cl.date_to
-                    else [cl.date_from.date()]
-                ).flat_map(list)
-                if calendar_leaves
-                else []
-            )
-
-            _logger.warning(
-                [
-                    attendances,
-                    attendance_dates,
-                ]
-            )
-            _logger.warning(
-                [
-                    leaves,
-                    leave_dates,
-                ]
-            )
-            _logger.warning(
-                [
-                    calendar_leaves,
-                    calendar_leave_dates,
+                    ("date_to", "<=", date_to),
                 ]
             )
 
@@ -111,18 +71,66 @@ class HrEmployee(models.Model):
 
                 # Get working hours
                 work_hours = employee.resource_calendar_id.get_work_hours_count(
-                    min_check_date, max_check_date, False
+                    min_check_date, max_check_date
                 )
 
-                is_attendance = check_date in attendance_dates
-                is_leave = check_date in leave_dates
-                is_calendar_leave = check_date in calendar_leave_dates
+                # Execute checks
+                is_attendance = check_date.date() in attendance_dates
+                is_leave = leaves.filtered(
+                    lambda l: l.date_from <= check_date <= l.date_to
+                    or min_check_date <= l.date_from <= max_check_date
+                    or min_check_date <= l.date_to <= max_check_date
+                )
+                is_calendar_leave = calendar_leaves.filtered(
+                    lambda l: l.date_from <= check_date <= l.date_to
+                    or min_check_date <= l.date_from <= max_check_date
+                    or min_check_date <= l.date_to <= max_check_date
+                )
+
+                # raise UserError(
+                #     {
+                #         "check_date": check_date,
+                #         "name": employee.name,
+                #         "check": work_hours
+                #         and work_hours > 0
+                #         and not is_attendance
+                #         and not is_leave
+                #         and not is_calendar_leave,
+                #         "work_hours": work_hours,
+                #         "attendance_dates": attendance_dates,
+                #         "is_attendance": is_attendance,
+                #         "is_leave": is_leave,
+                #         "is_calendar_leave": is_calendar_leave,
+                #         "calendar_leaves": calendar_leaves.mapped('name'),
+                #     }.items()
+                # )
 
                 if (
-                    work_hours and
-                    work_hours > 0
+                    work_hours
+                    and work_hours > 0
                     and not is_attendance
                     and not is_leave
                     and not is_calendar_leave
                 ):
-                    _logger.warning("Attenance Missing %s" % check_date)
+                    attendance = self.env["hr.attendance"].create(
+                        {
+                            "employee_id": employee.id,
+                            "check_in": check_date.replace(hour=8),
+                            "check_out": check_date.replace(hour=8),
+                            "is_missing_attendance": True
+                        }
+                    )
+                    attendance._update_overtime()
+                    missing_attendances.append(attendance)
+
+        message = "%s missing attendances have been created." % len(missing_attendances)
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": "Missing Attendances",
+                "message": message,
+                "type": "success",
+                "next": {"type": "ir.actions.act_window_close"},  # Refresh the form
+            },
+        }

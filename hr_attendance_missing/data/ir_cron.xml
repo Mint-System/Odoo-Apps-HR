@@ -4,7 +4,7 @@
         <field name="name">Daily Attendance Check</field>
         <field name="model_id" ref="hr.model_hr_employee" />
         <field name="state">code</field>
-        <field name="code">model._create_missing_attendances()</field>
+        <field name="code">model.run_create_missing_attendances()</field>
         <field name="user_id" ref="base.user_root" />
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>

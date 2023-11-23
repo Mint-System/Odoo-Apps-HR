@@ -12,6 +12,7 @@
         "security/ir.model.access.csv",
         "data/ir_cron.xml",
         "wizard/select_period.xml",
+        "views/hr_attendance.xml",
     ],
     "depends": ["hr_attendance", "hr_holidays"],
     "installable": True,

@@ -1,0 +1,107 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* hr_attendance_missing
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-23 12:28+0000\n"
+"PO-Revision-Date: 2023-11-23 12:28+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_attendance_missing
+#: model:ir.model,name:hr_attendance_missing.model_hr_attendance
+msgid "Attendance"
+msgstr ""
+
+#. module: hr_attendance_missing
+#: model:ir.model,name:hr_attendance_missing.model_hr_attendance_missing_select_period
+msgid "Attendance Missing Select Period"
+msgstr ""
+
+#. module: hr_attendance_missing
+#: model_terms:ir.ui.view,arch_db:hr_attendance_missing.select_period
+msgid "Cancel"
+msgstr ""
+
+#. module: hr_attendance_missing
+#: model_terms:ir.ui.view,arch_db:hr_attendance_missing.select_period
+msgid "Create"
+msgstr ""
+
+#. module: hr_attendance_missing
+#: model:ir.actions.act_window,name:hr_attendance_missing.action_hr_employee_select_period
+msgid "Create missing attendances"
+msgstr "Erstelle fehlende Anwesenheiten"
+
+#. module: hr_attendance_missing
+#: model:ir.model.fields,field_description:hr_attendance_missing.field_hr_attendance_missing_select_period__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: hr_attendance_missing
+#: model:ir.model.fields,field_description:hr_attendance_missing.field_hr_attendance_missing_select_period__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: hr_attendance_missing
+#: model:ir.actions.server,name:hr_attendance_missing.ir_cron_daily_attendance_check_ir_actions_server
+#: model:ir.cron,cron_name:hr_attendance_missing.ir_cron_daily_attendance_check
+msgid "Daily Attendance Check"
+msgstr "Tägliche Anwesenheitsprüfung"
+
+#. module: hr_attendance_missing
+#: model:ir.model.fields,field_description:hr_attendance_missing.field_hr_attendance_missing_select_period__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: hr_attendance_missing
+#: model:ir.model,name:hr_attendance_missing.model_hr_employee
+msgid "Employee"
+msgstr ""
+
+#. module: hr_attendance_missing
+#: model:ir.model.fields,field_description:hr_attendance_missing.field_hr_attendance_missing_select_period__date_from
+msgid "From"
+msgstr "Von"
+
+#. module: hr_attendance_missing
+#: model:ir.model.fields,field_description:hr_attendance_missing.field_hr_attendance_missing_select_period__id
+msgid "ID"
+msgstr ""
+
+#. module: hr_attendance_missing
+#: model:ir.model.fields,field_description:hr_attendance_missing.field_hr_attendance__is_missing_attendance
+msgid "Is Missing Attendance"
+msgstr "Ist Fehlende Anwesenheit"
+
+#. module: hr_attendance_missing
+#: model:ir.model.fields,field_description:hr_attendance_missing.field_hr_attendance_missing_select_period____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: hr_attendance_missing
+#: model:ir.model.fields,field_description:hr_attendance_missing.field_hr_attendance_missing_select_period__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: hr_attendance_missing
+#: model:ir.model.fields,field_description:hr_attendance_missing.field_hr_attendance_missing_select_period__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: hr_attendance_missing
+#: model_terms:ir.ui.view,arch_db:hr_attendance_missing.hr_attendance_view_search
+msgid "Missing Attendance"
+msgstr "Fehlende Anwesenheit"
+
+#. module: hr_attendance_missing
+#: model:ir.model.fields,field_description:hr_attendance_missing.field_hr_attendance_missing_select_period__date_to
+msgid "Until"
+msgstr "Bis"

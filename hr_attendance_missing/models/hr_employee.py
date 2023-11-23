@@ -2,7 +2,6 @@ import logging
 from datetime import datetime, timedelta
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 from dateutil.relativedelta import relativedelta
@@ -53,7 +52,9 @@ class HrEmployee(models.Model):
             # Get public holidays
             calendar_leaves = self.env["resource.calendar.leaves"].search(
                 [
-                    "&", "&", "|", 
+                    "&",
+                    "&",
+                    "|",
                     ("resource_id", "=", False),
                     ("calendar_id", "=", employee.resource_calendar_id.id),
                     ("calendar_id", "=", False),
@@ -117,7 +118,7 @@ class HrEmployee(models.Model):
                             "employee_id": employee.id,
                             "check_in": check_date.replace(hour=8),
                             "check_out": check_date.replace(hour=8),
-                            "is_missing_attendance": True
+                            "is_missing_attendance": True,
                         }
                     )
                     attendance._update_overtime()

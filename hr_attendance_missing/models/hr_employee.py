@@ -1,3 +1,4 @@
+import json
 import logging
 from datetime import datetime, timedelta
 
@@ -11,12 +12,13 @@ class HrEmployee(models.Model):
     _inherit = "hr.employee"
 
     @api.model
-    def run_create_missing_attendances(self):
+    def run_create_missing_attendances(self, logging=False):
         employees = self.search([])
-        employees._create_missing_attendances()
+        employees._create_missing_attendances(logging=logging)
 
     def _create_missing_attendances(
         self,
+        logging=False,
         date_from=fields.Date.today() + relativedelta(days=-1),
         date_to=fields.Date.today() + relativedelta(days=-1),
     ):
@@ -88,23 +90,39 @@ class HrEmployee(models.Model):
                     or min_check_date <= l.date_to <= max_check_date
                 )
 
-                # raise UserError(
-                #     {
-                #         "check_date": check_date,
-                #         "name": employee.name,
-                #         "check": work_hours
-                #         and work_hours > 0
-                #         and not is_attendance
-                #         and not is_leave
-                #         and not is_calendar_leave,
-                #         "work_hours": work_hours,
-                #         "attendance_dates": attendance_dates,
-                #         "is_attendance": is_attendance,
-                #         "is_leave": is_leave,
-                #         "is_calendar_leave": is_calendar_leave,
-                #         "calendar_leaves": calendar_leaves.mapped('name'),
-                #     }.items()
-                # )
+                if logging:
+                    message = json.dumps(
+                        {
+                            "check_date": check_date,
+                            "name": employee.name,
+                            "check": work_hours
+                            and work_hours > 0
+                            and not is_attendance
+                            and not is_leave
+                            and not is_calendar_leave,
+                            "work_hours": work_hours,
+                            "is_attendance": is_attendance,
+                            "is_leave": is_leave,
+                            "is_calendar_leave": is_calendar_leave,
+                            "attendance_dates": attendance_dates,
+                            "calendar_leaves": calendar_leaves.mapped("name"),
+                        },
+                        indent=4,
+                        default=str,
+                    )
+                    self.env["ir.logging"].sudo().create(
+                        {
+                            "name": "Create Missing Attendances: " + employee.name,
+                            "type": "server",
+                            "dbname": self._cr.dbname,
+                            "level": "DEBUG",
+                            "message": message,
+                            "path": "",
+                            "func": "",
+                            "line": "",
+                        }
+                    )
+                    # raise UserError(message)
 
                 if (
                     work_hours

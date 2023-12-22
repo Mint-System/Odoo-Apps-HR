@@ -29,6 +29,8 @@ class HrEmployee(models.Model):
             date_from + timedelta(days=x) for x in range((date_to - date_from).days + 1)
         ]
 
+        _logger.debug("Check missing attendances on: %s", date_list)
+
         missing_attendances = []
         for employee in self:
 
@@ -122,7 +124,6 @@ class HrEmployee(models.Model):
                             "line": "",
                         }
                     )
-                    # raise UserError(message)
 
                 if (
                     work_hours

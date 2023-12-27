@@ -34,9 +34,13 @@ class HrEmployee(models.Model):
         missing_attendances = []
         for employee in self:
 
-            # Get attendances
+            # Get attendances - excluding the ones with check_out missing
             attendances = self.env["hr.attendance"].search(
-                [("employee_id", "=", employee.id), ("check_in", ">=", date_from)]
+                [
+                    ("employee_id", "=", employee.id),
+                    ("check_in", ">=", date_from),
+                    ("check_out", "!=", False),
+                ]
             )
             attendance_dates = attendances.mapped("check_in") + attendances.mapped(
                 "check_out"

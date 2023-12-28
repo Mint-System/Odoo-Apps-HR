@@ -58,8 +58,10 @@ class HrEmployee(models.Model):
                 [
                     "&",
                     "&",
+                    "&",
                     "|",
                     ("resource_id", "=", False),
+                    ("company_id", "=", employee.company_id.id),
                     ("calendar_id", "=", employee.resource_calendar_id.id),
                     ("calendar_id", "=", False),
                     "|",
@@ -97,6 +99,7 @@ class HrEmployee(models.Model):
                         {
                             "check_date": check_date,
                             "name": employee.name,
+                            "company": employee.company_id.name,
                             "check": work_hours
                             and work_hours > 0
                             and not is_attendance

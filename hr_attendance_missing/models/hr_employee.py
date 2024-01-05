@@ -19,17 +19,20 @@ class HrEmployee(models.Model):
     def _create_missing_attendances(
         self,
         logging=False,
-        date_from=fields.Date.today() + relativedelta(days=-1),
-        date_to=fields.Date.today() + relativedelta(days=-1),
+        date_from=datetime.today() + relativedelta(days=-1),
+        date_to=datetime.today() + relativedelta(days=-1),
     ):
 
+        # Define minimum and maximum time
         date_from = datetime.combine(date_from, datetime.min.time())
         date_to = datetime.combine(date_to, datetime.max.time())
-        date_list = [
-            date_from + timedelta(days=x) for x in range((date_to - date_from).days + 1)
-        ]
 
-        _logger.debug("Check missing attendances on: %s", date_list)
+        date_list = []
+        for days in range((date_to - date_from).days + 1):
+            date_list.append(date_from + timedelta(days=days))
+
+        _logger.debug("Check missing attendances from %s to %s", date_from, date_to)
+        _logger.debug("List of dates is: %s", date_list)
 
         missing_attendances = []
         for employee in self:

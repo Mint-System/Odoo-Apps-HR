@@ -2,7 +2,7 @@ import json
 import logging
 from datetime import datetime, timedelta
 
-from odoo import api, fields, models
+from odoo import api, models
 
 _logger = logging.getLogger(__name__)
 from dateutil.relativedelta import relativedelta
@@ -27,7 +27,7 @@ class HrEmployee(models.Model):
             date_from = datetime.today() + relativedelta(days=-1)
         if date_to is None:
             date_to = datetime.today() + relativedelta(days=-1)
-        
+
         # Define minimum and maximum time
         date_from = datetime.combine(date_from, datetime.min.time())
         date_to = datetime.combine(date_to, datetime.max.time())

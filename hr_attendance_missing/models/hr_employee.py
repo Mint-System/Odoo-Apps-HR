@@ -19,10 +19,15 @@ class HrEmployee(models.Model):
     def _create_missing_attendances(
         self,
         logging=False,
-        date_from=datetime.today() + relativedelta(days=-1),
-        date_to=datetime.today() + relativedelta(days=-1),
+        date_from=None,
+        date_to=None,
     ):
-
+        # Set default
+        if date_from is None:
+            date_from = datetime.today() + relativedelta(days=-1)
+        if date_to is None:
+            date_to = datetime.today() + relativedelta(days=-1)
+        
         # Define minimum and maximum time
         date_from = datetime.combine(date_from, datetime.min.time())
         date_to = datetime.combine(date_to, datetime.max.time())

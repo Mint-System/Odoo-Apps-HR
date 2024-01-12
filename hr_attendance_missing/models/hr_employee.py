@@ -23,10 +23,19 @@ class HrEmployee(models.Model):
         date_to=None,
     ):
         # Set default
-        if date_from is None:
-            date_from = datetime.today() + relativedelta(days=-1)
-        if date_to is None:
-            date_to = datetime.today() + relativedelta(days=-1)
+        if date_from:
+            date_from = datetime.combine(date_from, datetime.min.time())
+        else:
+            date_from = datetime.combine(
+                fields.Date.today() + relativedelta(days=-1), datetime.min.time()
+            )
+
+        if date_to:
+            date_to = datetime.combine(date_to, datetime.max.time())
+        else:
+            date_to = datetime.combine(
+                fields.Date.today() + relativedelta(days=-1), datetime.max.time()
+            )
 
         # Define minimum and maximum time
         date_from = datetime.combine(date_from, datetime.min.time())

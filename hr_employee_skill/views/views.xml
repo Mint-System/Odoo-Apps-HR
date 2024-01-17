@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+  <record id="view_search" model="ir.ui.view">
+    <field name="name">hr_employee_skill.view_search</field>
+    <field name="model">hr.employee.skill</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="employee_id" />
+        <field name="skill_type_id" />
+        <group expand="0" string="Group By">
+            <filter
+                        name="group_employee_id"
+                        string="Employee"
+                        domain="[]"
+                        context="{'group_by': 'employee_id'}"
+                    />
+        </group>
+      </search>
+    </field>
+  </record>
+
+  <record id="view_tree" model="ir.ui.view">
+    <field name="name">hr_employee_skill.view_tree</field>
+    <field name="model">hr.employee.skill</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="employee_id" />
+        <field name="skill_type_id" />
+        <field name="skill_id" />
+        <field name="skill_level_id" />
+        <field name="level_progress" widget="progressbar" />
+      </tree>
+    </field>
+  </record>
+
+  <record id="view_pivot" model="ir.ui.view">
+    <field name="name">hr_employee_skill.view_pivot</field>
+    <field name="model">hr.employee.skill</field>
+    <field name="arch" type="xml">
+      <pivot>
+        <field name="skill_type_id" type="col" />
+        <field name="skill_id" type="col" />
+        <field name="employee_id" type="row" />
+        <field name="level_progress" type="measure" />
+      </pivot>
+    </field>
+  </record>
+
+  <record model="ir.actions.act_window" id="open_view_tree">
+    <field name="name">Skills</field>
+    <field name="res_model">hr.employee.skill</field>
+    <field name="view_mode">tree,pivot,form</field>
+  </record>
+
+  <menuitem
+        name="Skills"
+        id="menu_hr_employee_skill"
+        parent="hr.menu_hr_root"
+        sequence="5"
+        action="open_view_tree"
+        groups="hr.group_hr_manager,hr.group_hr_user,base.group_user"
+    />
+
+</odoo>

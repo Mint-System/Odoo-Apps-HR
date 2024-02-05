@@ -6,7 +6,7 @@
     "author": "Mint System GmbH, Odoo Community Association (OCA)",
     "website": "https://www.mint-system.ch",
     "category": "Human Resources",
-    "version": "16.0.1.2.0",
+    "version": "16.0.1.2.1",
     "license": "AGPL-3",
     "data": [
         "security/ir.model.access.csv",

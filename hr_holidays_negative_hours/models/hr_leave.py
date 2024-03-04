@@ -8,18 +8,19 @@ class HrLeave(models.Model):
         try:
             super()._check_overtime_deductible(leaves)
         except ValidationError:
-            return
+            return True
 
     def action_draft(self):
-        super().action_draft()
-        overtime_leaves = self.filtered(lambda l: l.overtime_deductible and l.state in ['draft', 'confirm'])
-        for leave in overtime_leaves:
-            if leave.overtime_id:
-                leave.overtime_id.sudo().unlink()
-                overtime = self.env['hr.attendance.overtime'].sudo().create({
-                    'employee_id': leave.employee_id.id,
-                    'date': leave.date_from,
-                    'adjustment': True,
-                    'duration': -1 * leave.number_of_hours_display
-                })
-                leave.sudo().overtime_id = overtime.id
+        try:
+            super().action_draft()
+        except ValidationError:
+          overtime_leaves = self.filtered('overtime_deductible')
+          overtime_leaves.overtime_id.sudo().unlink()
+          for leave in overtime_leaves:
+              overtime = self.env['hr.attendance.overtime'].sudo().create({
+                  'employee_id': leave.employee_id.id,
+                  'date': leave.date_from,
+                  'adjustment': True,
+                  'duration': -1 * leave.number_of_hours_display
+              })
+              leave.sudo().overtime_id = overtime.id

@@ -9,10 +9,10 @@
     "version": "16.0.1.0.0",
     "license": "AGPL-3",
     "depends": ["hr"],
-    "data": [
-        "data/hr_leave_type.xml",
-        "view/hr_leave_type.xml",
-    ],
+    # "data": [
+    #     "data/hr_leave_type.xml",
+    #     "view/hr_leave_type.xml",
+    # ],
     "installable": True,
     "application": False,
     "auto_install": False,

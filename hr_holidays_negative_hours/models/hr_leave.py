@@ -15,9 +15,7 @@ class HrLeave(models.Model):
     def action_draft(self):
         try:
             super().action_draft()
-            _logger.warning("no except")
         except ValidationError:
-            _logger.warning("with except")
             overtime_leaves = self.filtered("overtime_deductible")
             overtime_leaves.overtime_id.sudo().unlink()
             for leave in overtime_leaves:

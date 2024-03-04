@@ -2,7 +2,7 @@ import json
 import logging
 from datetime import datetime, timedelta
 
-from odoo import api, models, fields
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 from dateutil.relativedelta import relativedelta

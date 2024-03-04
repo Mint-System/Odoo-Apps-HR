@@ -1,8 +1,0 @@
-<odoo>
-    <data noupdate="1">
-        <record id="hr_holidays_attendance.holiday_status_extra_hours" model="hr.leave.type">
-            <field name="allow_negative_hours">True</field>
-            <field name="leave_validation_type">no_validation</field>
-        </record>
-    </data>
-</odoo>

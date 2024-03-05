@@ -9,6 +9,10 @@
     "version": "16.0.1.0.0",
     "license": "AGPL-3",
     "depends": ["hr_holidays_attendance"],
+    "data": [
+        "data/hr_holidays_negative_hours_data.xml",
+        "views/hr_leave_type_views.xml",
+    ],
     "installable": True,
     "application": False,
     "auto_install": False,

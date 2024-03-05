@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-05 10:46+0000\n"
-"PO-Revision-Date: 2024-03-05 10:46+0000\n"
+"POT-Creation-Date: 2024-03-05 15:02+0000\n"
+"PO-Revision-Date: 2024-03-05 15:02+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,11 +16,35 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: hr_holidays_negative_hours
+#: model:ir.model.fields,field_description:hr_holidays_negative_hours.field_hr_leave__compensate_overtime
+#: model:ir.model.fields,field_description:hr_holidays_negative_hours.field_hr_leave_type__compensate_overtime
+msgid "Compensate Extra Hours"
+msgstr "Kompensierung Überstunden"
+
+#. module: hr_holidays_negative_hours
+#: model:hr.leave.type,name:hr_holidays_negative_hours.holiday_status_compensate_extra_hours
+msgid "Compensation"
+msgstr "Kompensation"
+
+#. module: hr_holidays_negative_hours
+#: model:ir.model.fields,field_description:hr_holidays_negative_hours.field_hr_leave__compensate_overtime_id
+msgid "Extra Hours Compensation"
+msgstr "Kompensierte Überstunden"
+
+#. module: hr_holidays_negative_hours
+#: model:ir.model.fields,help:hr_holidays_negative_hours.field_hr_leave__compensate_overtime
+#: model:ir.model.fields,help:hr_holidays_negative_hours.field_hr_leave_type__compensate_overtime
+msgid ""
+"Once a time off of this type is approved, the duration will be deducted from"
+" extra hours."
+msgstr ""
+
+#. module: hr_holidays_negative_hours
 #: model:ir.model,name:hr_holidays_negative_hours.model_hr_leave
 msgid "Time Off"
 msgstr "Abwesenheiten"
 
 #. module: hr_holidays_negative_hours
-#: model:ir.model,name:hr_holidays_negative_hours.model_hr_leave
-msgid "Compensation"
-msgstr "Kompensation"
+#: model:ir.model,name:hr_holidays_negative_hours.model_hr_leave_type
+msgid "Time Off Type"
+msgstr "Abwesenheitsart"

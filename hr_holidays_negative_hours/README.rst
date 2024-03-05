@@ -3,7 +3,7 @@
     :alt: License: GPL-3
 
 ==========================
-Hr Holidays Negative Hours
+HR Holidays Negative Hours
 ==========================
 
 Module summary.

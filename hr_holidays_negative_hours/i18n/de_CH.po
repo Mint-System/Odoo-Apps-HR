@@ -19,3 +19,8 @@ msgstr ""
 #: model:ir.model,name:hr_holidays_negative_hours.model_hr_leave
 msgid "Time Off"
 msgstr "Abwesenheiten"
+
+#. module: hr_holidays_negative_hours
+#: model:ir.model,name:hr_holidays_negative_hours.model_hr_leave
+msgid "Compensation"
+msgstr "Kompensation"

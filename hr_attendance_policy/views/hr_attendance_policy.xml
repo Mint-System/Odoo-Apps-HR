@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_attendance_policy_list" model="ir.ui.view">
+        <field name="name">hr.attendance.policy.list</field>
+        <field name="model">hr.attendance.policy</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hr_attendance_policy_form" model="ir.ui.view">
+        <field name="name">hr.attendance.policy.form</field>
+        <field name="model">hr.attendance.policy</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name"/>
+                    <field name="active"/>
+                    <field name="warning_message"/>
+                </group>
+                <notebook>
+                    <page string="Rules">
+                        <field name="rule_ids">
+                            <tree>
+                                <field name="day_of_week"/>
+                                <field name="min_work_hours"/>
+                                <field name="max_work_hours"/>
+                                <field name="min_delta"/>
+                                <field name="period_days"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <menuitem id="menu_hr_attendance_configuration"
+              name="Attendance"
+              parent="hr.menu_hr_root"/>
+
+    <menuitem id="menu_hr_attendance_policy_configuration"
+              name="Configuration"
+              parent="menu_hr_attendance_configuration"/>
+
+    <menuitem id="menu_hr_attendance_policy"
+              name="Policies"
+              parent="menu_hr_attendance_policy_configuration"
+              action="hr_attendance_policy_action"/>
+
+</odoo>

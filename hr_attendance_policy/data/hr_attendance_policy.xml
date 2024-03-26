@@ -1,0 +1,39 @@
+<odoo>
+    <record id="swiss_labor_law_1" model="hr.attendance.policy">
+        <field name="name">Swiss Labor Law 1</field>
+        <field name="description">Work is to be performed during one working day.</field>
+        <field name="min_break_duration">100</field>
+        <field name="working_time_start">05:30:00</field>
+        <field name="working_time_end">06:59:00</field>
+        <field name="break_duration">00:15:00</field>
+        <field name="active">True</field>
+    </record>
+
+    <record id="swiss_labor_law_2" model="hr.attendance.policy">
+        <field name="name">Swiss Labor Law 2</field>
+        <field name="description">Work is to be performed during one working day.</field>
+        <field name="min_break_duration">100</field>
+        <field name="working_time_start">07:00:00</field>
+        <field name="working_time_end">08:59:00</field>
+        <field name="break_duration">00:30:00</field>
+        <field name="active">True</field>
+    </record>
+
+    <record id="swiss_labor_law_3" model="hr.attendance.policy">
+        <field name="name">Swiss Labor Law 3</field>
+        <field name="description">Work is to be performed during one working day.</field>
+        <field name="min_break_duration">100</field>
+        <field name="working_time_start">09:00:00</field>
+        <field name="break_duration">00:60:00</field>
+        <field name="active">True</field>
+    </record>
+
+    <record id="swiss_labor_law_4" model="hr.attendance.policy">
+        <field name="name">Swiss Labor Law 4</field>
+        <field name="description">Only breaks of more than one hour are allowed.</field>
+        <field name="min_break_duration">110</field>
+        <field name="working_time_start">07:00:00</field>
+        <field name="break_duration">00:30:00</field>
+        <field name="active">True</field>
+    </record>
+</odoo>

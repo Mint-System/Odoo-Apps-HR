@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_hr_attendance_policy_list" model="ir.ui.view">
+    <record id="view_hr_attendance_policy_tree" model="ir.ui.view">
         <field name="name">hr.attendance.policy.list</field>
         <field name="model">hr.attendance.policy</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
-                <field name="active"/>
+              <header>
+                <button string="Create" class="oe_highlight" type="object"
+                        name="action_create_attendance_policy"/>
+              </header>
+              <field name="name"/>
+              <field name="active"/>
             </tree>
         </field>
     </record>
@@ -36,6 +40,12 @@
                 </notebook>
             </form>
         </field>
+    </record>
+
+    <record id="hr_attendance_policy_action" model="ir.actions.act_window">
+        <field name="name">Attendance Policies</field>
+        <field name="res_model">hr.attendance.policy</field>
+        <field name="view_mode">tree,form</field>
     </record>
 
     <menuitem id="menu_hr_attendance_configuration"

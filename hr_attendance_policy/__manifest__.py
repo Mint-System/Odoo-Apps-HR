@@ -10,6 +10,7 @@
     "license": "AGPL-3",
     "depends": ["hr_attendance"],
     "data": [
+        "security/ir.model.access.csv",
         "views/hr_attendance_policy.xml",
         "views/hr_employee.xml"
     ],

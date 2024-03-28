@@ -3,10 +3,10 @@
     :alt: License: GPL-3
 
 ====================
-Hr Attendance Policy
+HR Attendance Policy
 ====================
 
-Module summary.
+Manage and check work time policies on attendance entries.
 
 For a detailed documentation have a look at https://www.odoo-wiki.org/hr-attendance-policy.html
 

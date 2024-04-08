@@ -19,7 +19,7 @@ class HrAtttendanceOvertime(models.Model):
         rule_ids = self.env['hr.attendance.rule'].search([])
         for overtime in self:
 
-            # Get attendance recordds of overtime date
+            # Get attendance records of overtime date
             checkin_from = datetime.combine(overtime.date, time.min)
             checkout_until = datetime.combine(overtime.date, time.max)
             attendance_ids = self.env['hr.attendance'].search([
@@ -29,12 +29,12 @@ class HrAtttendanceOvertime(models.Model):
             ])
             worked_hours = sum(attendance_ids.mapped('worked_hours'))
 
-            # Check all rules again overtime records
+            # Check all rules against overtime records
             policy_ids = []
             for rule_id in rule_ids:
                 # Check if any delta matches the minimum requirements
                 delta_matched = any(rule_id.min_delta <= delta for delta in attendance_ids.mapped('delta_hours'))
-                # If no delta matches coninue with checks
+                # If no delta matches continue with checks
                 if not delta_matched:
                     if rule_id.min_worked_hours <= worked_hours < rule_id.max_worked_hours:
                         policy_ids.append(rule_id.policy_id.id)

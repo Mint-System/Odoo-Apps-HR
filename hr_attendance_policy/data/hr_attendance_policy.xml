@@ -1,15 +1,40 @@
-<odoo>
-    <record id="swiss_labor_law_1" model="hr.attendance.policy">
-        <field name="name">Swiss Labor Law 1</field>
-        <field name="warning_message">6 hours of work requires 15 minutes break</field>
+<odoo noupdate="1">
+
+    <record id="swiss_working_hours_1" model="hr.attendance.policy">
+        <field name="name">15 minutes break</field>
+        <field
+            name="description"
+        >15 minutes if you work more than 5 1/2 hours a day</field>
+    </record>
+    <record id="swiss_working_hours_1_rule_1" model="hr.attendance.rule">
+        <field name="policy_id" ref="hr_attendance_policy.swiss_working_hours_1" />
+        <field name="min_worked_hours">5.5</field>
+        <field name="max_worked_hours">7.0</field>
+        <field name="min_delta">0.25</field>
     </record>
 
-    <record id="swiss_labor_law_1_rule_1" model="hr.attendance.rule">
-        <field name="policy_id" ref="hr_attendance_policy.swiss_labor_law_1" />
-        <field name="min_work_hours">5.5</field>
-        <field name="max_work_hours">7.0</field>
-        <field name="min_delta">0.25</field>
-        <field name="period_days">1</field>
+    <record id="swiss_working_hours_2" model="hr.attendance.policy">
+        <field name="name">30 minutes break</field>
+        <field name="description">30 minutes if you work more than 7 hours a day</field>
+    </record>
+    <record id="swiss_working_hours_2_rule_1" model="hr.attendance.rule">
+        <field name="policy_id" ref="hr_attendance_policy.swiss_working_hours_2" />
+        <field name="min_worked_hours">7</field>
+        <field name="max_worked_hours">9.0</field>
+        <field name="min_delta">0.5</field>
+    </record>
+
+    <record id="swiss_working_hours_3" model="hr.attendance.policy">
+        <field name="name">1 hour break</field>
+        <field
+            name="description"
+        >1 hour if you work more than 9 hours a day; in this case you may take more than one break.</field>
+    </record>
+    <record id="swiss_working_hours_3_rule_1" model="hr.attendance.rule">
+        <field name="policy_id" ref="hr_attendance_policy.swiss_working_hours_3" />
+        <field name="min_worked_hours">9</field>
+        <field name="max_worked_hours">-1</field>
+        <field name="min_delta">1</field>
     </record>
 
 </odoo>

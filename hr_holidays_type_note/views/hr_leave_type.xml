@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="view_leave_type_form_note" model="ir.ui.view">
         <field name="name">hr.leave.type.form.note</field>
         <field name="model">hr.leave.type</field>
-        <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+        <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form" />
         <field name="arch" type="xml">
           <xpath expr="//field[@name='color']" position="before">
-            <field name="note"/>
+            <field name="note" />
           </xpath>
         </field>
     </record>

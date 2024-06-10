@@ -22,3 +22,4 @@ git clone git@github.com:mint-system/odoo-apps-hr.git ./addons/hr
 | [hr_employee_skill](hr_employee_skill) |         Views to manage HR employee skills. |
 | [hr_holidays_negative_hours](hr_holidays_negative_hours) |         Allow submit time-off request with negative extra hours. |
 | [hr_holidays_remaining_leaves](hr_holidays_remaining_leaves) |         Show remaining leaves per employee in allocation overview. |
+| [hr_holidays_type_note](hr_holidays_type_note) |         Set note on leave type that is shown on request. |

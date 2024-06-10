@@ -8,7 +8,7 @@ HR Holidays Type Note
 
 Set note on leave type that is shown on request.
 
-For a detailed documentation have a look at https://www.odoo-wiki.org/hr-holidays-negative-hours.html
+For a detailed documentation have a look at https://www.odoo-wiki.org/hr-holidays-type-note.html
 
 Configuration
 ~~~~~~~~~~~~~

@@ -6,17 +6,4 @@
     >
         <field name="context">{}</field>
     </record>
-
-    <!-- <record id="view_hr_attendance_form_user_acl" model="ir.ui.view"> -->
-    <!--     <field name="name">hr.attendance.form.user.acl</field> -->
-    <!--     <field name="model">hr.attendance</field> -->
-    <!--     <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form" /> -->
-    <!--     <field name="arch" type="xml"> -->
-    <!--         <xpath expr="//form/sheet/group" position="inside"> -->
-    <!--             <field name="employee_id" readonly="0" /> -->
-    <!--             <field name="check_in" readonly="0" /> -->
-    <!--             <field name="check_out" readonly="0" /> -->
-    <!--         </xpath> -->
-    <!--     </field> -->
-    <!-- </record> -->
 </odoo>

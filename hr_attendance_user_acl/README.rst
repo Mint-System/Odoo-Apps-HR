@@ -6,7 +6,7 @@
 Hr Attendance User Acl
 ======================
 
-Module summary.
+Allow attendance users to create and edit their attendance entries.
 
 For a detailed documentation have a look at https://www.odoo-wiki.org/hr-attendance-user-acl.html
 

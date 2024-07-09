@@ -8,8 +8,7 @@ Hr Attendance User Acl
 
 Module summary.
 
-For a detailed documentation have a look at
-https://www.odoo-wiki.org/hr-attendance-user-acl.html
+For a detailed documentation have a look at https://www.odoo-wiki.org/hr-attendance-user-acl.html
 
 Configuration
 ~~~~~~~~~~~~~

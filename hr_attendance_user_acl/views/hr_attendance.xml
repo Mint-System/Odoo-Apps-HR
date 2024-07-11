@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record
+        id="hr_attendance.hr_attendance_action_overview"
+        model="ir.actions.act_window"
+    >
+        <field name="context">{}</field>
+    </record>
+</odoo>

@@ -2,13 +2,13 @@
     :target: http://www.gnu.org/licenses/gpl-3.0-standalone.html
     :alt: License: GPL-3
 
-==========================
-HR Holidays Negative Hours
-==========================
+=========================
+HR Holidays Cusstom Hours
+=========================
 
-Allow submit time-off request with negative extra hours.
+Set a custom duration on time-off request.
 
-For a detailed documentation have a look at https://www.odoo-wiki.org/hr-holidays-negative-hours.html
+For a detailed documentation have a look at https://www.odoo-wiki.org/hr-holidays-custom-hours.html
 
 Configuration
 ~~~~~~~~~~~~~

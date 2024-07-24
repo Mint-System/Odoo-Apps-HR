@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="hr_leave_view_form" model="ir.ui.view">
+        <field name="name">hr_holidays_custom_hours.hr_leave_view_form</field>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_form" />
+        <field name="arch" type="xml">
+          <field name="name" position="before">
+            <field name="enable_custom_hours" invisible="1" />
+            <field
+                    name="custom_hours"
+                    widget="float_time"
+                    attrs="{'invisible': [('enable_custom_hours', '=', False)]}"
+                />
+          </field>
+        </field>
+    </record>
+</odoo>

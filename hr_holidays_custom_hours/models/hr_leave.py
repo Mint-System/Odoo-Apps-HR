@@ -27,7 +27,7 @@ class HrLeave(models.Model):
             duration = leave.custom_hours - leave.number_of_hours_display
 
             if duration > 0:
-                if not leave.custom_overtime_id:
+                if not leave.sudo().custom_overtime_id:
                     leave.sudo().custom_overtime_id = (
                         self.env["hr.attendance.overtime"]
                         .sudo()
@@ -41,9 +41,9 @@ class HrLeave(models.Model):
                         )
                     )
                 else:
-                    leave.custom_overtime_id.sudo().duration = duration
-            elif duration <= 0 and leave.custom_overtime_id:
-                leave.custom_overtime_id.sudo().unlink()
+                    leave.sudo().custom_overtime_id.duration = duration
+            elif duration <= 0 and leave.sudo().custom_overtime_id:
+                leave.sudo().custom_overtime_id.unlink()
 
     def action_confirm(self):
         res = super().action_confirm()

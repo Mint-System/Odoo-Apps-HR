@@ -19,27 +19,31 @@ class HrLeave(models.Model):
     )
 
     def _inverse_custom_hours(self):
-        """When custom hours is set, create overtime adjustment"""
-        for leave in self.filtered(
-            lambda l: l.enable_custom_hours and l.custom_hours > 0
-        ):
+        """
+        When custom hours is set, create overtime adjustment.
+        Remove overtime if duration is negative.
+        """
+        for leave in self.filtered("enable_custom_hours"):
             duration = leave.custom_hours - leave.number_of_hours_display
 
-            if not leave.custom_overtime_id:
-                leave.sudo().custom_overtime_id = (
-                    self.env["hr.attendance.overtime"]
-                    .sudo()
-                    .create(
-                        {
-                            "employee_id": leave.employee_id.sudo().id,
-                            "date": leave.date_from,
-                            "adjustment": True,
-                            "duration": duration,
-                        }
+            if duration > 0:
+                if not leave.custom_overtime_id:
+                    leave.sudo().custom_overtime_id = (
+                        self.env["hr.attendance.overtime"]
+                        .sudo()
+                        .create(
+                            {
+                                "employee_id": leave.employee_id.sudo().id,
+                                "date": leave.date_from,
+                                "adjustment": True,
+                                "duration": duration,
+                            }
+                        )
                     )
-                )
-            else:
-                leave.custom_overtime_id.sudo().duration = duration
+                else:
+                    leave.custom_overtime_id.sudo().duration = duration
+            elif duration <= 0 and leave.custom_overtime_id:
+                leave.custom_overtime_id.sudo().unlink()
 
     def action_confirm(self):
         res = super().action_confirm()

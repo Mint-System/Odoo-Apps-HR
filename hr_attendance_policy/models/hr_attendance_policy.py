@@ -11,7 +11,7 @@ class HrAttendancePolicy(models.Model):
 
     active = fields.Boolean(default=True, help="Indicates if the policy is active.")
     name = fields.Char(required=True, help="The name of the attendance policy.")
-    description = fields.Text(elp="A description of the attendance policy.")
+    description = fields.Text(help="A description of the attendance policy.")
     rule_ids = fields.One2many(
         "hr.attendance.rule",
         "policy_id",

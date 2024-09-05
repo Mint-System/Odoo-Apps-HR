@@ -1,13 +1,12 @@
 import logging
-
-from odoo import fields
-
-_logger = logging.getLogger(__name__)
 from datetime import datetime, time, timedelta
 
 from dateutil.relativedelta import relativedelta
 
+from odoo import fields
 from odoo.osv import expression
+
+_logger = logging.getLogger(__name__)
 
 
 def _daterange(start_date, end_date):

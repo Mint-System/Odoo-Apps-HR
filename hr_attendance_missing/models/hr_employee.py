@@ -2,10 +2,11 @@ import json
 import logging
 from datetime import datetime, timedelta
 
+from dateutil.relativedelta import relativedelta
+
 from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
-from dateutil.relativedelta import relativedelta
 
 
 class HrEmployee(models.Model):

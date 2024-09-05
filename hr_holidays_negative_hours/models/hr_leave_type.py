@@ -11,5 +11,6 @@ class HRLeaveType(models.Model):
     compensate_overtime = fields.Boolean(
         "Compensate Extra Hours",
         default=False,
-        help="Once a time off of this type is approved, the duration will be deducted from extra hours.",
+        help="""Once a time off of this type is approved,
+        the duration will be deducted from extra hours.""",
     )

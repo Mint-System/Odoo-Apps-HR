@@ -2,9 +2,9 @@ import logging
 
 from odoo import api, models
 
-_logger = logging.getLogger(__name__)
-
 from . import attendance_data
+
+_logger = logging.getLogger(__name__)
 
 
 class ReportHrEmployee(models.AbstractModel):

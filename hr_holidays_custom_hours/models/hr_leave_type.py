@@ -10,5 +10,6 @@ class HRLeaveType(models.Model):
 
     enable_custom_hours = fields.Boolean(
         default=False,
-        help="When a time off of this type is created, the user can define a custom duration. The difference to the time-off hours is added as overtime hours.",
+        help="""When a time off of this type is created, the user can define a custom duration.
+        The difference to the time-off hours is added as overtime hours.""",
     )

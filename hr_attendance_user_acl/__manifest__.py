@@ -8,7 +8,7 @@
     "category": "Human Resources",
     "version": "16.0.1.0.0",
     "license": "AGPL-3",
-    "depends": ["hr_attendance"],
+    "depends": ["hr_attendance_calendar_view"],
     "data": [
         "security/ir.model.access.csv",
         "views/hr_attendance.xml",

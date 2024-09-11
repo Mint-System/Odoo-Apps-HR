@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="edit_holiday_status_form" model="ir.ui.view">
+        <field name="name">hr_holidays_working_time.edit_holiday_status_form</field>
+        <field name="model">hr.leave.type</field>
+        <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form" />
+        <field name="arch" type="xml">
+            <group name="allocation_validation" position="after">
+                <group
+                    name="working_time"
+                    string="Working Time"
+                    attrs="{'invisible': [('time_type', '=', 'leave')]}"
+                >
+                    <field name="record_as_attendance" />
+                    <field
+                        name="calendar_id"
+                        attrs="{'invisible': [('record_as_attendance', '=', False)]}"
+                    />
+                    <field
+                        name="max_leave_hours"
+                        attrs="{'invisible': [('record_as_attendance', '=', False)]}"
+                    />
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

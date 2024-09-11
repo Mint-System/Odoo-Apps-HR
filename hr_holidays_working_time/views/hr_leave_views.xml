@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_leave_form_note" model="ir.ui.view">
+        <field name="name">hr_holidays_working_time.hr_leave_view_form</field>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="before">
+                <p>This leave will be recorded as attendance.</p>
+            </xpath>
+
+
+        </field>
+    </record>
+</odoo>

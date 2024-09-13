@@ -1,6 +1,44 @@
 <?xml version="1.0" ?>
 <odoo>
-    <record id="hr_holidays.holiday_status_cl" model="hr.leave.type">
-        <field name="name">Sick</field>
+
+    <record id="working_time" model="hr.leave.type">
+        <field name="name">Working Time</field>
+        <field name="time_type">other</field>
+        <field name="record_as_attendance">True</field>
+        <field name="requires_allocation">no</field>
+        <field name="request_unit">hour</field>
     </record>
+
+    <record id="working_time_with_calendar" model="hr.leave.type">
+        <field name="name">Working Time with Calendar</field>
+        <field name="time_type">other</field>
+        <field name="record_as_attendance">True</field>
+        <field name="calendar_id" ref="resource.resource_calendar_std" />
+        <field name="requires_allocation">no</field>
+        <field name="request_unit">hour</field>
+    </record>
+
+    <record id="working_time_with_max_hours" model="hr.leave.type">
+        <field name="name">Working Time with Max Hours</field>
+        <field name="time_type">other</field>
+        <field name="record_as_attendance">True</field>
+        <field name="max_leave_hours">32</field>
+        <field name="requires_allocation">no</field>
+        <field name="request_unit">hour</field>
+    </record>
+
+    <record id="working_time_with_max_hours_and_calendar" model="hr.leave.type">
+        <field name="name">Working Time with Max Hours and Calendar</field>
+        <field name="time_type">other</field>
+        <field name="record_as_attendance">True</field>
+        <field name="calendar_id" ref="resource.resource_calendar_std" />
+        <field name="max_leave_hours">32</field>
+        <field name="requires_allocation">no</field>
+        <field name="request_unit">hour</field>
+    </record>
+
+    <record id="hr.employee_admin" model="hr.employee">
+        <field name="resource_calendar_id" ref="resource.resource_calendar_std_38h" />
+    </record>
+
 </odoo>

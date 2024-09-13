@@ -6,6 +6,26 @@
         <field name="inherit_id" ref="hr_holidays.hr_leave_view_form" />
         <field name="arch" type="xml">
 
+            <!-- <widget name="web_ribbon" position="after">
+                <div name="button_box" class="oe_button_box">
+                    <button
+                        class="oe_stat_button"
+                        name="action_attendance_view"
+                        type="object"
+                        icon="fa-clock-o"
+                    >
+                        <field string="Attendances" name="attendance_count" widget="statinfo" />
+                    </button>
+                </div>
+            </widget> -->
+
+            <header position="inside">
+                    <button
+                    name="action_attendance_view"
+                    type="object"
+                >View Attendances</button>
+            </header>
+
             <xpath expr="//field[@name='name']" position="before">
                 <p>This leave will be recorded as attendance.</p>
             </xpath>

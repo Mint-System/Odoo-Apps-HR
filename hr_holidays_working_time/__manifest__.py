@@ -10,9 +10,9 @@
     "license": "AGPL-3",
     "depends": ["hr_holidays_attendance", "hr_leave_custom_hour_interval"],
     "data": ["views/hr_leave_type_views.xml", "views/hr_leave_views.xml"],
+    "demo": ["demo/demo.xml"],
     "installable": True,
     "application": False,
     "auto_install": False,
     "images": ["images/screen.png"],
-    "demo": ["demo/demo.xml"],
 }

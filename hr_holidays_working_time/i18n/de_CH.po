@@ -1,0 +1,127 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* hr_holidays_working_time
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-16 20:31+0000\n"
+"PO-Revision-Date: 2024-09-16 20:31+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_holidays_working_time
+#: model:ir.model,name:hr_holidays_working_time.model_hr_attendance
+#: model:ir.model.fields,field_description:hr_holidays_working_time.field_hr_leave__attendance_ids
+msgid "Attendance"
+msgstr "Anwesenheit"
+
+#. module: hr_holidays_working_time
+#: model:ir.model.fields,field_description:hr_holidays_working_time.field_hr_leave__attendance_count
+msgid "Attendance Count"
+msgstr ""
+
+#. module: hr_holidays_working_time
+#: model:ir.model.fields,field_description:hr_holidays_working_time.field_hr_leave_type__calendar_id
+msgid "Calendar"
+msgstr "Kalender"
+
+#. module: hr_holidays_working_time
+#: model:ir.model.fields,help:hr_holidays_working_time.field_hr_leave_type__record_as_attendance
+msgid "If leave is confirmed an attendance will be created."
+msgstr "Es wird eine Anwesenheit erstellt, wenn Abwesenheit bestätigt wird."
+
+#. module: hr_holidays_working_time
+#: model:ir.model.fields,field_description:hr_holidays_working_time.field_hr_attendance__leave_id
+msgid "Leave"
+msgstr "Abwesenheit"
+
+#. module: hr_holidays_working_time
+#: model:ir.model.fields,field_description:hr_holidays_working_time.field_hr_leave_type__max_leave_hours
+msgid "Max Leave Hours"
+msgstr "Maximale Stunden Abwesenheeit"
+
+#. module: hr_holidays_working_time
+#: model:ir.model.fields,field_description:hr_holidays_working_time.field_hr_leave__record_as_attendance
+msgid "Record As Attendance"
+msgstr "Erstelle als Anwesenheit"
+
+#. module: hr_holidays_working_time
+#: model:ir.model.fields,field_description:hr_holidays_working_time.field_hr_leave_type__record_as_attendance
+msgid "Record as Attendance"
+msgstr "Erstelle als Anwesenheit"
+
+#. module: hr_holidays_working_time
+#. odoo-python
+#: code:addons/hr_holidays_working_time/models/hr_leave_type.py:0
+#, python-format
+msgid "Record as attendance can only be used with other time type."
+msgstr "Erstelle als Anwesenheit kann nur mit Abwesenheitstyp gearbeitete Zeit verwendet werden."
+
+#. module: hr_holidays_working_time
+#: model:ir.model.fields,help:hr_holidays_working_time.field_hr_leave_type__calendar_id
+msgid ""
+"Select a calendar for the attendance time calculation. If empty, the "
+"calendar of the employee will be used."
+msgstr ""
+"Wähle einen Kalender für die Kalkulation der Anwesenheiten."
+"Wenn die Auswahl leer ist, wird der Kalender des Mitarbeitenden verwendet."
+
+#. module: hr_holidays_working_time
+#: model:ir.model.fields,help:hr_holidays_working_time.field_hr_leave_type__max_leave_hours
+msgid ""
+"The maximum leave hours for which attendances will be created. Set to 0 for "
+"no limit."
+msgstr ""
+"Die maximale Anzahl Stunden der Abwesenheit für welche Anwesenheiten erstellt werden sollen. Setze auf 0 für Unlimitiert."
+
+#. module: hr_holidays_working_time
+#: model_terms:ir.ui.view,arch_db:hr_holidays_working_time.view_leave_form_note
+msgid "This leave will be recorded as attendance."
+msgstr "Die Abwesenheit wird als Anwesenheit erfasst."
+
+#. module: hr_holidays_working_time
+#: model:ir.model,name:hr_holidays_working_time.model_hr_leave
+msgid "Time Off"
+msgstr "Abwesenheiten"
+
+#. module: hr_holidays_working_time
+#: model:ir.model,name:hr_holidays_working_time.model_hr_leave_type
+msgid "Time Off Type"
+msgstr "Abwesenheitsart"
+
+#. module: hr_holidays_working_time
+#: model_terms:ir.ui.view,arch_db:hr_holidays_working_time.view_leave_form_note
+msgid "View Attendances"
+msgstr "Ansicht Anwesenheiten"
+
+#. module: hr_holidays_working_time
+#: model_terms:ir.ui.view,arch_db:hr_holidays_working_time.hr_attendance_view_search
+msgid "Without Leaves"
+msgstr "Ohne Abwesenheiten"
+
+#. module: hr_holidays_working_time
+#: model:hr.leave.type,name:hr_holidays_working_time.working_time
+#: model_terms:ir.ui.view,arch_db:hr_holidays_working_time.edit_holiday_status_form
+msgid "Working Time"
+msgstr "Arbeitszeit"
+
+#. module: hr_holidays_working_time
+#: model:hr.leave.type,name:hr_holidays_working_time.working_time_with_calendar
+msgid "Working Time with Calendar"
+msgstr "Arbeitszeit mit Kalender"
+
+#. module: hr_holidays_working_time
+#: model:hr.leave.type,name:hr_holidays_working_time.working_time_with_max_hours
+msgid "Working Time with Max Hours"
+msgstr "Arbeitszeit mit Maximum-Stunden"
+
+#. module: hr_holidays_working_time
+#: model:hr.leave.type,name:hr_holidays_working_time.working_time_with_max_hours_and_calendar
+msgid "Working Time with Max Hours and Calendar"
+msgstr "Arbeitszeit mit Maximum-Stunden und Kalender"

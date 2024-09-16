@@ -15,10 +15,12 @@ class HRLeaveType(models.Model):
     )
     calendar_id = fields.Many2one(
         "resource.calendar",
-        help="Select a calendar for the attendance time calculation. If empty, the calendar of the employee will be used.",
+        help="""Select a calendar for the attendance time calculation.
+            If empty, the calendar of the employee will be used.""",
     )
     max_leave_hours = fields.Integer(
-        help="The maximum leave hours for which attendances will be created. Set to 0 for no limit."
+        help="""The maximum leave hours for which attendances will be created.
+            Set to 0 for no limit."""
     )
 
     @api.constrains()

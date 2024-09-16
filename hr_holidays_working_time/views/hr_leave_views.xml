@@ -24,14 +24,24 @@
                 <button
                     name="action_attendance_view"
                     type="object"
-                    attrs="{'invisible':[('attendance_count','=',0)]}"
+                    attrs="{'invisible': [('attendance_count','=',0)]}"
                 >View Attendances</button>
             </header>
 
             <xpath expr="//field[@name='name']" position="before">
-                <p>This leave will be recorded as attendance.</p>
+                <field name="record_as_attendance" invisible="1" />
+                <label
+                    for="record_as_attendance"
+                    string=""
+                    attrs="{'invisible': [('record_as_attendance', '=', False)]}"
+                />
+                <div
+                    attrs="{'invisible': [('record_as_attendance', '=', False)]}"
+                    class="fst-italic text-muted"
+                >
+                    This leave will be recorded as attendance.
+                </div>
             </xpath>
-
 
         </field>
     </record>

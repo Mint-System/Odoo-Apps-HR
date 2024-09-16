@@ -14,7 +14,6 @@ class HrLeave(models.Model):
     attendance_ids = fields.One2many("hr.attendance", "leave_id")
     attendance_count = fields.Integer(compute="_compute_attendance_count")
     record_as_attendance = fields.Boolean(compute="_compute_record_as_attendance")
-    work_hours = fields.Float("_compute_work_hours", store=True)
 
     @api.depends("attendance_ids")
     def _compute_attendance_count(self):
@@ -49,25 +48,6 @@ class HrLeave(models.Model):
             self.holiday_status_id.calendar_id or self.employee_id.resource_calendar_id
         )
 
-    @api.depends("request_date_from", "request_date_to")
-    def _compute_work_hours():
-        for leave in self:
-            if leave.record_as_attendance:
-
-                # Get calendar
-                calendar_id = leave.get_calendar_id()
-
-                date_from = datetime.combine(
-                    leave.request_date_from, datetime.min.time()
-                )
-                date_to = datetime.combine(leave.request_date_to, datetime.max.time())
-
-                leave.attendance_hours = calendar_id.get_work_hours_count(
-                    date_from, date_to
-                )
-            else:
-                leave.attendance_hours = 0
-
     def get_work_hour(self, date, day_period):
         self.ensure_one()
         dayofweek = date.weekday()
@@ -92,10 +72,10 @@ class HrLeave(models.Model):
         return res
 
     def create_attendances(self):
-        self.ensure_one()
         """
         Create attendance entries if leave is recorded as attendance.
         """
+        self.ensure_one()
 
         if self.record_as_attendance:
 
@@ -103,27 +83,28 @@ class HrLeave(models.Model):
             calendar_id = self.get_calendar_id()
             user_tz = pytz.timezone(self.tz)
 
-            _logger.warning(
-                [
-                    self.request_date_from,
-                    self.request_date_to,
-                    self.request_hour_from,
-                    self.request_hour_to,
-                    user_tz,
-                ]
-            )
+            # _logger.warning(
+            #     [
+            #         self.request_unit_half,
+            #         self.request_unit_hours,
+            #         self.request_date_from,
+            #         self.request_date_to,
+            #         self.request_hour_from,
+            #         self.request_hour_to,
+            #         user_tz,
+            #     ]
+            # )
+
+            # Convert to datetime
+            start_date = datetime.combine(self.request_date_from, datetime.min.time())
+            end_date = datetime.combine(self.request_date_to, datetime.max.time())
 
             # Create attendance based on unit type
+            attendance_vals = []
+
             if not self.request_unit_half and not self.request_unit_hours:
 
-                # Convert to datetime
-                start_date = datetime.combine(
-                    self.request_date_from, datetime.min.time()
-                )
-                end_date = datetime.combine(self.request_date_to, datetime.max.time())
-
                 # Create an attendance for each day.
-                attendance_vals = []
                 while start_date <= end_date:
 
                     work_hours = calendar_id.get_work_hours_count(
@@ -155,62 +136,55 @@ class HrLeave(models.Model):
 
                     start_date += timedelta(days=1)
 
-                self.env["hr.attendance"].sudo().create(attendance_vals)
+            elif self.request_unit_half:
 
-            elif self.leave_type_request_unit == "half_day":
+                attendance_vals = {
+                    "employee_id": self.employee_id.id,
+                    "leave_id": self.id,
+                }
 
-                # Get worked hours for leave days
-                worked_hours = sum(
-                    self.env["hr.attendance"]
-                    .search_read(
-                        [
-                            ("employee_id", "=", self.employee_id.id),
-                            ("check_in", ">=", self.request_date_from),
-                            ("check_out", "<=", self.request_date_to),
-                        ],
-                        ["worked_hours"],
-                    )
-                    .mapped("worked_hours")
-                )
-                _logger.warning(worked_hours)
+                # Get work hours
+                work_hours = calendar_id.get_work_hours_count(start_date, end_date)
 
-                # If request is morning use checkin time from calendar
-                # and checkout time is plus working time minus worked time
-
-                # If request is afternoon use checkout time from calendar
-                # and checkin time is minus working time plus worked time
-
-                self.env["hr.attendance"].sudo().create(
-                    {
-                        "employee_id": self.employee_id.id,
-                        "check_in": self.request_date_from,
-                        "check_out": self.request_date_to,
-                        "leave_id": self.id,
-                    }
+                # Convert from user tz to utc
+                date_from = (
+                    user_tz.localize(start_date)
+                    .astimezone(pytz.utc)
+                    .replace(tzinfo=None)
                 )
 
-            elif self.leave_type_request_unit == "hour":
+                hour_from = 0
+                if self.request_date_from_period == "am":
+                    hour_from = self.get_work_hour(self.request_date_from, "morning")
+                elif self.request_date_from_period == "pm":
+                    hour_from = self.get_work_hour(self.request_date_from, "afternoon")
 
-                # Convert to datetime
-                check_in = datetime.combine(self.request_date_from, datetime.min.time())
+                hour_to = hour_from + work_hours / 2
+                attendance_vals["check_in"] = date_from + timedelta(hours=hour_from)
+                attendance_vals["check_out"] = date_from + timedelta(hours=hour_to)
+
+            elif self.request_unit_hours:
 
                 # Convert from user tz to utc
                 check_in = (
-                    user_tz.localize(check_in).astimezone(pytz.utc).replace(tzinfo=None)
+                    user_tz.localize(start_date)
+                    .astimezone(pytz.utc)
+                    .replace(tzinfo=None)
                 )
 
                 # Add hours to datetime
                 check_out = check_in + timedelta(hours=self.request_time_hour_to)
                 check_in = check_in + timedelta(hours=self.request_time_hour_from)
 
-                self.env["hr.attendance"].sudo().create(
-                    {
-                        "employee_id": self.employee_id.id,
-                        "check_in": check_in,
-                        "check_out": check_out,
-                        "leave_id": self.id,
-                    }
-                )
+                attendance_vals = {
+                    "employee_id": self.employee_id.id,
+                    "check_in": check_in,
+                    "check_out": check_out,
+                    "leave_id": self.id,
+                }
+
+            # _logger.warning(attendance_vals)
+            self.env["hr.attendance"].sudo().create(attendance_vals)
 
     def action_draft(self):
         res = super().action_draft()

@@ -1,6 +1,6 @@
 import logging
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
@@ -25,5 +25,5 @@ class HRLeaveType(models.Model):
     def _check_time_type(self):
         if self.record_as_attendance and self.time_type != "other":
             raise ValidationError(
-                "Record as attendance can only be used with other time type."
+                _("Record as attendance can only be used with other time type.")
             )

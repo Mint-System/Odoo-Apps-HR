@@ -32,6 +32,8 @@ class HrLeave(models.Model):
 
     def _compute_record_as_attendance(self):
         for leave in self:
+            if leave.attendance_ids:
+                leave.record_as_attendance = False
             leave.record_as_attendance = (
                 leave.holiday_status_id.record_as_attendance
                 and (
@@ -80,10 +82,20 @@ class HrLeave(models.Model):
         return work_hour_id.hour_from
 
     def action_confirm(self):
+        res = super().action_confirm()
+        self.create_attendances()
+        return res
+
+    def action_approve(self):
+        res = super().action_approve()
+        self.create_attendances()
+        return res
+
+    def create_attendances(self):
+        self.ensure_one()
         """
         Create attendance entries if leave is recorded as attendance.
         """
-        res = super().action_confirm()
 
         if self.record_as_attendance:
 
@@ -113,7 +125,7 @@ class HrLeave(models.Model):
                 # Create an attendance for each day.
                 attendance_vals = []
                 while start_date <= end_date:
-                    
+
                     work_hours = calendar_id.get_work_hours_count(
                         start_date, start_date + timedelta(days=1)
                     )
@@ -123,9 +135,12 @@ class HrLeave(models.Model):
                         hour_from = self.get_work_hour(start_date, "morning")
                         hour_to = hour_from + work_hours
 
-                         # Convert from user tz to utc
-                        date_from = user_tz.localize(start_date).astimezone(pytz.utc).replace(tzinfo=None)
-                        _logger.warning([hour_from, work_hours])
+                        # Convert from user tz to utc
+                        date_from = (
+                            user_tz.localize(start_date)
+                            .astimezone(pytz.utc)
+                            .replace(tzinfo=None)
+                        )
 
                         # The checkin time is defined by the calendar
                         # The checkout time is checkin plus average hours from calendar
@@ -140,9 +155,7 @@ class HrLeave(models.Model):
 
                     start_date += timedelta(days=1)
 
-                _logger.warning(attendance_vals)
-
-                self.env["hr.attendance"].create(attendance_vals)
+                self.env["hr.attendance"].sudo().create(attendance_vals)
 
             elif self.leave_type_request_unit == "half_day":
 
@@ -167,7 +180,7 @@ class HrLeave(models.Model):
                 # If request is afternoon use checkout time from calendar
                 # and checkin time is minus working time plus worked time
 
-                self.env["hr.attendance"].create(
+                self.env["hr.attendance"].sudo().create(
                     {
                         "employee_id": self.employee_id.id,
                         "check_in": self.request_date_from,
@@ -178,12 +191,19 @@ class HrLeave(models.Model):
 
             elif self.leave_type_request_unit == "hour":
 
-                # Create an attendance for the selected hours
-                check_in = datetime.combine(
-                    self.request_date_from, self.request_hour_from
+                # Convert to datetime
+                check_in = datetime.combine(self.request_date_from, datetime.min.time())
+
+                # Convert from user tz to utc
+                check_in = (
+                    user_tz.localize(check_in).astimezone(pytz.utc).replace(tzinfo=None)
                 )
-                check_out = datetime.combine(self.request_date_to, self.request_hour_to)
-                self.env["hr.attendance"].create(
+
+                # Add hours to datetime
+                check_out = check_in + timedelta(hours=self.request_time_hour_to)
+                check_in = check_in + timedelta(hours=self.request_time_hour_from)
+
+                self.env["hr.attendance"].sudo().create(
                     {
                         "employee_id": self.employee_id.id,
                         "check_in": check_in,
@@ -191,8 +211,6 @@ class HrLeave(models.Model):
                         "leave_id": self.id,
                     }
                 )
-
-        return res
 
     def action_draft(self):
         res = super().action_draft()
@@ -202,3 +220,8 @@ class HrLeave(models.Model):
     def unlink(self):
         self.sudo().attendance_ids.unlink()
         return super().unlink()
+
+    def action_cancel_leave(self):
+        res = super().action_cancel_leave()
+        self.sudo().attendance_ids.unlink()
+        return res

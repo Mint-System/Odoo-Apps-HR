@@ -10,6 +10,7 @@
     "license": "AGPL-3",
     "depends": ["hr_holidays_attendance", "hr_leave_custom_hour_interval"],
     "data": [
+        "data/data.xml",
         "views/hr_leave_type_views.xml",
         "views/hr_leave_views.xml",
         "views/hr_attendance_views.xml",

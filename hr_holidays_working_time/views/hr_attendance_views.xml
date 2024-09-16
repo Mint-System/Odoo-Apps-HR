@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+
     <record id="view_attendance_tree" model="ir.ui.view">
         <field name="name">hr_holidays_working_time.view_attendance_tree</field>
         <field name="model">hr.attendance</field>
@@ -10,4 +11,5 @@
             </field>
         </field>
     </record>
+
 </odoo>

@@ -9,7 +9,11 @@
     "version": "16.0.1.0.0",
     "license": "AGPL-3",
     "depends": ["hr_holidays_attendance", "hr_leave_custom_hour_interval"],
-    "data": ["views/hr_leave_type_views.xml", "views/hr_leave_views.xml"],
+    "data": [
+        "views/hr_leave_type_views.xml",
+        "views/hr_leave_views.xml",
+        "views/hr_attendance_views.xml",
+    ],
     "demo": ["demo/demo.xml"],
     "installable": True,
     "application": False,

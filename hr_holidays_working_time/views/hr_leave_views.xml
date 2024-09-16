@@ -20,9 +20,11 @@
             </widget> -->
 
             <header position="inside">
-                    <button
+                <field name="attendance_count" invisible="1" />
+                <button
                     name="action_attendance_view"
                     type="object"
+                    attrs="{'invisible':[('attendance_count','=',0)]}"
                 >View Attendances</button>
             </header>
 

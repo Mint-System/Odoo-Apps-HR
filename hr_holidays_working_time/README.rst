@@ -3,10 +3,10 @@
     :alt: License: GPL-3
 
 ========================
-Hr Holidays Working Time
+HR Holidays Working Time
 ========================
 
-Module summary.
+Generate attendance entries for leaves.
 
 For a detailed documentation have a look at https://www.odoo-wiki.org/hr-holidays-working-time.html
 

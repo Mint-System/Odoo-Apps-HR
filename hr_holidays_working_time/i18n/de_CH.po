@@ -42,7 +42,7 @@ msgstr "Kalender"
 #. module: hr_holidays_working_time
 #: model:ir.model.fields,field_description:hr_holidays_working_time.field_hr_leave_type__calendar_max_hours
 msgid "Calendar Max Hours"
-msgstr ""
+msgstr "Maximale Stunden Kalender"
 
 #. module: hr_holidays_working_time
 #: model:ir.model.fields,help:hr_holidays_working_time.field_hr_leave_type__calendar_max_hours

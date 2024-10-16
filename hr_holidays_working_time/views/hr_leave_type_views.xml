@@ -6,18 +6,14 @@
         <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form" />
         <field name="arch" type="xml">
             <group name="allocation_validation" position="after">
-                <group
-                    name="working_time"
-                    string="Working Time"
-                    attrs="{'invisible': [('time_type', '=', 'leave')]}"
-                >
+                <group name="working_time" string="Working Time">
                     <field name="record_as_attendance" />
                     <field
                         name="calendar_id"
                         attrs="{'invisible': [('record_as_attendance', '=', False)]}"
                     />
                     <field
-                        name="max_leave_hours"
+                        name="calendar_max_hours"
                         attrs="{'invisible': [('record_as_attendance', '=', False)]}"
                     />
                 </group>

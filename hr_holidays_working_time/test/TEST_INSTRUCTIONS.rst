@@ -21,7 +21,7 @@ Working time max hours:
 
 - Create a leave with type "Working Time with Max Hours"
 - Select a range of 5 days and confirm
-- Ensure that no attendances have been created.
+- Ensure that attendances with 7.6 hours have been created.
 
 Working time hours:
 

@@ -18,9 +18,9 @@ class HRLeaveType(models.Model):
         help="""Select a calendar for the attendance time calculation.
             If empty, the calendar of the employee will be used.""",
     )
-    max_leave_hours = fields.Integer(
-        help="""The maximum leave hours for which attendances will be created.
-            Set to 0 for no limit."""
+    calendar_max_hours = fields.Integer(
+        default=0,
+        help="""If leave hours is greater than this value, the employee calendar will be used. Set to 0 to disable.""",
     )
 
     @api.constrains()

@@ -22,7 +22,7 @@
         <field name="name">Working Time with Max Hours</field>
         <field name="time_type">other</field>
         <field name="record_as_attendance">True</field>
-        <field name="max_leave_hours">32</field>
+        <field name="calendar_max_hours">24</field>
         <field name="requires_allocation">no</field>
         <field name="request_unit">hour</field>
     </record>
@@ -32,7 +32,7 @@
         <field name="time_type">other</field>
         <field name="record_as_attendance">True</field>
         <field name="calendar_id" ref="resource.resource_calendar_std" />
-        <field name="max_leave_hours">32</field>
+        <field name="calendar_max_hours">24</field>
         <field name="requires_allocation">no</field>
         <field name="request_unit">hour</field>
     </record>

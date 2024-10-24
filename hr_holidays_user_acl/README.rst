@@ -6,14 +6,14 @@
 Partner Contact User ACL
 ========================
 
-Restricted access to contacts app.
+Restricted access to time off app.
 
-For a detailed documentation have a look at https://www.odoo-wiki.org/partner-contact-user-acl.html
+For a detailed documentation have a look at https://www.odoo-wiki.org/hr-holidays-user-acl.html
 
 Configuration
 ~~~~~~~~~~~~~
 
-* Open group *Access-control list / Contacts Menu* and add users
+* Open group *Access-control list / Time Off Menu* and add users
 
 Maintainer
 ~~~~~~~~~~

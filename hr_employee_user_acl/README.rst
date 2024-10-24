@@ -8,7 +8,7 @@ HR Employee User ACL
 
 Restricted access to employees app.
 
-For a detailed documentation have a look at https://www.odoo-wiki.org/partner-contact-user-acl.html
+For a detailed documentation have a look at https://www.odoo-wiki.org/hr-employee-user-acl.html
 
 Configuration
 ~~~~~~~~~~~~~

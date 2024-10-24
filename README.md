@@ -26,5 +26,5 @@ git clone git@github.com:mint-system/odoo-apps-hr.git ./addons/hr
 | [hr_holidays_negative_hours](hr_holidays_negative_hours) |         Allow submit time-off request with negative extra hours. |
 | [hr_holidays_remaining_leaves](hr_holidays_remaining_leaves) |         Show remaining leaves per employee in allocation overview. |
 | [hr_holidays_type_note](hr_holidays_type_note) |         Set note on leave type that is shown on request. |
-| [hr_holidays_user_acl](hr_holidays_user_acl) |         Restricted access to employees app. |
+| [hr_holidays_user_acl](hr_holidays_user_acl) |         Restricted access to time off app. |
 | [hr_holidays_working_time](hr_holidays_working_time) |         Generate attendance entries for leaves. |

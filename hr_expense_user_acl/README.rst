@@ -8,7 +8,7 @@ HR Expense User ACL
 
 Restricted access to expenses app.
 
-For a detailed documentation have a look at https://www.odoo-wiki.org/hr-holidays-user-acl.html
+For a detailed documentation have a look at https://www.odoo-wiki.org/hr-expense-user-acl.html
 
 Configuration
 ~~~~~~~~~~~~~

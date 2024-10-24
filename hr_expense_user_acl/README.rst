@@ -2,18 +2,18 @@
     :target: http://www.gnu.org/licenses/gpl-3.0-standalone.html
     :alt: License: GPL-3
 
-====================
-HR Holidays User ACL
-====================
+===================
+HR Expense User ACL
+===================
 
-Restricted access to time off app.
+Restricted access to expenses app.
 
 For a detailed documentation have a look at https://www.odoo-wiki.org/hr-holidays-user-acl.html
 
 Configuration
 ~~~~~~~~~~~~~
 
-* Open group *Access-control list / Time Off Menu* and add users
+* Open group *Access-control list / Expenses Menu* and add users
 
 Maintainer
 ~~~~~~~~~~

@@ -2,18 +2,18 @@
     :target: http://www.gnu.org/licenses/gpl-3.0-standalone.html
     :alt: License: GPL-3
 
-====================
-HR Employee User ACL
-====================
+========================
+Partner Contact User ACL
+========================
 
-Restricted access to employees app.
+Restricted access to contacts app.
 
 For a detailed documentation have a look at https://www.odoo-wiki.org/partner-contact-user-acl.html
 
 Configuration
 ~~~~~~~~~~~~~
 
-* Open group *Access-control list / Employees Menu* and add users
+* Open group *Access-control list / Contacts Menu* and add users
 
 Maintainer
 ~~~~~~~~~~

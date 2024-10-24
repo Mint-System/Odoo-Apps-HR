@@ -1,5 +1,5 @@
 {
-    "name": "HR Employee User ACL",
+    "name": "Partner Employee User ACL",
     "summary": """
         Restricted access to employees app.
     """,

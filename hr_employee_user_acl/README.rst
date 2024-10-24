@@ -2,18 +2,18 @@
     :target: http://www.gnu.org/licenses/gpl-3.0-standalone.html
     :alt: License: GPL-3
 
-======================
-Hr Attendance User ACL
-======================
+========================
+Partner Contact User ACL
+========================
 
-Allow attendance users to create and edit their attendance entries.
+Restricted access to contacts app.
 
-For a detailed documentation have a look at https://www.odoo-wiki.org/hr-attendance-user-acl.html
+For a detailed documentation have a look at https://www.odoo-wiki.org/partner-contact-user-acl.html
 
 Configuration
 ~~~~~~~~~~~~~
 
-* No additional configurations needed
+* Open group *Access-control list / Contacts Menu* and add users
 
 Maintainer
 ~~~~~~~~~~

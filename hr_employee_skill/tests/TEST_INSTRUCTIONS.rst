@@ -1,0 +1,3 @@
+- Open employee skills list
+- Open report comptence
+- Switch to pivot view

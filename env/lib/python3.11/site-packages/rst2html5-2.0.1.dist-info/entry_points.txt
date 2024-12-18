@@ -1,0 +1,3 @@
+[console_scripts]
+rst2html5=rst2html5_:main
+

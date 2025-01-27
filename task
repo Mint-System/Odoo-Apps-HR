@@ -2,7 +2,7 @@
 set -e
 
 if [[ -a ".env" ]]; then
-    export $(cat .env | sed 's/^#.*//g' | xargs)
+    source .env
 fi
 
 function help() {
@@ -15,7 +15,7 @@ function help() {
     # Define column widths
     cmd_width=10
     opt_width=6
-    desc_width=32
+    desc_width=40
 
     # Print table header
     printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "Command" "Option" "Description"
@@ -23,23 +23,23 @@ function help() {
 
     # Print table rows
     printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "all" "" "Run all tasks."
-    printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "version" "" "Show version of required tools."
-    printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "init" "" "Init local env."
+    printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install" "" "Setup the local environment."
     printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "lint" "" "Run pre-commit and update index.html."
+    printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "source" "" "Source the Python virtual env."
+    printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "version" "" "Show version of required tools."
 
     echo
 }
 
 function version() {
-    python3 -V
-    pip -V
+    uv --version
 }
 
-function init() {
-    echo "Install python dependencies"
-    python3 -m venv env
+function install() {
+    echo "Setup venv and install python dependencies"
+    uv venv env
     source env/bin/activate
-    pip install pre-commit rst2html5
+    uv pip install pre-commit rst2html5
 }
 
 function lint() {
@@ -64,18 +64,20 @@ case "$1" in
         help
         ;;
     all)
-        version
-        init
+        install
         lint
         ;;
-    version)
-        version
-        ;;
-    init)
-        init
+    install)
+        install
         ;;
     lint)
         lint
+        ;;
+    source)
+        source env/bin/activate
+        ;;
+    version)
+        version
         ;;
     *)
         help

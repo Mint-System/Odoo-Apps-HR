@@ -1,7 +1,7 @@
 {
     "name": "HR Employee User ACL",
     "summary": """
-        Restricted access to employees app.
+        Restrict access to employees app.
     """,
     "author": "Mint System GmbH, Odoo Community Association (OCA)",
     "website": "https://www.mint-system.ch",

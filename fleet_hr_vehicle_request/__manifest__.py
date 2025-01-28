@@ -3,7 +3,7 @@
     "summary": """
         Bridge module for fleet and employee vehicle request.
     """,
-    "author": "Mint System GmbH, Odoo Community Association (OCA)",
+    "author": "Mint System GmbH",
     "website": "https://www.mint-system.ch",
     "category": "Human Resources",
     "version": "13.0.2.1.0",

@@ -3,7 +3,7 @@
     "summary": """
         Allow attendance check in from specified ip networks only.
     """,
-    "author": "Mint System GmbH, Odoo Community Association (OCA)",
+    "author": "Mint System GmbH",
     "website": "https://www.mint-system.ch",
     "category": "Technical",
     "version": "15.0.1.1.0",

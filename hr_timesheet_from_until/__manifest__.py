@@ -3,7 +3,7 @@
     "summary": """
         Calculate duration from start and end time fields.
     """,
-    "author": "Mint System GmbH, Odoo Community Association (OCA)",
+    "author": "Mint System GmbH",
     "website": "https://www.mint-system.ch",
     "category": "Human Resources",
     "version": "15.0.1.2.1",

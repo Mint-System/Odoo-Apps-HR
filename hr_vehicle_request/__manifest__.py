@@ -3,7 +3,7 @@
     "summary": """
         Employees can request and reserve cars.
     """,
-    "author": "Mint System GmbH, Odoo Community Association (OCA)",
+    "author": "Mint System GmbH",
     "website": "https://www.mint-system.ch",
     "category": "Human Resources",
     "version": "14.0.3.0.0",

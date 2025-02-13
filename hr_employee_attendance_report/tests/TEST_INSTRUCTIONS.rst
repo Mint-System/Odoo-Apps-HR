@@ -1,0 +1,1 @@
+- Open http://localhost:8069/report/html/hr_employee_attendance_report.res_users/3

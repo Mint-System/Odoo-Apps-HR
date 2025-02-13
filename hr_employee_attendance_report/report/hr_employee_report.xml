@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="hr_employee_report" model="ir.actions.report">
+        <field name="name">Attendance Report</field>
+        <field name="model">hr.employee</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hr_employee_attendance_report.hr_employee</field>
+        <field name="report_file">hr_employee_attendance_report.hr_employee</field>
+        <field name="print_report_name">'Attendance Report'</field>
+        <field name="binding_model_id" ref="hr.model_hr_employee" />
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="hr_employee_attendance_report.hr_employee">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="hr_employee_attendance_report.hr_employee_template" />
+            </t>
+        </t>
+    </template>
+
+    <template id="hr_employee_template">
+        <t t-call="web.internal_layout">
+            <div class="page">
+                <t
+                    t-set="fixed_work_hours"
+                    t-value="summary[doc.id]['fixed_work_hours']"
+                />
+
+                <h1>Attendance Report</h1>
+
+                <p>Employee: <span t-out="doc.name" /></p>
+                <p>From: <span
+                    t-out="dates[doc.id]['start_date']"
+                    t-options="{'widget': 'date'}"
+                /><br />
+                    Until: <span
+                    t-out="dates[doc.id]['end_date']"
+                    t-options="{'widget': 'date'}"
+                /></p>
+
+                <table
+                    class="table table-bordered table-sm"
+                    name="table_attendance"
+                >
+                    <thead>
+                        <tr>
+                            <th class="text-start" name="th_date">
+                                Date
+                            </th>
+                            <th class="text-end" name="th_planned_hours" t-if="fixed_work_hours">
+                                Planned Hours
+                            </th>
+                            <th class="text-end" name="th_leave_hours" t-if="fixed_work_hours">
+                                Leave Hours
+                            </th>
+                            <th class="text-end" name="th_worked_hours">
+                                Worked Hours
+                            </th>
+                            <th class="text-end" ame="th_overtime" t-if="fixed_work_hours">
+                                Overtime
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="attendances[doc.id]" t-as="attendance">
+                            <tr
+                                t-attf-style="background-color: #{attendance['background_color']};"
+                            >
+                                <td class="text-estartnd" id="date">
+                                    <t
+                                        t-out="attendance['date']"
+                                        t-options="{'widget': 'date'}"
+                                    />
+                                </td>
+                                <td class="text-end" id="planned_hours" t-if="fixed_work_hours">
+                                    <t t-out="attendance['planned_hours']" />
+                                </td>
+                                <td class="text-end" id="leave_hours" t-if="fixed_work_hours">
+                                    <t t-out="attendance['leave_hours']" />
+                                </td>
+                                <td class="text-end" id="worked_hours">
+                                    <t t-out="attendance['worked_hours']" />
+                                </td>
+                                <td class="text-end" id="overtime" t-if="fixed_work_hours">
+                                    <t t-out="attendance['overtime']" />
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+
+                <div id="summary" class="clearfix" name="summary">
+                    <div
+                        t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto"
+                    >
+                        <table
+                            class="table table-bordered table-sm"
+                            name="table_summary"
+                        >
+                            <tbody>
+                                <tr t-if="fixed_work_hours">
+                                    <th class="text-end" name="th_planned_hours">
+                                        Planned Hours
+                                    </th>
+                                    <td class="text-end" id="planned_hours">
+                                        <t t-out="summary[doc.id]['planned_hours']" />
+                                    </td>
+                                </tr>
+                                <tr t-if="fixed_work_hours">
+                                    <th class="text-end" name="th_leave_hours">
+                                        Leave Hours
+                                    </th>
+                                    <td class="text-end" id="leave_hours">
+                                        <t t-out="summary[doc.id]['leave_hours']" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="text-end" name="th_worked_hours">
+                                        Worked Hours
+                                    </th>
+                                    <td class="text-end" id="worked_hours">
+                                        <t t-out="summary[doc.id]['worked_hours']" />
+                                    </td>
+                                </tr>
+                                <tr t-if="fixed_work_hours">
+                                    <th class="text-end" name="th_overtime">
+                                        Overtime
+                                    </th>
+                                    <td class="text-end" id="overtime">
+                                        <t t-out="summary[doc.id]['overtime']" />
+                                    </td>
+                                </tr>
+                                <tr t-if="fixed_work_hours">
+                                    <th class="text-end" name="th_overtime_total">
+                                        Overtime Total
+                                    </th>
+                                    <td class="text-end" id="overtime_total">
+                                        <t t-out="summary[doc.id]['overtime_total']" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <t t-if="fixed_work_hours">
+                    <h2>Leave Allocations</h2>
+
+                    <table
+                        class="table table-sm table-allocations"
+                        name="table_allocations"
+                    >
+                        <thead>
+                            <tr>
+                                <th name="th_description" class="text-start">
+                                    Description
+                                </th>
+                                <th name="th_leave_type" class="text-start">
+                                    Time Off Type
+                                </th>
+                                <th name="th_allocation" class="text-end">
+                                    Allocation
+                                </th>
+                                <th name="th_leaves_taken" class="text-end">
+                                    Leaves Taken
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="leaves_table">
+                            <t t-foreach="leave_allocations[doc.id]" t-as="allocation">
+                                <tr>
+                                    <td id="description" class="text-start">
+                                        <t t-out="allocation.name" />
+                                    </td>
+                                    <td id="leave_type" class="text-start">
+                                        <t t-out="allocation.holiday_status_id.name" />
+                                    </td>
+                                    <td id="allocation" class="text-end">
+                                        <t t-out="allocation.duration_display" />
+                                    </td>
+                                    <td id="leaves_taken" class="text-end">
+                                        <t t-out="round(allocation.leaves_taken, 2)" />
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </t>
+
+            </div>
+        </t>
+    </template>
+</odoo>

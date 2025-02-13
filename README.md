@@ -1,17 +1,17 @@
-# Odoo Apps: HR
+# Odoo Apps: $REPO_TITLE
 
-Odoo modules extending the `hr` module.
+Odoo modules extending the `$REPO_NAME` module.
 
 ## Usage
 
 Clone this repo into the Odoo addons directory.
 
 ```bash
-git clone git@github.com:mint-system/odoo-apps-hr.git ./addons/hr
+git clone git@github.com:mint-system/odoo-apps-${REPO_NAME}.git ./addons/${REPO_NAME}
 ```
 
 ## Available modules
 
 | Module | Summary |
-| --- | --- |
-| [hr_employee_skill](hr_employee_skill) |         Views to manage HR employee skills. |
+| ------ | ------- |
+|        |         |

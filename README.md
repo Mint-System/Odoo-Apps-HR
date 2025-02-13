@@ -1,13 +1,13 @@
-# Odoo Apps: $REPO_TITLE
+# Odoo Apps: HR
 
-Odoo modules extending the `$REPO_NAME` module.
+Odoo modules extending the `hr` module.
 
 ## Usage
 
 Clone this repo into the Odoo addons directory.
 
 ```bash
-git clone git@github.com:mint-system/odoo-apps-${REPO_NAME}.git ./addons/${REPO_NAME}
+git clone git@github.com:mint-system/odoo-apps-hr.git ./addons/hr
 ```
 
 ## Available modules

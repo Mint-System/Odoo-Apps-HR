@@ -22,10 +22,7 @@
                 </group>
                 <notebook>
                     <page string="Rules">
-                        <field
-                            name="rule_ids"
-                            context="{'default_policy_id': id}"
-                        >
+                        <field name="rule_ids" context="{'default_policy_id': id}">
                             <list editable="top">
                                 <field name="min_worked_hours" widget="float_time" />
                                 <field name="max_worked_hours" widget="float_time" />
@@ -56,5 +53,6 @@
         name="Extra Hours"
         action="hr_attendance.hr_attendance_overtime_action"
         parent="hr.hr_menu_hr_reports"
-        sequence="20"/>
+        sequence="20"
+    />
 </odoo>

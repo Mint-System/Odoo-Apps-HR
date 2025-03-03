@@ -1,15 +1,17 @@
 {
-    "name": "HR Employee Skill",
+    "name": "HR Attendance User ACL",
     "summary": """
-        Views to manage HR employee skills.
+          Restrict user access rights to hr attendance entries.
     """,
     "author": "Mint System GmbH",
     "website": "https://www.mint-system.ch/",
     "category": "Human Resources",
     "version": "18.0.1.0.0",
     "license": "AGPL-3",
-    "depends": ["hr_skills"],
-    "data": ["views/views.xml"],
+    "depends": ["hr_attendance"],
+    "data": [
+        "security/hr_attendance_security.xml",
+    ],
     "installable": True,
     "application": False,
     "auto_install": False,

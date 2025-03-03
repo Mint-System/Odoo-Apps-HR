@@ -39,25 +39,34 @@
                     t-options="{'widget': 'date'}"
                 /></p>
 
-                <table
-                    class="table table-bordered table-sm"
-                    name="table_attendance"
-                >
+                <table class="table table-bordered table-sm" name="table_attendance">
                     <thead>
                         <tr>
                             <th class="text-start" name="th_date">
                                 Date
                             </th>
-                            <th class="text-end" name="th_planned_hours" t-if="fixed_work_hours">
+                            <th
+                                class="text-end"
+                                name="th_planned_hours"
+                                t-if="fixed_work_hours"
+                            >
                                 Planned Hours
                             </th>
-                            <th class="text-end" name="th_leave_hours" t-if="fixed_work_hours">
+                            <th
+                                class="text-end"
+                                name="th_leave_hours"
+                                t-if="fixed_work_hours"
+                            >
                                 Leave Hours
                             </th>
                             <th class="text-end" name="th_worked_hours">
                                 Worked Hours
                             </th>
-                            <th class="text-end" ame="th_overtime" t-if="fixed_work_hours">
+                            <th
+                                class="text-end"
+                                ame="th_overtime"
+                                t-if="fixed_work_hours"
+                            >
                                 Overtime
                             </th>
                         </tr>
@@ -73,16 +82,28 @@
                                         t-options="{'widget': 'date'}"
                                     />
                                 </td>
-                                <td class="text-end" id="planned_hours" t-if="fixed_work_hours">
+                                <td
+                                    class="text-end"
+                                    id="planned_hours"
+                                    t-if="fixed_work_hours"
+                                >
                                     <t t-out="attendance['planned_hours']" />
                                 </td>
-                                <td class="text-end" id="leave_hours" t-if="fixed_work_hours">
+                                <td
+                                    class="text-end"
+                                    id="leave_hours"
+                                    t-if="fixed_work_hours"
+                                >
                                     <t t-out="attendance['leave_hours']" />
                                 </td>
                                 <td class="text-end" id="worked_hours">
                                     <t t-out="attendance['worked_hours']" />
                                 </td>
-                                <td class="text-end" id="overtime" t-if="fixed_work_hours">
+                                <td
+                                    class="text-end"
+                                    id="overtime"
+                                    t-if="fixed_work_hours"
+                                >
                                     <t t-out="attendance['overtime']" />
                                 </td>
                             </tr>
@@ -187,7 +208,6 @@
                         </tbody>
                     </table>
                 </t>
-
             </div>
         </t>
     </template>

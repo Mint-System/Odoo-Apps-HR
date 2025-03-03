@@ -1,0 +1,172 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* hr_attendance_policy
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-04-08 08:54+0000\n"
+"PO-Revision-Date: 2024-04-08 08:54+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_policy__active
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_rule__active
+msgid "Active"
+msgstr ""
+
+#. module: hr_attendance_policy
+#: model:ir.model,name:hr_attendance_policy.model_hr_attendance_overtime
+msgid "Attendance Overtime"
+msgstr "Anwesenheit Überstunden"
+
+#. module: hr_attendance_policy
+#: model:ir.actions.act_window,name:hr_attendance_policy.hr_attendance_policy_action
+#: model:ir.ui.menu,name:hr_attendance_policy.menu_hr_attendance_policy
+msgid "Attendance Policies"
+msgstr "Anwesenheitsrichtlinien"
+
+#. module: hr_attendance_policy
+#: model:ir.model,name:hr_attendance_policy.model_hr_attendance_policy
+msgid "Attendance Policy"
+msgstr "Anwesenheitsrichtlinie"
+
+#. module: hr_attendance_policy
+#: model:ir.model,name:hr_attendance_policy.model_hr_attendance_rule
+msgid "Attendance Rule"
+msgstr "Anwesenheitsregel"
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_policy__create_uid
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_rule__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_policy__create_date
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_rule__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_policy__description
+msgid "Description"
+msgstr "Beschreibung"
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_policy__display_name
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_rule__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_policy__id
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_rule__id
+msgid "ID"
+msgstr ""
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,help:hr_attendance_policy.field_hr_attendance_policy__active
+#: model:ir.model.fields,help:hr_attendance_policy.field_hr_attendance_rule__active
+msgid "Indicates if the policy is active."
+msgstr ""
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_policy____last_update
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_rule____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_policy__write_uid
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_rule__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_policy__write_date
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_rule__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,help:hr_attendance_policy.field_hr_attendance_rule__max_worked_hours
+msgid "Match maximum amount of worked hours."
+msgstr ""
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,help:hr_attendance_policy.field_hr_attendance_rule__min_worked_hours
+msgid "Match minimum amount of worked hours."
+msgstr ""
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_rule__max_worked_hours
+msgid "Maximum Worked Hours"
+msgstr "Maximal Gearbeitete Stunden"
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_rule__min_delta
+msgid "Minimum Delta"
+msgstr "Minimum-Abstand"
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_rule__min_worked_hours
+msgid "Minimum Worked Hours"
+msgstr "Minimum Gearbeitete Stunden"
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_policy__name
+msgid "Name"
+msgstr ""
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_rule__policy_id
+msgid "Policy"
+msgstr "Richtlinie"
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_policy__rule_ids
+#: model_terms:ir.ui.view,arch_db:hr_attendance_policy.view_hr_attendance_policy_form
+msgid "Rules"
+msgstr "Regeln"
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,help:hr_attendance_policy.field_hr_attendance_rule__policy_id
+msgid "The attendance policy this rule belongs to."
+msgstr ""
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,help:hr_attendance_policy.field_hr_attendance_rule__min_delta
+msgid "The minimum acceptable difference in work hours."
+msgstr ""
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,help:hr_attendance_policy.field_hr_attendance_policy__name
+msgid "The name of the attendance policy."
+msgstr ""
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,help:hr_attendance_policy.field_hr_attendance_overtime__conflicting_policy_ids
+msgid "The overtime records conflicts with these policies."
+msgstr ""
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,help:hr_attendance_policy.field_hr_attendance_policy__rule_ids
+msgid "The set of rules that define this policy."
+msgstr ""
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_overtime__worked_hours
+msgid "Worked Hours"
+msgstr "Gearbeitete Stunden"
+
+#. module: hr_attendance_policy
+#: model:ir.model.fields,field_description:hr_attendance_policy.field_hr_attendance_overtime__conflicting_policy_ids
+msgid "Conflicting Policies"
+msgstr "Richtlinien in Konflikt"

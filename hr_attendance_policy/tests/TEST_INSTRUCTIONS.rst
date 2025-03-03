@@ -1,0 +1,6 @@
+- In the settings enable the show extra hours option.
+- Click the attendance checkin button on the top right.
+- Checkout and edit the attendance entry.
+- Set the checkin and checkout time so you end up with 6 hours of work.
+- Go to *Employees > Report > Extra Hours*.
+- Check if the latest overtime record has a conflicting policy.

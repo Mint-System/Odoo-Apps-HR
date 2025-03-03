@@ -1,9 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="group_hr_attendance_user" model="res.groups">
         <field name="name">User</field>
-        <field name="category_id" ref="base.module_category_human_resources_attendances"/>
-        <field name="implied_ids" eval="[(4, ref('hr_attendance.group_hr_attendance_own_reader'))]"/>
+        <field
+            name="category_id"
+            ref="base.module_category_human_resources_attendances"
+        />
+        <field
+            name="implied_ids"
+            eval="[(4, ref('hr_attendance.group_hr_attendance_own_reader'))]"
+        />
         <field name="comment">Attendance tracking is enabled for the user.</field>
+    </record>
+
+    <record id="hr_attendance.group_hr_attendance_officer" model="res.groups">
+        <field
+            name="implied_ids"
+            eval="[(4, ref('hr_attendance_user_acl.group_hr_attendance_user'))]"
+        />
     </record>
 </odoo>

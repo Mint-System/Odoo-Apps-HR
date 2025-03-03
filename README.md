@@ -16,5 +16,6 @@ git clone git@github.com:mint-system/odoo-apps-hr.git ./addons/hr
 | --- | --- |
 | [hr_attendance_delta](hr_attendance_delta) |         Calculates timespan between attendance entries. |
 | [hr_attendance_policy](hr_attendance_policy) |         Manage and check work time policies on attendance entries. |
+| [hr_attendance_user_acl](hr_attendance_user_acl) |           Restrict user access rights to hr attendance entries. |
 | [hr_employee_attendance_report](hr_employee_attendance_report) |         Attendance and leave report. |
 | [hr_employee_skill](hr_employee_skill) |         Views to manage HR employee skills. |

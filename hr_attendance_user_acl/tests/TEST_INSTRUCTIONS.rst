@@ -1,0 +1,8 @@
+- Remove access rights to attendances for demo 
+- Remove any attendance records
+- In the settings enable "Absence Management"
+- Run the cron job "Attendance: Detect Absences for employees"
+- Check if attendance record has been created for admin
+- Grant attendance user to demo
+- Run the cron job again
+- Check if attendance record has been created for demo

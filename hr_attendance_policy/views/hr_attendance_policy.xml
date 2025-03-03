@@ -47,12 +47,4 @@
         parent="hr.menu_config_employee"
         action="hr_attendance_policy_action"
     />
-
-    <menuitem
-        id="hr_employee_attendance_overtime_menu"
-        name="Extra Hours"
-        action="hr_attendance.hr_attendance_overtime_action"
-        parent="hr.hr_menu_hr_reports"
-        sequence="20"
-    />
 </odoo>

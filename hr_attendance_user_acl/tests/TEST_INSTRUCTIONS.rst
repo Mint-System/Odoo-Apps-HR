@@ -1,4 +1,4 @@
-- Remove access rights to attendances for demo 
+- Remove access rights to attendances for demo
 - Remove any attendance records
 - In the settings enable "Absence Management"
 - Run the cron job "Attendance: Detect Absences for employees"

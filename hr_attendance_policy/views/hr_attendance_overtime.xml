@@ -11,4 +11,19 @@
             </xpath>
         </field>
     </record>
+
+    <record
+        id="hr_attendance.hr_attendance_overtime_action"
+        model="ir.actions.act_window"
+    >
+        <field name="view_mode">list,graph,pivot</field>
+    </record>
+
+    <menuitem
+        id="hr_employee_attendance_overtime_menu"
+        name="Extra Hours"
+        action="hr_attendance.hr_attendance_overtime_action"
+        parent="hr.hr_menu_hr_reports"
+        sequence="20"
+    />
 </odoo>

@@ -65,10 +65,12 @@ class HrEmployee(models.Model):
             )
             attendance_dates = [dt.date() for dt in attendance_dates]
 
-            # Get leaves
+            # Get daily leaves
             leaves = self.env["hr.leave"].search(
                 [
+                    "&",
                     ("employee_id", "=", employee.id),
+                    ("leave_type_request_unit", "=", "day"),
                     "|",
                     ("date_from", ">=", date_from),
                     ("date_to", ">=", date_from),
@@ -106,14 +108,14 @@ class HrEmployee(models.Model):
                 # Execute checks
                 is_attendance = check_date.date() in attendance_dates
                 is_leave = leaves.filtered(
-                    lambda l: l.date_from <= check_date <= l.date_to
-                    or min_check_date <= l.date_from <= max_check_date
-                    or min_check_date <= l.date_to <= max_check_date
+                    lambda r: r.date_from <= check_date <= r.date_to
+                    or min_check_date <= r.date_from <= max_check_date
+                    or min_check_date <= r.date_to <= max_check_date
                 )
                 is_calendar_leave = calendar_leaves.filtered(
-                    lambda l: l.date_from <= check_date <= l.date_to
-                    or min_check_date <= l.date_from <= max_check_date
-                    or min_check_date <= l.date_to <= max_check_date
+                    lambda r: r.date_from <= check_date <= r.date_to
+                    or min_check_date <= r.date_from <= max_check_date
+                    or min_check_date <= r.date_to <= max_check_date
                 )
 
                 if logging:

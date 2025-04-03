@@ -103,6 +103,11 @@ def get_attendances(self, employees, start_date, end_date):
                 else:
                     leave_hours = number_of_hours
 
+            # Get leave type code
+            # leave_type = " ".join([al.holiday_status_id.code for al in active_leaves if al.holiday_status_id])
+            leave_type = ""
+           
+
             # Get attendance hours for this date
             worked_hours = sum(
                 attendance_ids.filtered(
@@ -147,6 +152,7 @@ def get_attendances(self, employees, start_date, end_date):
                     "date": date,
                     "planned_hours": round(work_hours, 2),
                     "leave_hours": round(leave_hours, 2),
+                    "leave_type": leave_type,
                     "worked_hours": round(worked_hours, 2),
                     "diff_hours": round(worked_hours - (work_hours - leave_hours), 2),
                     "time_stamps": time_stamps_string,

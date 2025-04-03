@@ -62,6 +62,9 @@
                             <th name="th_leave_hours" t-if="fixed_work_hours">
                                 Leaves
                             </th>
+                             <th name="th_leave_type" t-if="fixed_work_hours">
+                                Leave Type
+                            </th>
                             <th name="th_diff_hours" t-if="fixed_work_hours">
                                 +/-
                             </th>
@@ -93,6 +96,9 @@
                                 </td>
                                 <td id="leave_hours" t-if="fixed_work_hours">
                                     <t t-out="attendance['leave_hours']" />
+                                </td>
+                                <td id="leave_type" t-if="fixed_work_hours">
+                                    <t t-out="attendance['leave_type']" />
                                 </td>
                                 <td id="diff_hours" t-if="fixed_work_hours">
                                     <t t-out="attendance['diff_hours']" />

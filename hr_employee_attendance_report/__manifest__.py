@@ -8,7 +8,7 @@
     "category": "Human Resources",
     "version": "16.0.1.0.0",
     "license": "AGPL-3",
-    "depends": ["hr_attendance", "hr_holidays", "hr_holidays_remaining_leaves"],
+    "depends": ["hr_attendance", "hr_holidays", "hr_holidays_remaining_leaves", "hr_leave_type_code"],
     "data": [
         "report/hr_employee_report.xml",
         "report/hr_employee_enhanced_report.xml",

@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-    <record id="hr_employee_report" model="ir.actions.report">
-        <field name="name">Attendance Report</field>
+    <record id="hr_employee_enhanced_report" model="ir.actions.report">
+        <field name="name">Attendance Report Enhanced</field>
         <field name="model">hr.employee</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">hr_employee_attendance_report.hr_employee</field>
-        <field name="report_file">hr_employee_attendance_report.hr_employee</field>
-        <field name="print_report_name">'Attendance Report'</field>
+        <field name="report_name">hr_employee_attendance_report.hr_employee_enhanced</field>
+        <field name="report_file">hr_employee_attendance_report.hr_employee_enhanced</field>
+        <field name="print_report_name">'Attendance Report Plus'</field>
         <field name="binding_model_id" ref="hr.model_hr_employee" />
         <field name="binding_type">report</field>
     </record>
 
-   <template id="hr_employee_attendance_report.hr_employee">
+    <template id="hr_employee_attendance_report.hr_employee_enhanced">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
-                <t t-call="hr_employee_attendance_report.hr_employee_template" />
+                <t t-call="hr_employee_attendance_report.hr_employee_enhanced_template" />
             </t>
         </t>
-    </template> 
-    
-  
-     
-    <template id="hr_employee_template">
+    </template>
+   
+
+    <template id="hr_employee_enhanced_template">
         <t t-call="web.internal_layout">
             <div class="page">
                 <t
@@ -30,7 +29,7 @@
                     t-value="summary[doc.id]['fixed_work_hours']"
                 />
 
-                <h1>Attendance Report</h1>
+                <h1>Attendance Report Enhanced</h1>
 
                 <p>Employee: <span t-out="doc.name" /></p>
                 <p>From: <span
@@ -58,10 +57,16 @@
                                 Date
                             </th>
                             <th name="th_planned_hours" t-if="fixed_work_hours">
-                                Planned Hours
+                                Planned
                             </th>
                             <th name="th_leave_hours" t-if="fixed_work_hours">
-                                Leave Hours
+                                Leaves
+                            </th>
+                            <th name="th_diff_hours" t-if="fixed_work_hours">
+                                +/-
+                            </th>
+                            <th name="th_time_stamps" t-if="fixed_work_hours">
+                                Time Stamps
                             </th>
                             <th name="th_worked_hours">
                                 Worked Hours
@@ -88,6 +93,12 @@
                                 </td>
                                 <td id="leave_hours" t-if="fixed_work_hours">
                                     <t t-out="attendance['leave_hours']" />
+                                </td>
+                                <td id="diff_hours" t-if="fixed_work_hours">
+                                    <t t-out="attendance['diff_hours']" />
+                                </td>
+                                <td id="time_stamps" t-if="fixed_work_hours">
+                                    <t t-out="attendance['time_stamps']" />
                                 </td>
                                 <td id="worked_hours">
                                     <t t-out="attendance['worked_hours']" />

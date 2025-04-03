@@ -11,7 +11,9 @@
     "depends": ["hr_attendance", "hr_holidays", "hr_holidays_remaining_leaves"],
     "data": [
         "report/hr_employee_report.xml",
+        "report/hr_employee_enhanced_report.xml",
         "report/res_users_report.xml",
+        "report/res_users_enhanced_report.xml",
         "security/ir.model.access.csv",
         "wizard/select_period.xml",
     ],

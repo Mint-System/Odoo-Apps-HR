@@ -104,9 +104,8 @@ def get_attendances(self, employees, start_date, end_date):
                     leave_hours = number_of_hours
 
             # Get leave type code
-            # leave_type = " ".join([al.holiday_status_id.code for al in active_leaves if al.holiday_status_id])
-            leave_type = ""
-           
+            leave_type = " ".join([al.holiday_id.holiday_status_id.code for al in active_leaves if al.holiday_id.holiday_status_id])
+            
 
             # Get attendance hours for this date
             worked_hours = sum(
@@ -117,23 +116,18 @@ def get_attendances(self, employees, start_date, end_date):
 
             # Get time stamps for this date
             time_stamps = []
-            print("date", date.date())
             for attendance in attendance_ids:
                 print("check_in", attendance.check_in.date())
-            print("attendance_ids", attendance_ids.filtered(lambda a: a.check_in.date() == date.date()))
             for attendance in attendance_ids.filtered(
                 lambda a: a.check_in.date() == date.date()
             ):
                 time_stamps.append(
                     {
-                        # "check_in": fields.Datetime.to_string(attendance.check_in),
-                        # "check_out": fields.Datetime.to_string(attendance.check_out),
                         "check_in": attendance.check_in,
                         "check_out": attendance.check_out,
                     }
                 )
 
-            #sorted_time_stamps = sorted(time_stamps, key=lambda x: datetime.strptime(x['check_in'], "%Y-%m-%d %H:%M:%S"))
             sorted_time_stamps = sorted(time_stamps, key=lambda x: x['check_in'])
             time_stamps_string = " ".join([f"{ts['check_in'].strftime("%H:%M")} {ts['check_out'].strftime("%H:%M")}" for ts in sorted_time_stamps])
 

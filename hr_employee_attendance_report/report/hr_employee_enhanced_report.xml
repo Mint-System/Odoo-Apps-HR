@@ -182,23 +182,21 @@
                 </div>
 
                 <div id="summary_enhanced" class="clearfix" name="summary_enhanced">
-                    <div
-                        t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto"
-                    >
+                    <div>
                         <style>
-                            table.summary_table th {
+                            table.summary_table_enhanced th {
                                 text-align: left;
                             }
-                            table.summary_table td {
-                                text-align: right;
+                            table.summary_table_enhanced td {
+                                text-align: left;
                             }
                         </style>
                         <table
-                            class="table table-sm summary_table"
-                            name="summary_table"
+                            class="table table-sm summary_table_enhanced"
+                            name="summary_table_enhanced"
                         >
 
-                            <tbody class="summary_table">
+                            <tbody class="summary_table_enhanced">
                                 <tr t-if="fixed_work_hours">
                                     <th name="th_balance">
                                         Balance

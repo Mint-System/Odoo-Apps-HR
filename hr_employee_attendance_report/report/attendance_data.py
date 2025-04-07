@@ -127,7 +127,6 @@ def get_attendances(self, employees, start_date, end_date):
                         leave_hours_per_leave = number_of_hours
             
                     leaves_dict[leave_code] += leave_hours_per_leave
-            
 
             # Get attendance hours for this date
             worked_hours = sum(
@@ -151,7 +150,7 @@ def get_attendances(self, employees, start_date, end_date):
                 )
 
             sorted_time_stamps = sorted(time_stamps, key=lambda x: x['check_in'])
-            time_stamps_string = " ".join([f"{ts['check_in'].strftime("%H:%M")} {ts['check_out'].strftime("%H:%M")}" for ts in sorted_time_stamps])
+            time_stamps_string = " ".join([f"{ts['check_in'].strftime('%H:%M')} {ts['check_out'].strftime('%H:%M')}" for ts in sorted_time_stamps])
 
 
             # Get overtime hours for this date

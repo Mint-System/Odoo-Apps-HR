@@ -181,6 +181,70 @@
                     </div>
                 </div>
 
+                <div id="summary_enhanced" class="clearfix" name="summary_enhanced">
+                    <div
+                        t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto"
+                    >
+                        <style>
+                            table.summary_table th {
+                                text-align: left;
+                            }
+                            table.summary_table td {
+                                text-align: right;
+                            }
+                        </style>
+                        <table
+                            class="table table-sm summary_table"
+                            name="summary_table"
+                        >
+
+                            <tbody class="summary_table">
+                                <tr t-if="fixed_work_hours">
+                                    <th name="th_balance">
+                                        Balance
+                                    </th>
+                                    <th name="th_period">
+                                        Period
+                                    </th>
+                                    <th name="th_overtime">
+                                        Overtime
+                                    </th>
+                                    <t t-foreach="summary[doc.id]['leaves']" t-as="item">
+                                        <th name="th_leave_key">
+                                            <t t-out="item"/>
+                                        </th>
+                                    </t>
+                                </tr>
+                                <tr t-if="fixed_work_hours">
+                                    <td id="active_leaves">
+                                        Active Leaves
+                                    </td>
+                                    <td id="current_period">
+                                        <span
+                                            t-out="dates[doc.id]['start_date']"
+                                            t-options="{'widget': 'date'}"
+                                        />
+                                        <span
+                                            t-out="dates[doc.id]['end_date']"
+                                            t-options="{'widget': 'date'}"
+                                        />
+                                    </td>
+                                    <td id="overtime">
+                                        <t t-out="summary[doc.id]['overtime']" />
+                                    </td>
+                                    <t t-foreach="summary[doc.id]['leaves'].values()" t-as="leave_value">
+                                        <td id="leave">
+                                        <t t-out="leave_value" />
+                                        </td>
+                                    </t> 
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
                 <t t-if="fixed_work_hours">
                     <h2>Leave Allocations</h2>
 

@@ -77,6 +77,7 @@ def get_attendances(self, employees, start_date, end_date):
         attendances[employee.id] = []
         planned_hours = 0
         overtime = 0
+        leaves_dict = {key: 0.0 for key in self.env["hr.leave.type"].search([("code", "!=", "")]).mapped("code")}
         for date in _daterange(start_date, end_date):
 
             # Get work hours
@@ -94,6 +95,14 @@ def get_attendances(self, employees, start_date, end_date):
                 or min_check_date <= l.date_to <= max_check_date
             )
 
+            active_leaves_dict = {}
+            for leave_code in leaves_dict.keys():
+                active_leaves_dict[leave_code] = active_leaves.filtered(
+                    lambda l: l.holiday_id.holiday_status_id.code == leave_code
+                )
+            
+            
+
             # Set leave hours
             leave_hours = 0.0
             if active_leaves.holiday_id:
@@ -103,8 +112,21 @@ def get_attendances(self, employees, start_date, end_date):
                 else:
                     leave_hours = number_of_hours
 
+            
+
+
             # Get leave type code
             leave_type = " ".join([al.holiday_id.holiday_status_id.code for al in active_leaves if al.holiday_id.holiday_status_id])
+
+            if active_leaves.holiday_id:
+                for leave_code in leaves_dict.keys():
+                    number_of_hours_per_leave = active_leaves.filtered(lambda l: l.holiday_id.holiday_status_id.code == leave_code).holiday_id.number_of_hours_display
+                    if number_of_hours_per_leave > company_hours_per_day:
+                        leave_hours_per_leave = work_hours
+                    else:
+                        leave_hours_per_leave = number_of_hours
+            
+                    leaves_dict[leave_code] += leave_hours_per_leave
             
 
             # Get attendance hours for this date
@@ -160,6 +182,10 @@ def get_attendances(self, employees, start_date, end_date):
         # Update summary
         summary[employee.id]["planned_hours"] = round(planned_hours, 2)
         summary[employee.id]["overtime"] = round(overtime, 2)
+        summary[employee.id]["overtime"] = round(overtime, 2)
+        
+        summary[employee.id]["leaves"] = leaves_dict
+        print("################# leaves_dict", summary[employee.id]["leaves"])
 
     return dates, attendances, summary
 

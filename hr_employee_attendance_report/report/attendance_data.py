@@ -2,6 +2,7 @@ import logging
 from datetime import datetime, time, timedelta
 
 from dateutil.relativedelta import relativedelta
+from collections import defaultdict
 
 from odoo import fields
 from odoo.osv import expression
@@ -120,11 +121,13 @@ def get_attendances(self, employees, start_date, end_date):
 
             if active_leaves.holiday_id:
                 for leave_code in leaves_dict.keys():
+                    leave_hours_per_leave = 0.0
                     number_of_hours_per_leave = active_leaves.filtered(lambda l: l.holiday_id.holiday_status_id.code == leave_code).holiday_id.number_of_hours_display
+                    print("leave_code, nr_of_hours:", leave_code, number_of_hours_per_leave)
                     if number_of_hours_per_leave > company_hours_per_day:
                         leave_hours_per_leave = work_hours
                     else:
-                        leave_hours_per_leave = number_of_hours
+                        leave_hours_per_leave = number_of_hours_per_leave
             
                     leaves_dict[leave_code] += leave_hours_per_leave
 
@@ -192,8 +195,12 @@ def get_attendances(self, employees, start_date, end_date):
 def get_leave_allocations(self, employees):
     """Get data on leave and allocations."""
 
+    leave_codes = self.env["hr.leave.type"].search([("code", "!=", "")]).mapped("code")
+
+
     # Data mappings
     leave_allocations = {}
+    leave_allocations_per_type = defaultdict(dict)
 
     # Init statics
     now = fields.Datetime.now()
@@ -213,7 +220,26 @@ def get_leave_allocations(self, employees):
 
         leave_allocations[employee.id] = allocation_ids
 
-    return leave_allocations
+        # differentiate leave types
+        for leave_code in leave_codes:
+            leaves_per_type = {}
+            allocation_ids_per_type = self.env["hr.leave.allocation"].search(
+                [
+                    ("holiday_status_id.code", "=", leave_code),
+                    ("employee_id", "=", employee.id),
+                    "|",
+                    ("date_to", ">=", now),
+                    ("date_from", "<=", now),
+                ]
+            )
+            leaves_per_type['number_of_days'] = sum(allocation_ids_per_type.mapped('number_of_days')) if allocation_ids_per_type else 0
+            leaves_per_type['leaves_taken'] = sum(allocation_ids_per_type.mapped('leaves_taken')) if allocation_ids_per_type else 0
+            leaves_per_type['remaining_leaves_days'] = sum(allocation_ids_per_type.mapped('remaining_leaves_days')) if allocation_ids_per_type else 0
+            leave_allocations_per_type[employee.id][leave_code] = leaves_per_type
+            
+    print("leave_allocations_per_type", leave_allocations_per_type)
+    print("leave_allocations", leave_allocations)
+    return leave_allocations, leave_allocations_per_type
 
 
 def _get_report_values(self, docids, data=None, report_name=None):
@@ -241,7 +267,7 @@ def _get_report_values(self, docids, data=None, report_name=None):
         employees = self.env["hr.employee"].browse(docids)
 
     dates, attendances, summary = get_attendances(self, employees, start_date, end_date)
-    leave_allocations = get_leave_allocations(self, employees)
+    leave_allocations, leave_allocations_per_type = get_leave_allocations(self, employees)
 
     return {
         "doc_ids": docids,
@@ -251,4 +277,5 @@ def _get_report_values(self, docids, data=None, report_name=None):
         "attendances": attendances,
         "summary": summary,
         "leave_allocations": leave_allocations,
+        "leave_allocations_per_type": leave_allocations_per_type
     }

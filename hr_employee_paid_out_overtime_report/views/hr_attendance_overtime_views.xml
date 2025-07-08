@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_attendance_overtime_paid_out_tree_editable" model="ir.ui.view">
+    <field name="name">hr.attendance.overtime.paid.out.tree.editable</field>
+    <field name="model">hr.attendance.overtime</field>
+    <field name="arch" type="xml">
+        <tree string="Paid Out Overtimes" editable="bottom">
+            <field name="employee_id"/>
+            <field name="date"/>
+            <field name="duration"/>
+            <field name="paid_out" readonly="1"/>
+        </tree>
+    </field>
+    </record>
+
+    <record id="action_hr_attendance_overtime_paid_out_inline" model="ir.actions.act_window">
+    <field name="name">Paid Out Overtimes</field>
+    <field name="res_model">hr.attendance.overtime</field>
+    <field name="view_mode">tree</field>
+    <field name="view_id" ref="view_hr_attendance_overtime_paid_out_tree_editable"/>
+    <field name="domain">[('paid_out', '=', True)]</field>
+    <field name="context">{'default_paid_out': True}</field>
+    </record>
+
+    <menuitem id="menu_hr_attendance_overtime_paid_out"
+              name="Paid Out Overtimes"
+              parent="hr_attendance.menu_hr_attendance_root"
+              action="action_hr_attendance_overtime_paid_out_inline"
+              sequence="30"/>
+</odoo>
+

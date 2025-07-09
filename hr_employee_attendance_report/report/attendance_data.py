@@ -105,6 +105,21 @@ def get_attendances(self, employees, start_date, end_date):
             else:
                 active_leaves_leave_type = ''
 
+            # Get time stamps for this date
+            time_stamps = []
+            for attendance in attendance_ids.filtered(
+                lambda a: a.check_in.date() == date.date()
+            ):
+                time_stamps.append(
+                    {
+                        "check_in": attendance.check_in,
+                        "check_out": attendance.check_out,
+                    }
+                )
+
+            sorted_time_stamps = sorted(time_stamps, key=lambda x: x['check_in'])
+            time_stamps_string = " ".join([f"{ts['check_in'].strftime('%H:%M')}-{ts['check_out'].strftime('%H:%M')}" for ts in sorted_time_stamps])
+
             # Set leave hours                
             leave_hours = 0.0
             if active_leaves.holiday_id:
@@ -132,7 +147,8 @@ def get_attendances(self, employees, start_date, end_date):
                 'planned_hours': round(work_hours, 2),
                 'leave_hours': round(leave_hours, 2),
                 'leave_type': active_leaves_leave_type,
-                'worked_hours': round(worked_hours, 2),                    
+                'worked_hours': round(worked_hours, 2),
+                "time_stamps": time_stamps_string,                   
                 'overtime': round(overtime_hours, 2),
                 'overtime_paid_out': round(overtime_paid_out_hours, 2),
                 'background_color': 'lightgrey' if work_hours == 0 and fixed_work_hours else 'none'

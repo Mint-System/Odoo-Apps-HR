@@ -58,6 +58,9 @@
                             <th name="th_worked_hours">
                                 Worked Hours
                             </th>
+                            <th name="th_time_stamps" t-if="fixed_work_hours">
+                                Time Stamps
+                            </th>
                             <th name="th_overtime" t-if="fixed_work_hours">
                                 Overtime
                             </th>
@@ -84,6 +87,9 @@
                                 </td>
                                 <td id="worked_hours">
                                     <t t-out="attendance['worked_hours']" />
+                                </td>
+                                <td id="time_stamps" t-if="fixed_work_hours">
+                                    <t t-out="attendance['time_stamps']" />
                                 </td>
                                 <td id="overtime" t-if="fixed_work_hours">
                                     <t t-out="attendance['overtime']" />

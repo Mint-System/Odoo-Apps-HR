@@ -45,6 +45,14 @@ def get_attendances(self, employees, start_date, end_date):
             '&',
             ('date', '<=', end_date),
             ('date', '>=', start_date),
+            ('paid_out', '=', False)
+        ])
+        overtime_paid_out_ids = self.env['hr.attendance.overtime'].search([
+            ('employee_id', '=', employee.id),
+            '&',
+            ('date', '<=', end_date),
+            ('date', '>=', start_date),
+            ('paid_out', '=', True)
         ])
 
         # Get leaves with from or to date in range
@@ -63,13 +71,15 @@ def get_attendances(self, employees, start_date, end_date):
             'fixed_work_hours': fixed_work_hours,
             'leave_hours': round(leave_hours, 2),
             'worked_hours': round(sum(attendance_ids.mapped('worked_hours')), 2),
-            'overtime_total': round(employee.total_overtime, 2),
+            'overtime_total': round(employee.total_overtime - employee.total_overtime_paid_out, 2), # only non paid out overtime
+            'overtime_paid_out_total': round(employee.total_overtime_paid_out, 2),
         }
 
         # For each date in range compute details
         attendances[employee.id] = []
         planned_hours = 0
         overtime = 0
+        overtime_paid_out = 0
         for date in _daterange(start_date, end_date):
             
             # Get work hours
@@ -89,6 +99,12 @@ def get_attendances(self, employees, start_date, end_date):
                 min_check_date <= l.date_to <= max_check_date
             )
 
+            # Get leave type
+            if active_leaves.holiday_id:
+                active_leaves_leave_type = ''.join(word[0].upper() for word in active_leaves.holiday_id.holiday_status_id.name.split())
+            else:
+                active_leaves_leave_type = ''
+
             # Set leave hours                
             leave_hours = 0.0
             if active_leaves.holiday_id:
@@ -105,19 +121,27 @@ def get_attendances(self, employees, start_date, end_date):
             overtime_hours = sum(overtime_ids.filtered(lambda o: o.date == date.date()).mapped('duration'))
             overtime += overtime_hours
 
+            # Get paid out overtime hours for this date
+            overtime_paid_out_hours = sum(overtime_paid_out_ids.filtered(lambda o: o.date == date.date()).mapped('duration'))
+            overtime_paid_out += overtime_paid_out_hours
+
             # Create data entry
             attendances[employee.id].append({
                 'date': date,
+                'weekday': date.strftime('%a'),
                 'planned_hours': round(work_hours, 2),
                 'leave_hours': round(leave_hours, 2),
+                'leave_type': active_leaves_leave_type,
                 'worked_hours': round(worked_hours, 2),                    
                 'overtime': round(overtime_hours, 2),
+                'overtime_paid_out': round(overtime_paid_out_hours, 2),
                 'background_color': 'lightgrey' if work_hours == 0 and fixed_work_hours else 'none'
             })
 
         # Update summary
         summary[employee.id]['planned_hours'] = round(planned_hours, 2)
         summary[employee.id]['overtime'] = round(overtime, 2)
+        summary[employee.id]['overtime_paid_out'] = round(overtime_paid_out, 2)
         
     return dates, attendances, summary
 

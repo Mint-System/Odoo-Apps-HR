@@ -43,11 +43,17 @@
                             <th name="th_date">
                                 Date
                             </th>
+                            <th name="th_weekday">
+                                Weekday
+                            </th>
                             <th name="th_planned_hours" t-if="fixed_work_hours">
                                 Planned Hours
                             </th>
                             <th name="th_leave_hours" t-if="fixed_work_hours">
                                 Leave Hours
+                            </th>
+                            <th name="th_leave_type" t-if="fixed_work_hours">
+                                Leave Type
                             </th>
                             <th name="th_worked_hours">
                                 Worked Hours
@@ -64,11 +70,17 @@
                                 <td id="date">
                                     <t t-out="attendance['date']" t-options="{'widget': 'date'}" />
                                 </td>
+                                <td id="weekday">
+                                    <t t-out="attendance['weekday']" />
+                                </td>
                                 <td id="planned_hours" t-if="fixed_work_hours">
                                     <t t-out="attendance['planned_hours']" />
                                 </td>
                                 <td id="leave_hours" t-if="fixed_work_hours">
                                     <t t-out="attendance['leave_hours']" />
+                                </td>
+                                <td id="leave_type" t-if="fixed_work_hours">
+                                    <t t-out="attendance['leave_type']" />
                                 </td>
                                 <td id="worked_hours">
                                     <t t-out="attendance['worked_hours']" />
@@ -121,11 +133,27 @@
                                     </td>
                                 </tr>
                                 <tr t-if="fixed_work_hours">
+                                    <th name="th_overtime_paid_out">
+                                        Overtime (paid out)
+                                    </th>
+                                    <td id="overtime_paid_out" class="text-right">
+                                        <t t-out="summary[doc.id]['overtime_paid_out']" />
+                                    </td>
+                                </tr>
+                                <tr t-if="fixed_work_hours">
                                     <th name="th_overtime_total">
                                         Overtime Total
                                     </th>
                                     <td id="overtime_total" class="text-right">
                                         <t t-out="summary[doc.id]['overtime_total']" />
+                                    </td>
+                                </tr>
+                                <tr t-if="fixed_work_hours">
+                                    <th name="th_overtime_total">
+                                        Overtime Paid Out Total
+                                    </th>
+                                    <td id="overtime_paid_out_total" class="text-right">
+                                        <t t-out="summary[doc.id]['overtime_paid_out_total']" />
                                     </td>
                                 </tr>
                             </tbody>

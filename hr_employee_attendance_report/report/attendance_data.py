@@ -12,6 +12,15 @@ def _daterange(start_date, end_date):
     for n in range(int((end_date - start_date).days)):
         yield start_date + timedelta(n)
 
+
+def _get_leave_type_abbreviation(leave_type_name):
+    return ''.join(word[0].upper() for word in leave_type_name.split())
+
+
+def _get_local_time(date, tz):
+    return pytz.utc.localize(date).astimezone(tz)
+    
+
 def get_attendances(self, employees, start_date, end_date):
     """Group attendances by user and day."""
 
@@ -100,12 +109,18 @@ def get_attendances(self, employees, start_date, end_date):
             )
 
             # Get leave type
-            if active_leaves.holiday_id:
-                active_leaves_leave_type = ''.join(word[0].upper() for word in active_leaves.holiday_id.holiday_status_id.name.split())
-            else:
-                active_leaves_leave_type = ''
+            # if active_leaves.holiday_id and active_leaves.holiday_id.holiday_status_id:
+            #     active_leaves_leave_type = ''.join(word[0].upper() for word in active_leaves.holiday_id.holiday_status_id.name.split())
+            # else:
+            #     active_leaves_leave_type = ''
+            
+            leave_types = ", ".join([_get_leave_type_abbreviation(al.holiday_id.holiday_status_id.name) for al in active_leaves if al.holiday_id.holiday_status_id])
+
+
+
 
             # Get time stamps for this date
+            user_tz = pytz.timezone(self.env.context.get("tz") or "UTC")
             time_stamps = []
             for attendance in attendance_ids.filtered(
                 lambda a: a.check_in.date() == date.date()
@@ -118,16 +133,22 @@ def get_attendances(self, employees, start_date, end_date):
                 )
 
             sorted_time_stamps = sorted(time_stamps, key=lambda x: x['check_in'])
-            time_stamps_string = " ".join([f"{ts['check_in'].strftime('%H:%M')}-{ts['check_out'].strftime('%H:%M')}" for ts in sorted_time_stamps])
+            time_stamps_string = " ".join([f"{_get_local_time(ts['check_in'], user_tz).strftime('%H:%M')}-{_get_local_time(ts['check_out'], user_tz).strftime('%H:%M')}" for ts in sorted_time_stamps])
+
+            # user_tz = pytz.timezone(self.env.context.get("tz") or "UTC")
+            # Localize start date
+            # date_begin = pytz.utc.localize(date_begin).astimezone(user_tz)
 
             # Set leave hours                
             leave_hours = 0.0
-            if active_leaves.holiday_id:
-                number_of_hours = active_leaves.holiday_id.number_of_hours_display
-                if number_of_hours > company_hours_per_day:
-                    leave_hours = work_hours
-                else:
-                    leave_hours = number_of_hours
+            number_of_hours = 0.0
+            for active_leave in active_leaves:
+                if active_leave.holiday_id:
+                    number_of_hours += active_leave.holiday_id.number_of_hours_display
+            if number_of_hours > company_hours_per_day:
+                leave_hours = work_hours
+            else:
+                leave_hours = number_of_hours
             
             # Get attendance hours for this date
             worked_hours = sum(attendance_ids.filtered(lambda a: min_check_date < a.check_in < max_check_date).mapped('worked_hours'))
@@ -146,7 +167,7 @@ def get_attendances(self, employees, start_date, end_date):
                 'weekday': date.strftime('%a'),
                 'planned_hours': round(work_hours, 2),
                 'leave_hours': round(leave_hours, 2),
-                'leave_type': active_leaves_leave_type,
+                'leave_type': leave_types,
                 'worked_hours': round(worked_hours, 2),
                 "time_stamps": time_stamps_string,                   
                 'overtime': round(overtime_hours, 2),

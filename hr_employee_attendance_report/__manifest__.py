@@ -6,7 +6,7 @@
     "author": "Mint System GmbH",
     "website": "https://www.mint-system.ch",
     "category": "Human Resources",
-    "version": "15.0.1.5.1",
+    "version": "15.0.1.6.2",
     "license": "AGPL-3",
     "depends": ["hr_attendance", "hr_holidays", "hr_holidays_remaining_leaves"],
     "data": [

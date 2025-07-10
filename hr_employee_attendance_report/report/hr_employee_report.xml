@@ -88,7 +88,7 @@
                                 <td id="worked_hours">
                                     <t t-out="attendance['worked_hours']" />
                                 </td>
-                                <td id="time_stamps" t-if="fixed_work_hours">
+                                <td id="time_stamps" t-if="fixed_work_hours" style="white-space:nowrap;">
                                     <t t-out="attendance['time_stamps']" />
                                 </td>
                                 <td id="overtime" t-if="fixed_work_hours">

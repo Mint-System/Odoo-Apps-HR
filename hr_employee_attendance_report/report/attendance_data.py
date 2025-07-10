@@ -2,6 +2,8 @@ from odoo import api, fields, models, _
 import logging
 _logger = logging.getLogger(__name__)
 import pytz
+from markupsafe import Markup
+
 from dateutil.relativedelta import relativedelta
 from datetime import datetime, date, timedelta, time
 from odoo.osv import expression
@@ -116,9 +118,6 @@ def get_attendances(self, employees, start_date, end_date):
             
             leave_types = ", ".join([_get_leave_type_abbreviation(al.holiday_id.holiday_status_id.name) for al in active_leaves if al.holiday_id.holiday_status_id])
 
-
-
-
             # Get time stamps for this date
             user_tz = pytz.timezone(self.env.context.get("tz") or "UTC")
             time_stamps = []
@@ -133,11 +132,9 @@ def get_attendances(self, employees, start_date, end_date):
                 )
 
             sorted_time_stamps = sorted(time_stamps, key=lambda x: x['check_in'])
-            time_stamps_string = " ".join([f"{_get_local_time(ts['check_in'], user_tz).strftime('%H:%M')}-{_get_local_time(ts['check_out'], user_tz).strftime('%H:%M')}" for ts in sorted_time_stamps])
+            time_stamps_string = Markup(" ".join([f"{_get_local_time(ts['check_in'], user_tz).strftime('%H:%M')}-{_get_local_time(ts['check_out'], user_tz).strftime('%H:%M')}<br>" for ts in sorted_time_stamps]))
+            # time_stamps_string = " ".join([f"{_get_local_time(ts['check_in'], user_tz).strftime('%H:%M')}-{_get_local_time(ts['check_out'], user_tz).strftime('%H:%M')}<br>" for ts in sorted_time_stamps])
 
-            # user_tz = pytz.timezone(self.env.context.get("tz") or "UTC")
-            # Localize start date
-            # date_begin = pytz.utc.localize(date_begin).astimezone(user_tz)
 
             # Set leave hours                
             leave_hours = 0.0

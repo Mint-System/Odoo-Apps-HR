@@ -6,17 +6,18 @@ Init:
 
 Action:
 
-- Open the employee form of admin and run the "Create missing attendances" action
-- Check if the missing attendance entry has been created
-- Remove the attendance entry
+- Open the employee form of "Mitchel Admin" and run the "Create missing attendances" action
+- Select start date today minus one week
+- Check if missing attendance entries have been created
+- Remove the attendance entries
 
-Day:
+Day off:
 
-- Validate "Trip with Family" leave
-- Check-in and -out with admin user
-- Ensure that no missing attendance entry has been created
+- Validate "Doctor appointment" leave
+- Generate missing attendance entries in the same timespan
+- Ensure that no missing attendance entries have been created
 
-Half-day:
+Half-day off:
 
 - Create and confirm an half-day leave 1 week ago
 - Run the create missing attenances action covering the leave time

@@ -14,12 +14,8 @@ class HrLeave(models.Model):
 
     attendance_ids = fields.One2many("hr.attendance", "leave_id")
     attendance_count = fields.Integer(compute="_compute_attendance_count")
-    record_as_attendance = fields.Boolean(
-        related="holiday_status_id.record_as_attendance"
-    )
-    calendar_id = fields.Many2one(
-        "resource.calendar", compute="_compute_calendar_id", store=True
-    )
+    record_as_attendance = fields.Boolean(related="holiday_status_id.record_as_attendance")
+    calendar_id = fields.Many2one("resource.calendar", compute="_compute_calendar_id", store=True)
 
     def name_get(self):
         res = []
@@ -38,9 +34,7 @@ class HrLeave(models.Model):
                             "%(person)s on %(leave_type)s: %(duration).2f hours on %(date)s",
                             person=target,
                             leave_type=leave.holiday_status_id.name,
-                            duration=leave.calendar_id.get_work_hours_count(
-                                start_date, end_date
-                            ),
+                            duration=leave.calendar_id.get_work_hours_count(start_date, end_date),
                             date=format_date(self.env, start_date) or "",
                         ),
                     )
@@ -74,9 +68,7 @@ class HrLeave(models.Model):
             end_date = datetime.combine(rec.request_date_to, datetime.max.time())
 
             if rec.holiday_status_id.calendar_id:
-                calendar_hours = rec.holiday_status_id.calendar_id.get_work_hours_count(
-                    start_date, end_date
-                )
+                calendar_hours = rec.holiday_status_id.calendar_id.get_work_hours_count(start_date, end_date)
                 if rec.holiday_status_id.calendar_max_hours == 0 or (
                     calendar_hours <= rec.holiday_status_id.calendar_max_hours
                 ):
@@ -144,25 +136,16 @@ class HrLeave(models.Model):
             attendance_vals = []
 
             if not self.request_unit_half and not self.request_unit_hours:
-
                 # Create an attendance for each day.
                 while start_date <= end_date:
-
-                    work_hours = self.calendar_id.get_work_hours_count(
-                        start_date, start_date + timedelta(days=1)
-                    )
+                    work_hours = self.calendar_id.get_work_hours_count(start_date, start_date + timedelta(days=1))
                     if work_hours > 0:
-
                         # Get start and end time in hours
                         hour_from = self.get_work_hour(start_date, "morning")
                         hour_to = hour_from + work_hours
 
                         # Convert from user tz to utc
-                        date_from = (
-                            user_tz.localize(start_date)
-                            .astimezone(pytz.utc)
-                            .replace(tzinfo=None)
-                        )
+                        date_from = user_tz.localize(start_date).astimezone(pytz.utc).replace(tzinfo=None)
 
                         # The checkin time is defined by the calendar
                         # The checkout time is checkin plus average hours from calendar
@@ -178,7 +161,6 @@ class HrLeave(models.Model):
                     start_date += timedelta(days=1)
 
             elif self.request_unit_half:
-
                 attendance_vals = {
                     "employee_id": self.employee_id.id,
                     "leave_id": self.id,
@@ -188,11 +170,7 @@ class HrLeave(models.Model):
                 work_hours = self.calendar_id.get_work_hours_count(start_date, end_date)
 
                 # Convert from user tz to utc
-                date_from = (
-                    user_tz.localize(start_date)
-                    .astimezone(pytz.utc)
-                    .replace(tzinfo=None)
-                )
+                date_from = user_tz.localize(start_date).astimezone(pytz.utc).replace(tzinfo=None)
 
                 hour_from = 0
                 if self.request_date_from_period == "am":
@@ -205,13 +183,8 @@ class HrLeave(models.Model):
                 attendance_vals["check_out"] = date_from + timedelta(hours=hour_to)
 
             elif self.request_unit_hours:
-
                 # Convert from user tz to utc
-                check_in = (
-                    user_tz.localize(start_date)
-                    .astimezone(pytz.utc)
-                    .replace(tzinfo=None)
-                )
+                check_in = user_tz.localize(start_date).astimezone(pytz.utc).replace(tzinfo=None)
 
                 # Add hours to datetime
                 check_out = check_in + timedelta(hours=self.request_time_hour_to)

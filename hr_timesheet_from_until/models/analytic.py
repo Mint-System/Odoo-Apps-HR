@@ -10,13 +10,11 @@ class AccountAnalyticLine(models.Model):
 
     from_time = fields.Float(default=0.0, group_operator=None)
     until_time = fields.Float(default=0.0, group_operator=None)
-    unit_amount = fields.Float(
-        compute="_compute_unit_amount", readonly=False, store=True
-    )
+    unit_amount = fields.Float(compute="_compute_unit_amount", readonly=False, store=True)
 
     def _convert(self, time):
         """Converts time from integer to float."""
-        time_str = "{:.2f}".format(time / 100)
+        time_str = f"{time / 100:.2f}"
         time_hour = int(time_str.split(".")[0])
         time_min = float(time_str.split(".")[1]) / 60
         return time_hour + time_min

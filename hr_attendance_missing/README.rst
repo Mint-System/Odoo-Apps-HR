@@ -4,7 +4,7 @@
 
 
 =====================
-Hr Attendance Missing
+HR Attendance Missing
 =====================
 
 Create attendance entries on working days without leave.

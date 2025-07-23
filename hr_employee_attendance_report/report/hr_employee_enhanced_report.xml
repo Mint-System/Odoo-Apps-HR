@@ -5,8 +5,12 @@
         <field name="name">Attendance Report Enhanced</field>
         <field name="model">hr.employee</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">hr_employee_attendance_report.hr_employee_enhanced</field>
-        <field name="report_file">hr_employee_attendance_report.hr_employee_enhanced</field>
+        <field
+            name="report_name"
+        >hr_employee_attendance_report.hr_employee_enhanced</field>
+        <field
+            name="report_file"
+        >hr_employee_attendance_report.hr_employee_enhanced</field>
         <field name="print_report_name">'Attendance Report Plus'</field>
         <field name="binding_model_id" ref="hr.model_hr_employee" />
         <field name="binding_type">report</field>
@@ -15,11 +19,13 @@
     <template id="hr_employee_attendance_report.hr_employee_enhanced">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
-                <t t-call="hr_employee_attendance_report.hr_employee_enhanced_template" />
+                <t
+                    t-call="hr_employee_attendance_report.hr_employee_enhanced_template"
+                />
             </t>
         </t>
     </template>
-   
+
 
     <template id="hr_employee_enhanced_template">
         <t t-call="web.internal_layout">
@@ -210,9 +216,12 @@
                                         <th name="th_overtime">
                                             Overtime
                                         </th>
-                                        <t t-foreach="summary[doc.id]['leaves']" t-as="item">
+                                        <t
+                                            t-foreach="summary[doc.id]['leaves']"
+                                            t-as="item"
+                                        >
                                             <th name="th_leave_key">
-                                                <t t-out="item"/>
+                                                <t t-out="item" />
                                             </th>
                                         </t>
                                     </tr>
@@ -233,13 +242,16 @@
                                         <td id="overtime">
                                             <t t-out="summary[doc.id]['overtime']" />
                                         </td>
-                                        <t t-foreach="summary[doc.id]['leaves'].values()" t-as="leave_value">
+                                        <t
+                                            t-foreach="summary[doc.id]['leaves'].values()"
+                                            t-as="leave_value"
+                                        >
                                             <td id="leave">
                                             <t t-out="leave_value" />
                                             </td>
-                                        </t> 
+                                        </t>
                                     </tr>
-                                    
+
                                 </tbody>
                             </table>
                         </div>
@@ -282,7 +294,11 @@
                                         <t t-out="allocation.name" />
                                     </td>
                                     <td id="leave_type" class="text-start">
-                                        <t t-out="allocation.holiday_status_id.name" /> (<t t-out="allocation.holiday_status_id.code" />)
+                                        <t
+                                            t-out="allocation.holiday_status_id.name"
+                                        /> (<t
+                                            t-out="allocation.holiday_status_id.code"
+                                        />)
                                     </td>
                                     <td id="allocation" class="text-end">
                                         <t t-out="allocation.duration_display" />
@@ -321,16 +337,19 @@
                                 <th name="th_overtime" class="text-start">
                                     Overtime
                                 </th>
-                                <t t-foreach="leave_allocations_per_type[doc.id]" t-as="item">
+                                <t
+                                    t-foreach="leave_allocations_per_type[doc.id]"
+                                    t-as="item"
+                                >
                                     <th name="th_leave_key">
-                                        <t t-out="item"/>
+                                        <t t-out="item" />
                                     </th>
                                 </t>
-                               
+
                             </tr>
                         </thead>
                         <tbody class="leaves_table">
-                           
+
 
                                 <tr>
 
@@ -338,18 +357,21 @@
                                             Allocations
                                     </td>
                                     <td id="ref_period">
-                                        
+
                                     </td>
                                     <td id="allocated_overtimes">
                                         Allocated Overtimes?
                                     </td>
-                                    <t t-foreach="leave_allocations_per_type[doc.id].items()" t-as="leave_item">
-                                        <t t-set="leave_type" t-value="leave_item[0]"/>
-                                        <t t-set="leave" t-value="leave_item[1]"/>
+                                    <t
+                                    t-foreach="leave_allocations_per_type[doc.id].items()"
+                                    t-as="leave_item"
+                                >
+                                        <t t-set="leave_type" t-value="leave_item[0]" />
+                                        <t t-set="leave" t-value="leave_item[1]" />
                                         <td id="leave">
-                                          <t t-out="leave['number_of_days']"/>
+                                          <t t-out="leave['number_of_days']" />
                                         </td>
-                                    </t> 
+                                    </t>
                                 </tr>
 
                                 <tr>
@@ -359,24 +381,27 @@
                                     </td>
                                     <td id="current_period">
                                         <span
-                                            t-out="dates[doc.id]['start_date']"
-                                            t-options="{'widget': 'date'}"
-                                        />
+                                        t-out="dates[doc.id]['start_date']"
+                                        t-options="{'widget': 'date'}"
+                                    />
                                         <span
-                                            t-out="dates[doc.id]['end_date']"
-                                            t-options="{'widget': 'date'}"
-                                        />
+                                        t-out="dates[doc.id]['end_date']"
+                                        t-options="{'widget': 'date'}"
+                                    />
                                     </td>
                                     <td id="overtime">
                                         <t t-out="summary[doc.id]['overtime']" />
                                     </td>
-                                    <t t-foreach="leave_allocations_per_type[doc.id].items()" t-as="leave_item">
-                                        <t t-set="leave_type" t-value="leave_item[0]"/>
-                                        <t t-set="leave" t-value="leave_item[1]"/>
+                                    <t
+                                    t-foreach="leave_allocations_per_type[doc.id].items()"
+                                    t-as="leave_item"
+                                >
+                                        <t t-set="leave_type" t-value="leave_item[0]" />
+                                        <t t-set="leave" t-value="leave_item[1]" />
                                         <td id="leave">
-                                          <t t-out="leave['leaves_taken']"/>
+                                          <t t-out="leave['leaves_taken']" />
                                         </td>
-                                    </t> 
+                                    </t>
                                 </tr>
 
                                 <tr>
@@ -385,22 +410,25 @@
                                             Remaining Leaves
                                     </td>
                                     <td id="remaining_period">
-                                       
+
                                     </td>
                                     <td id="remaining_overtime">
                                         ?
                                     </td>
-                                    <t t-foreach="leave_allocations_per_type[doc.id].items()" t-as="leave_item">
-                                        <t t-set="leave_type" t-value="leave_item[0]"/>
-                                        <t t-set="leave" t-value="leave_item[1]"/>
+                                    <t
+                                    t-foreach="leave_allocations_per_type[doc.id].items()"
+                                    t-as="leave_item"
+                                >
+                                        <t t-set="leave_type" t-value="leave_item[0]" />
+                                        <t t-set="leave" t-value="leave_item[1]" />
                                         <td id="leave">
-                                          <t t-out="leave['remaining_leaves_days']"/>
+                                          <t t-out="leave['remaining_leaves_days']" />
                                         </td>
-                                    </t> 
+                                    </t>
                                 </tr>
 
 
-                           
+
                         </tbody>
                     </table>
                 </t>

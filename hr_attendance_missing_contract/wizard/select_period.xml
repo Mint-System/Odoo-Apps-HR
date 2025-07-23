@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="select_period" model="ir.ui.view">
+        <field name="name">hr_attendance_missing_contract.select_period</field>
+        <field name="model">hr_attendance_missing.select_period</field>
+        <field name="inherit_id" ref="hr_attendance_missing.select_period" />
+        <field name="arch" type="xml">
+            <field name="date_from" position="replace" />
+        </field>
+    </record>
+</odoo>

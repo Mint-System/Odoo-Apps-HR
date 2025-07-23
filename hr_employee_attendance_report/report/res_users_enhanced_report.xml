@@ -5,8 +5,12 @@
         <field name="name">Attendance Report Enhanced</field>
         <field name="model">res.users</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">hr_employee_attendance_report.res_users_enhanced</field>
-        <field name="report_file">hr_employee_attendance_report.res_users_enhanced</field>
+        <field
+            name="report_name"
+        >hr_employee_attendance_report.res_users_enhanced</field>
+        <field
+            name="report_file"
+        >hr_employee_attendance_report.res_users_enhanced</field>
         <field name="print_report_name">'Attendance Report Enhanced'</field>
         <field name="binding_model_id" ref="base.model_res_users" />
         <field name="binding_type">report</field>
@@ -15,7 +19,9 @@
     <template id="hr_employee_attendance_report.res_users_enhanced">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
-                <t t-call="hr_employee_attendance_report.hr_employee_enhanced_template" />
+                <t
+                    t-call="hr_employee_attendance_report.hr_employee_enhanced_template"
+                />
             </t>
         </t>
     </template>

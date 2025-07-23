@@ -1,8 +1,8 @@
 import logging
+from collections import defaultdict
 from datetime import datetime, time, timedelta
 
 from dateutil.relativedelta import relativedelta
-from collections import defaultdict
 
 from odoo import fields
 from odoo.osv import expression
@@ -26,7 +26,6 @@ def get_attendances(self, employees, start_date, end_date):
 
     # Iterate on users
     for employee in employees:
-
         # Get statics
         hours_per_day = employee.resource_calendar_id.hours_per_day
         fixed_work_hours = False if hours_per_day == 0 else True
@@ -80,13 +79,10 @@ def get_attendances(self, employees, start_date, end_date):
         overtime = 0
         leaves_dict = {key: 0.0 for key in self.env["hr.leave.type"].search([("code", "!=", "")]).mapped("code")}
         for date in _daterange(start_date, end_date):
-
             # Get work hours
             min_check_date = datetime.combine(date, time.min)
             max_check_date = datetime.combine(date, time.max)
-            work_hours = employee.resource_calendar_id.get_work_hours_count(
-                min_check_date, max_check_date, True
-            )
+            work_hours = employee.resource_calendar_id.get_work_hours_count(min_check_date, max_check_date, True)
             planned_hours += work_hours
 
             # Get leave hours for this date
@@ -101,8 +97,6 @@ def get_attendances(self, employees, start_date, end_date):
                 active_leaves_dict[leave_code] = active_leaves.filtered(
                     lambda l: l.holiday_id.holiday_status_id.code == leave_code
                 )
-            
-            
 
             # Set leave hours
             leave_hours = 0.0
@@ -113,38 +107,35 @@ def get_attendances(self, employees, start_date, end_date):
                 else:
                     leave_hours = number_of_hours
 
-            
-
-
             # Get leave type code
-            leave_type = " ".join([al.holiday_id.holiday_status_id.code for al in active_leaves if al.holiday_id.holiday_status_id])
+            leave_type = " ".join(
+                [al.holiday_id.holiday_status_id.code for al in active_leaves if al.holiday_id.holiday_status_id]
+            )
 
             if active_leaves.holiday_id:
                 for leave_code in leaves_dict.keys():
                     leave_hours_per_leave = 0.0
-                    number_of_hours_per_leave = active_leaves.filtered(lambda l: l.holiday_id.holiday_status_id.code == leave_code).holiday_id.number_of_hours_display
+                    number_of_hours_per_leave = active_leaves.filtered(
+                        lambda l: l.holiday_id.holiday_status_id.code == leave_code
+                    ).holiday_id.number_of_hours_display
                     print("leave_code, nr_of_hours:", leave_code, number_of_hours_per_leave)
                     if number_of_hours_per_leave > company_hours_per_day:
                         leave_hours_per_leave = work_hours
                     else:
                         leave_hours_per_leave = number_of_hours_per_leave
-            
+
                     leaves_dict[leave_code] += leave_hours_per_leave
 
             # Get attendance hours for this date
             worked_hours = sum(
-                attendance_ids.filtered(
-                    lambda a: min_check_date < a.check_in < max_check_date
-                ).mapped("worked_hours")
+                attendance_ids.filtered(lambda a: min_check_date < a.check_in < max_check_date).mapped("worked_hours")
             )
 
             # Get time stamps for this date
             time_stamps = []
             for attendance in attendance_ids:
                 print("check_in", attendance.check_in.date())
-            for attendance in attendance_ids.filtered(
-                lambda a: a.check_in.date() == date.date()
-            ):
+            for attendance in attendance_ids.filtered(lambda a: a.check_in.date() == date.date()):
                 time_stamps.append(
                     {
                         "check_in": attendance.check_in,
@@ -152,16 +143,13 @@ def get_attendances(self, employees, start_date, end_date):
                     }
                 )
 
-            sorted_time_stamps = sorted(time_stamps, key=lambda x: x['check_in'])
-            time_stamps_string = " ".join([f"{ts['check_in'].strftime('%H:%M')} {ts['check_out'].strftime('%H:%M')}" for ts in sorted_time_stamps])
-
+            sorted_time_stamps = sorted(time_stamps, key=lambda x: x["check_in"])
+            time_stamps_string = " ".join(
+                [f"{ts['check_in'].strftime('%H:%M')} {ts['check_out'].strftime('%H:%M')}" for ts in sorted_time_stamps]
+            )
 
             # Get overtime hours for this date
-            overtime_hours = sum(
-                overtime_ids.filtered(lambda o: o.date == date.date()).mapped(
-                    "duration"
-                )
-            )
+            overtime_hours = sum(overtime_ids.filtered(lambda o: o.date == date.date()).mapped("duration"))
             overtime += overtime_hours
 
             # Create data entry
@@ -175,9 +163,7 @@ def get_attendances(self, employees, start_date, end_date):
                     "diff_hours": round(worked_hours - (work_hours - leave_hours), 2),
                     "time_stamps": time_stamps_string,
                     "overtime": round(overtime_hours, 2),
-                    "background_color": "lightgrey"
-                    if work_hours == 0 and fixed_work_hours
-                    else "none",
+                    "background_color": "lightgrey" if work_hours == 0 and fixed_work_hours else "none",
                 }
             )
 
@@ -185,7 +171,7 @@ def get_attendances(self, employees, start_date, end_date):
         summary[employee.id]["planned_hours"] = round(planned_hours, 2)
         summary[employee.id]["overtime"] = round(overtime, 2)
         summary[employee.id]["overtime"] = round(overtime, 2)
-        
+
         summary[employee.id]["leaves"] = leaves_dict
         print("################# leaves_dict", summary[employee.id]["leaves"])
 
@@ -197,7 +183,6 @@ def get_leave_allocations(self, employees):
 
     leave_codes = self.env["hr.leave.type"].search([("code", "!=", "")]).mapped("code")
 
-
     # Data mappings
     leave_allocations = {}
     leave_allocations_per_type = defaultdict(dict)
@@ -207,7 +192,6 @@ def get_leave_allocations(self, employees):
 
     # Iterate on users
     for employee in employees:
-
         # Get active allocations
         allocation_ids = self.env["hr.leave.allocation"].search(
             [
@@ -232,18 +216,23 @@ def get_leave_allocations(self, employees):
                     ("date_from", "<=", now),
                 ]
             )
-            leaves_per_type['number_of_days'] = sum(allocation_ids_per_type.mapped('number_of_days')) if allocation_ids_per_type else 0
-            leaves_per_type['leaves_taken'] = sum(allocation_ids_per_type.mapped('leaves_taken')) if allocation_ids_per_type else 0
-            leaves_per_type['remaining_leaves_days'] = sum(allocation_ids_per_type.mapped('remaining_leaves_days')) if allocation_ids_per_type else 0
+            leaves_per_type["number_of_days"] = (
+                sum(allocation_ids_per_type.mapped("number_of_days")) if allocation_ids_per_type else 0
+            )
+            leaves_per_type["leaves_taken"] = (
+                sum(allocation_ids_per_type.mapped("leaves_taken")) if allocation_ids_per_type else 0
+            )
+            leaves_per_type["remaining_leaves_days"] = (
+                sum(allocation_ids_per_type.mapped("remaining_leaves_days")) if allocation_ids_per_type else 0
+            )
             leave_allocations_per_type[employee.id][leave_code] = leaves_per_type
-            
+
     print("leave_allocations_per_type", leave_allocations_per_type)
     print("leave_allocations", leave_allocations)
     return leave_allocations, leave_allocations_per_type
 
 
 def _get_report_values(self, docids, data=None, report_name=None):
-
     now = fields.Datetime.now()
     # Last month default dates
     start_date = now + relativedelta(months=-1, day=1, hour=0, minute=0, second=0)
@@ -277,5 +266,5 @@ def _get_report_values(self, docids, data=None, report_name=None):
         "attendances": attendances,
         "summary": summary,
         "leave_allocations": leave_allocations,
-        "leave_allocations_per_type": leave_allocations_per_type
+        "leave_allocations_per_type": leave_allocations_per_type,
     }

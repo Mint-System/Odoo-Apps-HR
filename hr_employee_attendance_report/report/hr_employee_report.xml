@@ -18,9 +18,9 @@
                 <t t-call="hr_employee_attendance_report.hr_employee_template" />
             </t>
         </t>
-    </template> 
-   
-     
+    </template>
+
+
     <template id="hr_employee_template">
         <t t-call="web.internal_layout">
             <div class="page">

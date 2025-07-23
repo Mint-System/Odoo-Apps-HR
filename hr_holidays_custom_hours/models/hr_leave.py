@@ -8,9 +8,7 @@ _logger = logging.getLogger(__name__)
 class HrLeave(models.Model):
     _inherit = "hr.leave"
 
-    enable_custom_hours = fields.Boolean(
-        related="holiday_status_id.enable_custom_hours"
-    )
+    enable_custom_hours = fields.Boolean(related="holiday_status_id.enable_custom_hours")
     custom_hours = fields.Float(inverse="_inverse_custom_hours")
     custom_overtime_id = fields.Many2one(
         "hr.attendance.overtime",

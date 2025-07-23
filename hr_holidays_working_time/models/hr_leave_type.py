@@ -27,6 +27,4 @@ class HRLeaveType(models.Model):
     @api.constrains()
     def _check_time_type(self):
         if self.record_as_attendance and self.time_type != "other":
-            raise ValidationError(
-                _("Record as attendance can only be used with other time type.")
-            )
+            raise ValidationError(_("Record as attendance can only be used with other time type."))

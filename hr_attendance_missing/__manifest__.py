@@ -1,12 +1,12 @@
 {
-    "name": "Hr Attendance Missing",
+    "name": "HR Attendance Missing",
     "summary": """
         Create attendance entries on working days without leave.
     """,
     "author": "Mint System GmbH",
-    "website": "https://www.mint-system.ch",
+    "website": "https://www.mint-system.ch/",
     "category": "Human Resources",
-    "version": "16.0.1.2.1",
+    "version": "16.0.1.3.0",
     "license": "AGPL-3",
     "data": [
         "security/ir.model.access.csv",

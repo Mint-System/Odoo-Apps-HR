@@ -22,7 +22,6 @@ class HrAtttendanceOvertime(models.Model):
     def _compute_policies(self):
         rule_ids = self.env["hr.attendance.rule"].search([])
         for overtime in self.filtered("date"):
-
             # Get attendance records of overtime date
             checkin_from = datetime.combine(overtime.date, time.min)
             checkout_until = datetime.combine(overtime.date, time.max)
@@ -39,27 +38,14 @@ class HrAtttendanceOvertime(models.Model):
             policy_ids = []
             for rule_id in rule_ids:
                 # Check if any delta matches the minimum requirements
-                delta_matched = any(
-                    rule_id.min_delta <= delta
-                    for delta in attendance_ids.mapped("delta_hours")
-                )
+                delta_matched = any(rule_id.min_delta <= delta for delta in attendance_ids.mapped("delta_hours"))
                 # If no delta matches continue with checks
                 if not delta_matched:
-                    if (
-                        rule_id.min_worked_hours
-                        <= worked_hours
-                        < rule_id.max_worked_hours
-                    ):
+                    if rule_id.min_worked_hours <= worked_hours < rule_id.max_worked_hours:
                         policy_ids.append(rule_id.policy_id.id)
-                    if (
-                        rule_id.min_worked_hours <= worked_hours
-                        and rule_id.max_worked_hours == -1
-                    ):
+                    if rule_id.min_worked_hours <= worked_hours and rule_id.max_worked_hours == -1:
                         policy_ids.append(rule_id.policy_id.id)
-                    if (
-                        rule_id.min_worked_hours == -1
-                        and worked_hours < rule_id.max_worked_hours
-                    ):
+                    if rule_id.min_worked_hours == -1 and worked_hours < rule_id.max_worked_hours:
                         policy_ids.append(rule_id.policy_id.id)
 
             overtime.conflicting_policy_ids = policy_ids if policy_ids else False

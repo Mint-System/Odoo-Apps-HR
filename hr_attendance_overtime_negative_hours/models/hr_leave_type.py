@@ -17,11 +17,7 @@ class HrLeaveType(models.Model):
         )
         leave_types = sorted(
             self.search([]).filtered(
-                lambda x: (
-                    x.virtual_remaining_leaves > 0
-                    or x.max_leaves
-                    or (x == extra_hours_time_off_type)
-                )
+                lambda x: (x.virtual_remaining_leaves > 0 or x.max_leaves or (x == extra_hours_time_off_type))
             ),
             key=self._model_sorting_key,
             reverse=True,

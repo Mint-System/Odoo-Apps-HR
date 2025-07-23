@@ -8,9 +8,7 @@ _logger = logging.getLogger(__name__)
 class HrLeave(models.Model):
     _inherit = "hr.leave"
 
-    compensate_overtime = fields.Boolean(
-        related="holiday_status_id.compensate_overtime"
-    )
+    compensate_overtime = fields.Boolean(related="holiday_status_id.compensate_overtime")
     compensate_overtime_id = fields.Many2one(
         "hr.attendance.overtime",
         string="Extra Hours Compensation",

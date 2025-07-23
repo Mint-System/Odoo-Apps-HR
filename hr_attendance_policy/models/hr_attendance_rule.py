@@ -23,6 +23,4 @@ class HrAttendanceRule(models.Model):
         "Maximum Worked Hours",
         help="Match maximum amount of worked hours.",
     )
-    min_delta = fields.Float(
-        "Minimum Delta", help="The minimum acceptable difference in work hours."
-    )
+    min_delta = fields.Float("Minimum Delta", help="The minimum acceptable difference in work hours.")

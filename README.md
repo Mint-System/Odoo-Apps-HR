@@ -20,6 +20,7 @@ git clone git@github.com:mint-system/odoo-apps-hr.git ./addons/hr
 | [hr_attendance_policy](hr_attendance_policy) |         Manage and check work time policies on attendance entries. |
 | [hr_attendance_user_acl](hr_attendance_user_acl) |           Allow attendance users to create and edit their attendance entries. |
 | [hr_employee_attendance_report](hr_employee_attendance_report) |         Attendance and leave report. |
+| [hr_employee_paid_out_overtime_report](hr_employee_paid_out_overtime_report) |         Shows List of employees with overtime to be paid out. |
 | [hr_employee_skill](hr_employee_skill) |         Views to manage HR employee skills. |
 | [hr_employee_user_acl](hr_employee_user_acl) |         Restrict access to employees app. |
 | [hr_expense_user_acl](hr_expense_user_acl) |         Restricted access to expenses app. |

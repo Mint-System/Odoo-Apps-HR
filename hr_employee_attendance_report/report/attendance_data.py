@@ -1,5 +1,10 @@
 import logging
+
 from collections import defaultdict
+
+import pytz
+from markupsafe import Markup
+
 from datetime import datetime, time, timedelta
 
 from dateutil.relativedelta import relativedelta
@@ -15,6 +20,11 @@ def _daterange(start_date, end_date):
     for n in range(int((end_date - start_date).days)):
         yield start_date + timedelta(n)
 
+def _get_leave_type_abbreviation(leave_type_name):
+    return ''.join(word[0].upper() for word in leave_type_name.split())
+
+def _get_local_time(date, tz):
+    return pytz.utc.localize(date).astimezone(tz)
 
 def get_attendances(self, employees, start_date, end_date):
     """Group attendances by user and day."""
@@ -54,6 +64,29 @@ def get_attendances(self, employees, start_date, end_date):
             ]
         )
 
+        overtime_model = self.env['hr.attendance.overtime']
+        field_exists = 'paid_out' in overtime_model._fields
+
+        domain = [
+            ('employee_id', '=', employee.id),
+            ('date', '<=', end_date),
+            ('date', '>=', start_date)
+        ]
+
+        if field_exists:
+            domain.append(('paid_out', '=', True))
+
+        overtime_paid_out_ids = overtime_model.search(domain)
+
+        # overtime_paid_out_ids = self.env['hr.attendance.overtime'].search([
+        #     ('employee_id', '=', employee.id),
+        #     '&',
+        #     ('date', '<=', end_date),
+        #     ('date', '>=', start_date),
+        #     ('paid_out', '=', True)
+        # ])
+
+
         # Get leaves with from or to date in range
         from_domain = [("date_from", ">=", start_date), ("date_from", "<=", end_date)]
         to_domain = [("date_to", ">=", end_date), ("date_to", "<=", end_date)]
@@ -71,12 +104,14 @@ def get_attendances(self, employees, start_date, end_date):
             "leave_hours": round(leave_hours, 2),
             "worked_hours": round(sum(attendance_ids.mapped("worked_hours")), 2),
             "overtime_total": round(employee.total_overtime, 2),
+            "overtime_paid_out_total": round(employee.total_overtime_paid_out, 2),
         }
 
         # For each date in range compute details
         attendances[employee.id] = []
         planned_hours = 0
         overtime = 0
+        overtime_paid_out = 0
         leaves_dict = {key: 0.0 for key in self.env["hr.leave.type"].search([("code", "!=", "")]).mapped("code")}
         for date in _daterange(start_date, end_date):
             # Get work hours
@@ -91,6 +126,7 @@ def get_attendances(self, employees, start_date, end_date):
                 or min_check_date <= l.date_from <= max_check_date
                 or min_check_date <= l.date_to <= max_check_date
             )
+
 
             active_leaves_dict = {}
             for leave_code in leaves_dict.keys():
@@ -132,10 +168,12 @@ def get_attendances(self, employees, start_date, end_date):
             )
 
             # Get time stamps for this date
+            user_tz = pytz.timezone(self.env.context.get("tz") or "UTC")
             time_stamps = []
-            for attendance in attendance_ids:
-                print("check_in", attendance.check_in.date())
-            for attendance in attendance_ids.filtered(lambda a: a.check_in.date() == date.date()):
+
+            for attendance in attendance_ids.filtered(
+                lambda a: a.check_in.date() == date.date()
+            ):
                 time_stamps.append(
                     {
                         "check_in": attendance.check_in,
@@ -143,19 +181,25 @@ def get_attendances(self, employees, start_date, end_date):
                     }
                 )
 
-            sorted_time_stamps = sorted(time_stamps, key=lambda x: x["check_in"])
-            time_stamps_string = " ".join(
-                [f"{ts['check_in'].strftime('%H:%M')} {ts['check_out'].strftime('%H:%M')}" for ts in sorted_time_stamps]
-            )
+
+            sorted_time_stamps = sorted(time_stamps, key=lambda x: x['check_in'])
+            time_stamps_string = Markup(" ".join([f"{_get_local_time(ts['check_in'], user_tz).strftime('%H:%M')}-{_get_local_time(ts['check_out'], user_tz).strftime('%H:%M')}<br>" for ts in sorted_time_stamps]))
+            # time_stamps_string = " ".join([f"{ts['check_in'].strftime('%H:%M')} {ts['check_out'].strftime('%H:%M')}" for ts in sorted_time_stamps])
+
 
             # Get overtime hours for this date
             overtime_hours = sum(overtime_ids.filtered(lambda o: o.date == date.date()).mapped("duration"))
             overtime += overtime_hours
 
+            # Get paid out overtime hours for this date
+            overtime_paid_out_hours = sum(overtime_paid_out_ids.filtered(lambda o: o.date == date.date()).mapped('duration'))
+            overtime_paid_out += overtime_paid_out_hours
+
             # Create data entry
             attendances[employee.id].append(
                 {
                     "date": date,
+                    "weekday": date.strftime('%a'),
                     "planned_hours": round(work_hours, 2),
                     "leave_hours": round(leave_hours, 2),
                     "leave_type": leave_type,
@@ -163,6 +207,8 @@ def get_attendances(self, employees, start_date, end_date):
                     "diff_hours": round(worked_hours - (work_hours - leave_hours), 2),
                     "time_stamps": time_stamps_string,
                     "overtime": round(overtime_hours, 2),
+
+                    'overtime_paid_out': round(overtime_paid_out_hours, 2),
                     "background_color": "lightgrey" if work_hours == 0 and fixed_work_hours else "none",
                 }
             )
@@ -170,10 +216,11 @@ def get_attendances(self, employees, start_date, end_date):
         # Update summary
         summary[employee.id]["planned_hours"] = round(planned_hours, 2)
         summary[employee.id]["overtime"] = round(overtime, 2)
-        summary[employee.id]["overtime"] = round(overtime, 2)
 
+        summary[employee.id]['overtime_paid_out'] = round(overtime_paid_out, 2)
+        
         summary[employee.id]["leaves"] = leaves_dict
-        print("################# leaves_dict", summary[employee.id]["leaves"])
+        
 
     return dates, attendances, summary
 
@@ -229,6 +276,7 @@ def get_leave_allocations(self, employees):
 
     print("leave_allocations_per_type", leave_allocations_per_type)
     print("leave_allocations", leave_allocations)
+
     return leave_allocations, leave_allocations_per_type
 
 

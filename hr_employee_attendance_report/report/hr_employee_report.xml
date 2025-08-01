@@ -29,27 +29,23 @@
                     t-value="summary[doc.id]['fixed_work_hours']"
                 />
 
-                <h1>Attendance Report</h1>
+                <h3 class="attendance-report">Attendance Report</h3>
 
-                <p>Employee: <span t-out="doc.name" /></p>
-                <p>From: <span
+                <p><span class="light-text">Employee:</span> <span t-out="doc.name" /></p>
+                <p><span class="light-text">From:</span> <span
                         t-out="dates[doc.id]['start_date']"
                         t-options="{'widget': 'date'}"
-                    /><br />
-                    Until: <span
+                    /> 
+                    <span class="light-text">Until: </span><span
                         t-out="dates[doc.id]['end_date']"
                         t-options="{'widget': 'date'}"
                     /></p>
 
-                <style>
-                    table.attendances_table th:not(:first-child),
-                    table.attendances_table td:not(:first-child) {
-                    text-align: right;
-                    }
-                </style>
+                
                 <table
-                    class="table table-sm attendances_table"
+                    class="table table-sm attendances-table"
                     name="attendances_table"
+                    style="width: 100%; font-size:7pt"
                 >
                     <thead>
                         <tr>
@@ -65,8 +61,8 @@
                             <th name="th_leave_hours" t-if="fixed_work_hours">
                                 Leave Hours
                             </th>
-                            <th name="th_leave_type" t-if="fixed_work_hours">
-                                Leave Type
+                            <th name="th_leave_types" t-if="fixed_work_hours">
+                                Leave Types
                             </th>
                             <th name="th_worked_hours">
                                 Worked Hours
@@ -79,7 +75,7 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="attendances_table">
+                    <tbody class="attendances-table">
                         <t t-foreach="attendances[doc.id]" t-as="attendance">
 
                             <tr
@@ -100,8 +96,8 @@
                                 <td id="leave_hours" t-if="fixed_work_hours">
                                     <t t-out="attendance['leave_hours']" />
                                 </td>
-                                <td id="leave_type" t-if="fixed_work_hours">
-                                    <t t-out="attendance['leave_type']" />
+                                <td id="leave_types" t-if="fixed_work_hours">
+                                    <t t-out="attendance['leave_types']" />
                                 </td>
                                 <td id="worked_hours">
                                     <t t-out="attendance['worked_hours']" />

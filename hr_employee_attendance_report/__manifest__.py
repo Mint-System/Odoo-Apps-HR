@@ -21,4 +21,13 @@
     "application": False,
     "auto_install": False,
     "images": ["images/screen.png"],
+    'assets': {
+    'web.report_assets_common': [
+        'hr_employee_attendance_report/static/src/css/report_styles.css',
+    ],
+    'web.report_assets_pdf': [
+        'hr_employee_attendance_report/static/src/css/report_styles.css',
+    ],
+}
+
 }

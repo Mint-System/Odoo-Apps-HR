@@ -78,15 +78,6 @@ def get_attendances(self, employees, start_date, end_date):
 
         overtime_paid_out_ids = overtime_model.search(domain)
 
-        # overtime_paid_out_ids = self.env['hr.attendance.overtime'].search([
-        #     ('employee_id', '=', employee.id),
-        #     '&',
-        #     ('date', '<=', end_date),
-        #     ('date', '>=', start_date),
-        #     ('paid_out', '=', True)
-        # ])
-
-
         # Get leaves with from or to date in range
         from_domain = [("date_from", ">=", start_date), ("date_from", "<=", end_date)]
         to_domain = [("date_to", ">=", end_date), ("date_to", "<=", end_date)]
@@ -97,6 +88,8 @@ def get_attendances(self, employees, start_date, end_date):
         filters = expression.AND([domain, expression.OR([from_domain, to_domain])])
         leave_ids = self.env["resource.calendar.leaves"].search(filters)
         leave_hours = sum(leave_ids.holiday_id.mapped("number_of_hours_display"))
+        _logger.warning("leave ids: %s", leave_ids)
+        _logger.warning("leave hours: %s", leave_hours)
 
         # Update summary
         summary[employee.id] = {
@@ -112,7 +105,14 @@ def get_attendances(self, employees, start_date, end_date):
         planned_hours = 0
         overtime = 0
         overtime_paid_out = 0
-        leaves_dict = {key: 0.0 for key in self.env["hr.leave.type"].search([("code", "!=", "")]).mapped("code")}
+        leaves_dict = {}
+        for leave_type in self.env["hr.leave.type"].search([]):
+            code = leave_type.code
+            if not code:
+                code = ''.join(word[0] for word in leave_type.name.split() if word).upper()
+                leave_type.write({'code': code})
+            leaves_dict[code] = 0.0
+
         for date in _daterange(start_date, end_date):
             # Get work hours
             min_check_date = datetime.combine(date, time.min)
@@ -127,40 +127,23 @@ def get_attendances(self, employees, start_date, end_date):
                 or min_check_date <= l.date_to <= max_check_date
             )
 
-
-            active_leaves_dict = {}
+            active_leaves_dict = defaultdict(float)
+           
             for leave_code in leaves_dict.keys():
-                active_leaves_dict[leave_code] = active_leaves.filtered(
+                leave_hours_per_leave = 0.0
+                number_of_hours_per_leave = active_leaves.filtered(
                     lambda l: l.holiday_id.holiday_status_id.code == leave_code
-                )
-
-            # Set leave hours
-            leave_hours = 0.0
-            if active_leaves.holiday_id:
-                number_of_hours = active_leaves.holiday_id.number_of_hours_display
-                if number_of_hours > company_hours_per_day:
-                    leave_hours = work_hours
+                ).holiday_id.number_of_hours_display
+                if number_of_hours_per_leave > company_hours_per_day:
+                    leave_hours_per_leave = work_hours
                 else:
-                    leave_hours = number_of_hours
+                    leave_hours_per_leave = number_of_hours_per_leave
 
-            # Get leave type code
-            leave_type = " ".join(
-                [al.holiday_id.holiday_status_id.code for al in active_leaves if al.holiday_id.holiday_status_id]
-            )
+                active_leaves_dict[leave_code] += leave_hours_per_leave
 
-            if active_leaves.holiday_id:
-                for leave_code in leaves_dict.keys():
-                    leave_hours_per_leave = 0.0
-                    number_of_hours_per_leave = active_leaves.filtered(
-                        lambda l: l.holiday_id.holiday_status_id.code == leave_code
-                    ).holiday_id.number_of_hours_display
-                    print("leave_code, nr_of_hours:", leave_code, number_of_hours_per_leave)
-                    if number_of_hours_per_leave > company_hours_per_day:
-                        leave_hours_per_leave = work_hours
-                    else:
-                        leave_hours_per_leave = number_of_hours_per_leave
+            leave_hours = sum(active_leaves_dict.values())
 
-                    leaves_dict[leave_code] += leave_hours_per_leave
+            leave_types = " ".join([leave_code + ": " + str(leave_hours_per_leave) for leave_code, leave_hours_per_leave in active_leaves_dict.items() if leave_hours_per_leave > 0.0])
 
             # Get attendance hours for this date
             worked_hours = sum(
@@ -181,11 +164,8 @@ def get_attendances(self, employees, start_date, end_date):
                     }
                 )
 
-
             sorted_time_stamps = sorted(time_stamps, key=lambda x: x['check_in'])
             time_stamps_string = Markup(" ".join([f"{_get_local_time(ts['check_in'], user_tz).strftime('%H:%M')}-{_get_local_time(ts['check_out'], user_tz).strftime('%H:%M')}<br>" for ts in sorted_time_stamps]))
-            # time_stamps_string = " ".join([f"{ts['check_in'].strftime('%H:%M')} {ts['check_out'].strftime('%H:%M')}" for ts in sorted_time_stamps])
-
 
             # Get overtime hours for this date
             overtime_hours = sum(overtime_ids.filtered(lambda o: o.date == date.date()).mapped("duration"))
@@ -202,7 +182,7 @@ def get_attendances(self, employees, start_date, end_date):
                     "weekday": date.strftime('%a'),
                     "planned_hours": round(work_hours, 2),
                     "leave_hours": round(leave_hours, 2),
-                    "leave_type": leave_type,
+                    "leave_types": leave_types,
                     "worked_hours": round(worked_hours, 2),
                     "diff_hours": round(worked_hours - (work_hours - leave_hours), 2),
                     "time_stamps": time_stamps_string,
@@ -228,7 +208,14 @@ def get_attendances(self, employees, start_date, end_date):
 def get_leave_allocations(self, employees):
     """Get data on leave and allocations."""
 
-    leave_codes = self.env["hr.leave.type"].search([("code", "!=", "")]).mapped("code")
+    leave_codes = []
+    for leave_type in self.env["hr.leave.type"].search([]):
+        code = leave_type.code
+        if not code:
+            code = ''.join(word[0] for word in leave_type.name.split() if word).upper()
+            leave_type.write({'code': code})
+        
+        leave_codes.append(code)
 
     # Data mappings
     leave_allocations = {}
@@ -236,8 +223,10 @@ def get_leave_allocations(self, employees):
 
     # Init statics
     now = fields.Datetime.now()
+    _logger.warning("########### now %s", now)
 
     # Iterate on users
+    _logger.warning("########### employees %s", employees)
     for employee in employees:
         # Get active allocations
         allocation_ids = self.env["hr.leave.allocation"].search(
@@ -250,6 +239,7 @@ def get_leave_allocations(self, employees):
         )
 
         leave_allocations[employee.id] = allocation_ids
+        _logger.warning("########### allocation_ids %s for %s" % (allocation_ids, employee.name,))
 
         # differentiate leave types
         for leave_code in leave_codes:

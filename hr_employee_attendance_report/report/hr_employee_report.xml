@@ -29,7 +29,7 @@
                     t-value="summary[doc.id]['fixed_work_hours']"
                 />
 
-                <h3 class="attendance-report">Attendance Report</h3>
+                <h5 class="attendance-report">Attendance Report</h5>
 
                 <p><span class="light-text">Employee:</span> <span t-out="doc.name" /></p>
                 <p><span class="light-text">From:</span> <span
@@ -53,25 +53,28 @@
                                 Date
                             </th>
                             <th name="th_weekday" t-if="show_weekdays">
-                                Weekday
+                                WKDY
                             </th>
                             <th name="th_planned_hours" t-if="fixed_work_hours">
-                                Planned Hours
+                                h planned
                             </th>
                             <th name="th_leave_hours" t-if="fixed_work_hours">
-                                Leave Hours
+                                h absent
                             </th>
                             <th name="th_leave_types" t-if="fixed_work_hours">
                                 Leave Types
                             </th>
                             <th name="th_worked_hours">
-                                Worked Hours
+                                h present
+                            </th>
+                            <th name="th_diff_hours" t-if="show_diff_hours">
+                                +/-
                             </th>
                             <th name="th_time_stamps" t-if="fixed_work_hours">
                                 Time Stamps
                             </th>
                             <th name="th_overtime" t-if="fixed_work_hours">
-                                Overtime
+                                h +/-
                             </th>
                         </tr>
                     </thead>
@@ -101,6 +104,9 @@
                                 </td>
                                 <td id="worked_hours">
                                     <t t-out="attendance['worked_hours']" />
+                                </td>
+                                <td id="diff_hours" t-if="show_diff_hours">
+                                    <t t-out="attendance['diff_hours']" />
                                 </td>
                                 <td id="time_stamps" t-if="fixed_work_hours" style="white-space:nowrap;">
                                     <t t-out="attendance['time_stamps']" />
@@ -194,7 +200,7 @@
                 </div>
 
                 <t t-if="fixed_work_hours">
-                    <h2>Leave Allocations</h2>
+                    <h5>Leave Allocations</h5>
 
                     <table
                         class="table table-sm allocations_table"
@@ -246,6 +252,81 @@
                         </tbody>
                     </table>
                 </t>
+
+                <t t-if="fixed_work_hours">
+                <br/>
+                    <h5>Leave Allocations V2</h5>
+
+                    <div id="summary_enhanced" class="clearfix" name="summary_enhanced">
+                        <div>
+                            <style>
+                                table.summary_table_v2 th {
+                                    text-align: left;
+                                }
+                                table.summary_table_v2 td {
+                                    text-align: left;
+                                }
+                            </style>
+                            <table
+                                class="table table-sm summary_table_v2"
+                                name="summary_table_v2"
+                            >
+
+                                <tbody class="summary_table_v2">
+                                    <tr t-if="fixed_work_hours">
+                                        <th name="th_balance">
+                                            Balance
+                                        </th>
+                                        <th name="th_period">
+                                            Period
+                                        </th>
+                                        <th name="th_overtime">
+                                            Overtime
+                                        </th>
+                                        <t
+                                            t-foreach="summary[doc.id]['leaves']"
+                                            t-as="item"
+                                        >
+                                            <th name="th_leave_key">
+                                                <t t-out="item" />
+                                            </th>
+                                        </t>
+                                    </tr>
+                                    <tr t-if="fixed_work_hours">
+                                        <td id="active_leaves">
+                                            Active Leaves
+                                        </td>
+                                        <td id="current_period">
+                                            <span
+                                                t-out="dates[doc.id]['start_date']"
+                                                t-options="{'widget': 'date'}"
+                                            />
+                                            <span
+                                                t-out="dates[doc.id]['end_date']"
+                                                t-options="{'widget': 'date'}"
+                                            />
+                                        </td>
+                                        <td id="overtime">
+                                            <t t-out="summary[doc.id]['overtime']" />
+                                        </td>
+                                        <t
+                                            t-foreach="summary[doc.id]['leaves'].values()"
+                                            t-as="leave_value"
+                                        >
+                                            <td id="leave">
+                                            <t t-out="leave_value" />
+                                            </td>
+                                        </t>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </t>
+
+
             </div>
 
         </t>

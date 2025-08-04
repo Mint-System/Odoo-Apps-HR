@@ -187,8 +187,7 @@ def get_attendances(self, employees, start_date, end_date):
                     "diff_hours": round(worked_hours - (work_hours - leave_hours), 2),
                     "time_stamps": time_stamps_string,
                     "overtime": round(overtime_hours, 2),
-
-                    'overtime_paid_out': round(overtime_paid_out_hours, 2),
+                    "overtime_paid_out": round(overtime_paid_out_hours, 2),
                     "background_color": "lightgrey" if work_hours == 0 and fixed_work_hours else "none",
                 }
             )
@@ -223,10 +222,8 @@ def get_leave_allocations(self, employees):
 
     # Init statics
     now = fields.Datetime.now()
-    _logger.warning("########### now %s", now)
 
     # Iterate on users
-    _logger.warning("########### employees %s", employees)
     for employee in employees:
         # Get active allocations
         allocation_ids = self.env["hr.leave.allocation"].search(
@@ -239,7 +236,6 @@ def get_leave_allocations(self, employees):
         )
 
         leave_allocations[employee.id] = allocation_ids
-        _logger.warning("########### allocation_ids %s for %s" % (allocation_ids, employee.name,))
 
         # differentiate leave types
         for leave_code in leave_codes:
@@ -264,8 +260,6 @@ def get_leave_allocations(self, employees):
             )
             leave_allocations_per_type[employee.id][leave_code] = leaves_per_type
 
-    print("leave_allocations_per_type", leave_allocations_per_type)
-    print("leave_allocations", leave_allocations)
 
     return leave_allocations, leave_allocations_per_type
 
@@ -306,4 +300,5 @@ def _get_report_values(self, docids, data=None, report_name=None):
         "leave_allocations": leave_allocations,
         "leave_allocations_per_type": leave_allocations_per_type,
         "show_weekdays": data.get("show_weekdays", False),
+        "show_diff_hours": data.get("show_diff_hours", False),
     }

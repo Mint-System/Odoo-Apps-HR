@@ -9,6 +9,7 @@
                     <group col="4" colspan="6">
                         <field name="date_from" />
                         <field name="date_until" />
+                        <field name="show_weekdays" />
                     </group>
                     <footer>
                         <button

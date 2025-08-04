@@ -52,7 +52,7 @@
                             <th name="th_date">
                                 Date
                             </th>
-                            <th name="th_weekday">
+                            <th name="th_weekday" t-if="show_weekdays">
                                 Weekday
                             </th>
                             <th name="th_planned_hours" t-if="fixed_work_hours">
@@ -87,7 +87,7 @@
                                         t-options="{'widget': 'date'}"
                                     />
                                 </td>
-                                <td id="weekday">
+                                <td id="weekday" t-if="show_weekdays">
                                     <t t-out="attendance['weekday']" />
                                 </td>
                                 <td id="planned_hours" t-if="fixed_work_hours">

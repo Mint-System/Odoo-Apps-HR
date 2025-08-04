@@ -305,4 +305,5 @@ def _get_report_values(self, docids, data=None, report_name=None):
         "summary": summary,
         "leave_allocations": leave_allocations,
         "leave_allocations_per_type": leave_allocations_per_type,
+        "show_weekdays": data.get("show_weekdays", False),
     }

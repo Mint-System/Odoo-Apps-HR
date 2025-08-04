@@ -31,8 +31,13 @@
 }
 
 .attendances-table thead {
+    display: table-header-group;
+}
+
+.attendances-table tfoot {
     display: table-row-group;
 }
+
 .attendances-table tr {
     page-break-before: always;
     page-break-after: always;

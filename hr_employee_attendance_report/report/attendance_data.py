@@ -64,19 +64,18 @@ def get_attendances(self, employees, start_date, end_date):
             ]
         )
 
-        overtime_model = self.env['hr.attendance.overtime']
-        field_exists = 'paid_out' in overtime_model._fields
+        # overtime_model = self.env['hr.attendance.overtime']
+        # paid_out_field_exists = 'paid_out' in overtime_model._fields
 
-        domain = [
-            ('employee_id', '=', employee.id),
-            ('date', '<=', end_date),
-            ('date', '>=', start_date)
-        ]
+        # domain = [
+        #     ('employee_id', '=', employee.id),
+        #     ('date', '<=', end_date),
+        #     ('date', '>=', start_date)
+        # ]
 
-        if field_exists:
-            domain.append(('paid_out', '=', True))
-
-        overtime_paid_out_ids = overtime_model.search(domain)
+        # if paid_out_field_exists:
+        #     domain.append(('paid_out', '=', True))
+        #     overtime_paid_out_ids = overtime_model.search(domain)
 
         # Get leaves with from or to date in range
         from_domain = [("date_from", ">=", start_date), ("date_from", "<=", end_date)]
@@ -97,7 +96,7 @@ def get_attendances(self, employees, start_date, end_date):
             "leave_hours": round(leave_hours, 2),
             "worked_hours": round(sum(attendance_ids.mapped("worked_hours")), 2),
             "overtime_total": round(employee.total_overtime, 2),
-            "overtime_paid_out_total": round(employee.total_overtime_paid_out, 2),
+            # "overtime_paid_out_total": round(employee.total_overtime_paid_out, 2),
         }
 
         # For each date in range compute details
@@ -172,8 +171,8 @@ def get_attendances(self, employees, start_date, end_date):
             overtime += overtime_hours
 
             # Get paid out overtime hours for this date
-            overtime_paid_out_hours = sum(overtime_paid_out_ids.filtered(lambda o: o.date == date.date()).mapped('duration'))
-            overtime_paid_out += overtime_paid_out_hours
+            # overtime_paid_out_hours = sum(overtime_paid_out_ids.filtered(lambda o: o.date == date.date()).mapped('duration'))
+            # overtime_paid_out += overtime_paid_out_hours
 
             # Create data entry
             attendances[employee.id].append(
@@ -187,7 +186,7 @@ def get_attendances(self, employees, start_date, end_date):
                     "diff_hours": round(worked_hours - (work_hours - leave_hours), 2),
                     "time_stamps": time_stamps_string,
                     "overtime": round(overtime_hours, 2),
-                    "overtime_paid_out": round(overtime_paid_out_hours, 2),
+                    # "overtime_paid_out": round(overtime_paid_out_hours, 2),
                     "background_color": "lightgrey" if work_hours == 0 and fixed_work_hours else "none",
                 }
             )
@@ -196,7 +195,7 @@ def get_attendances(self, employees, start_date, end_date):
         summary[employee.id]["planned_hours"] = round(planned_hours, 2)
         summary[employee.id]["overtime"] = round(overtime, 2)
 
-        summary[employee.id]['overtime_paid_out'] = round(overtime_paid_out, 2)
+        # summary[employee.id]['overtime_paid_out'] = round(overtime_paid_out, 2)
         
         summary[employee.id]["leaves"] = leaves_dict
         

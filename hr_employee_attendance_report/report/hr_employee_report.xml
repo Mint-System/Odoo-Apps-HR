@@ -170,14 +170,14 @@
                                         <t t-out="summary[doc.id]['overtime']" />
                                     </td>
                                 </tr>
-                                <tr t-if="fixed_work_hours">
+                                <!-- <tr t-if="fixed_work_hours">
                                     <th name="th_overtime_paid_out">
                                         Overtime (paid out)
                                     </th>
                                     <td id="overtime_paid_out" class="text-right">
                                         <t t-out="summary[doc.id]['overtime_paid_out']" />
                                     </td>
-                                </tr>
+                                </tr> -->
                                 <tr t-if="fixed_work_hours">
                                     <th name="th_overtime_total">
                                         Overtime Total
@@ -186,14 +186,14 @@
                                         <t t-out="summary[doc.id]['overtime_total']" />
                                     </td>
                                 </tr>
-                                 <tr t-if="fixed_work_hours">
+                                 <!-- <tr t-if="fixed_work_hours">
                                     <th name="th_overtime_total">
                                         Overtime Paid Out Total
                                     </th>
                                     <td id="overtime_paid_out_total" class="text-right">
                                         <t t-out="summary[doc.id]['overtime_paid_out_total']" />
                                     </td>
-                                </tr>
+                                </tr> -->
                             </tbody>
                         </table>
                     </div>

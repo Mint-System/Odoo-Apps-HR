@@ -44,7 +44,7 @@ class HrEmployee(models.Model):
             [
                 "&",
                 ("employee_id", "=", employee.id),
-                ("leave_type_request_unit", "=", "day"),
+                ("holiday_status_id.ignore_missing_attendance", "=", False),
                 "|",
                 ("date_from", ">=", date_from),
                 ("date_to", ">=", date_from),

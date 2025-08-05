@@ -13,12 +13,12 @@ Action:
 
 Day off:
 
-- Validate "Doctor appointment" leave
+- Validate "Family trip" leave
 - Generate missing attendance entries in the same timespan
 - Ensure that no missing attendance entries have been created
 
-Half-day off:
+Ignore type:
 
-- Create and confirm an half-day leave 1 week ago
-- Run the create missing attenances action covering the leave time
-- Ensure that a missing attendance entry has been created on the date of the leave
+- Open the leave type "Compensatory days" and check "Ignore Missing Attendance"
+- Generate missing attendance entries in the same timespan as "Family trip"
+- Check if 3 entries have been created

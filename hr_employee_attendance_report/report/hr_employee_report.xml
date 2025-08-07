@@ -167,7 +167,7 @@
                                         Overtime
                                     </th>
                                     <td id="overtime">
-                                        <t t-out="summary[doc.id]['overtime']" />
+                                        <t t-out="summary[doc.id]['overtime_calculated']" />
                                     </td>
                                 </tr>
                                 <!-- <tr t-if="fixed_work_hours">

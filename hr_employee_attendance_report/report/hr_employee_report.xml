@@ -73,7 +73,7 @@
                             <th name="th_time_stamps" t-if="fixed_work_hours">
                                 Time Stamps
                             </th>
-                            <th name="th_overtime" t-if="fixed_work_hours">
+                            <th name="th_overtime" t-if="show_odoo_overtimes">
                                 h +/-
                             </th>
                         </tr>
@@ -111,7 +111,7 @@
                                 <td id="time_stamps" t-if="fixed_work_hours" style="white-space:nowrap;">
                                     <t t-out="attendance['time_stamps']" />
                                 </td>
-                                <td id="overtime" t-if="fixed_work_hours">
+                                <td id="overtime" t-if="show_odoo_overtimes">
                                     <t t-out="attendance['overtime']" />
                                 </td>
                             </tr>
@@ -162,9 +162,17 @@
                                         <t t-out="summary[doc.id]['worked_hours']" />
                                     </td>
                                 </tr>
-                                <tr t-if="fixed_work_hours">
+                                <!-- <tr t-if="fixed_work_hours">
                                     <th name="th_overtime">
                                         Overtime
+                                    </th>
+                                    <td id="overtime">
+                                        <t t-out="summary[doc.id]['overtime_calculated']" />
+                                    </td>
+                                </tr> -->
+                                <tr t-if="fixed_work_hours">
+                                    <th name="th_overtime">
+                                        +/-
                                     </th>
                                     <td id="overtime">
                                         <t t-out="summary[doc.id]['overtime_calculated']" />
@@ -178,14 +186,14 @@
                                         <t t-out="summary[doc.id]['overtime_paid_out']" />
                                     </td>
                                 </tr> -->
-                                <tr t-if="fixed_work_hours">
+                                <!-- <tr t-if="fixed_work_hours">
                                     <th name="th_overtime_total">
                                         Overtime Total
                                     </th>
                                     <td id="overtime_total">
                                         <t t-out="summary[doc.id]['overtime_total']" />
                                     </td>
-                                </tr>
+                                </tr> -->
                                  <!-- <tr t-if="fixed_work_hours">
                                     <th name="th_overtime_total">
                                         Overtime Paid Out Total
@@ -199,7 +207,7 @@
                     </div>
                 </div>
 
-                <t t-if="fixed_work_hours">
+                <!-- <t t-if="fixed_work_hours">
                     <h5>Leave Allocations</h5>
 
                     <table
@@ -251,7 +259,7 @@
                             </t>
                         </tbody>
                     </table>
-                </t>
+                </t> -->
 
                 <t t-if="fixed_work_hours">
                 <br/>
@@ -275,48 +283,67 @@
                                 <tbody class="summary_table_v2">
                                     <tr t-if="fixed_work_hours">
                                         <th name="th_balance">
-                                            Balance
+                                            Employee
                                         </th>
                                         <th name="th_period">
                                             Period
                                         </th>
-                                        <th name="th_overtime">
-                                            Overtime
+                                        <th name="th_overtime_calculated">
+                                            +/-
                                         </th>
-                                        <t
+                                        <th name="th_overtime_calculated_prev_month">
+                                            +/- prev.m.
+                                        </th>
+                                        <th name="th_overtime">
+                                            +/- Diff
+                                        </th>
+                                        <th name="th_leaves">
+                                            Leaves
+                                        </th>
+
+                                        <!-- <t
                                             t-foreach="summary[doc.id]['leaves']"
                                             t-as="item"
                                         >
                                             <th name="th_leave_key">
                                                 <t t-out="item" />
                                             </th>
-                                        </t>
+                                        </t> -->
                                     </tr>
                                     <tr t-if="fixed_work_hours">
                                         <td id="active_leaves">
-                                            Active Leaves
+                                            <span t-out="doc.name" />
                                         </td>
                                         <td id="current_period">
                                             <span
                                                 t-out="dates[doc.id]['start_date']"
                                                 t-options="{'widget': 'date'}"
-                                            />
+                                            /><span>-</span>
                                             <span
                                                 t-out="dates[doc.id]['end_date']"
                                                 t-options="{'widget': 'date'}"
                                             />
                                         </td>
-                                        <td id="overtime">
-                                            <t t-out="summary[doc.id]['overtime']" />
+                                        <td id="overtime_calculated">
+                                            <t t-out="summary[doc.id]['overtime_calculated']" />
                                         </td>
-                                        <t
+                                        <td id="overtime_calculated_prev_month">
+                                            
+                                        </td>
+                                        <td id="overtime_calculated_diff">
+                                            
+                                        </td>
+                                        <td id="leaves">
+                                            
+                                        </td>
+                                        <!-- <t
                                             t-foreach="summary[doc.id]['leaves'].values()"
                                             t-as="leave_value"
                                         >
                                             <td id="leave">
                                             <t t-out="leave_value" />
                                             </td>
-                                        </t>
+                                        </t> -->
                                     </tr>
 
                                 </tbody>

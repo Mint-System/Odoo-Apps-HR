@@ -11,6 +11,7 @@
                         <field name="date_until" />
                         <field name="show_weekdays" />
                         <field name="show_diff_hours" />
+                        <field name="show_odoo_overtimes" />
                     </group>
                     <footer>
                         <button

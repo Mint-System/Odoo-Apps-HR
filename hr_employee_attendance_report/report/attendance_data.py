@@ -292,4 +292,5 @@ def _get_report_values(self, docids, data=None, report_name=None):
         "leave_allocations_per_type": leave_allocations_per_type,
         "show_weekdays": data.get("show_weekdays", False),
         "show_diff_hours": data.get("show_diff_hours", False),
+        "show_odoo_overtimes": data.get("show_odoo_overtimes", False),
     }

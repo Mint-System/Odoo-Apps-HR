@@ -26,6 +26,16 @@ def _get_leave_type_abbreviation(leave_type_name):
 def _get_local_time(date, tz):
     return pytz.utc.localize(date).astimezone(tz)
 
+def _get_overtime_total_up_to_previous_month(employee, start_date):
+    first_day = start_date.replace(day=1)
+    last_day_of_previous_month = first_day - timedelta(days=1)
+    
+    if employee.company_id.hr_attendance_overtime:
+        total_overtime_up_to_previous_month = sum(employee.overtime_ids.filtered(lambda overtime: overtime.date <= last_day_of_previous_month.date()).mapped('duration'))
+    else:
+        total_overtime_up_to_previous_month = 0
+    return total_overtime_up_to_previous_month
+
 def get_attendances(self, employees, start_date, end_date):
     """Group attendances by user and day."""
 
@@ -97,6 +107,7 @@ def get_attendances(self, employees, start_date, end_date):
             "leave_hours": round(leave_hours, 2),
             "worked_hours": round(sum(attendance_ids.mapped("worked_hours")), 2),
             "overtime_total": round(employee.total_overtime, 2),
+            "total_overtime_up_to_previous_month": round(_get_overtime_total_up_to_previous_month(employee, start_date), 2),
             # "overtime_paid_out_total": round(employee.total_overtime_paid_out, 2),
         }
 
@@ -191,6 +202,7 @@ def get_attendances(self, employees, start_date, end_date):
         summary[employee.id]["overtime"] = round(overtime, 2)
         summary[employee.id]["overtime_calculated"] = round(summary[employee.id]["worked_hours"] - (summary[employee.id]["planned_hours"] - summary[employee.id]["leave_hours"]), 2)
         summary[employee.id]["leaves"] = leaves_dict
+        summary[employee.id]["overtime_diff"] = round(summary[employee.id]["overtime_calculated"] - summary[employee.id]["total_overtime_up_to_previous_month"], 2)
         
     return dates, attendances, summary
 
@@ -281,6 +293,9 @@ def _get_report_values(self, docids, data=None, report_name=None):
     dates, attendances, summary = get_attendances(self, employees, start_date, end_date)
     leave_allocations, leave_allocations_per_type = get_leave_allocations(self, employees)
 
+    _logger.warning("### context: %s", self.env.context)
+    show_allocation = self.env.context.get("show_allocation", True)
+
     return {
         "doc_ids": docids,
         "doc_model": "hr.employee",
@@ -290,7 +305,8 @@ def _get_report_values(self, docids, data=None, report_name=None):
         "summary": summary,
         "leave_allocations": leave_allocations,
         "leave_allocations_per_type": leave_allocations_per_type,
-        "show_weekdays": data.get("show_weekdays", False),
-        "show_diff_hours": data.get("show_diff_hours", False),
+        "show_weekdays": data.get("show_weekdays", True),
+        "show_diff_hours": data.get("show_diff_hours", True),
         "show_odoo_overtimes": data.get("show_odoo_overtimes", False),
+        "show_allocation": show_allocation,
     }

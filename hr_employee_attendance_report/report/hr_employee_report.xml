@@ -207,150 +207,232 @@
                     </div>
                 </div>
 
-                <!-- <t t-if="fixed_work_hours">
-                    <h5>Leave Allocations</h5>
+                <t t-if="show_allocation">
 
-                    <table
-                        class="table table-sm allocations_table"
-                        name="allocations_table"
-                    >
-                        <thead>
-                            <tr>
-                                <th name="th_description" class="text-start">
-                                    Description
-                                </th>
-                                <th name="th_leave_type" class="text-start">
-                                    Time Off Type
-                                </th>
-                                <th name="th_allocation" class="text-end">
-                                    Allocation
-                                </th>
-                                <th name="th_leaves_taken" class="text-end">
-                                    Leaves Taken
-                                </th>
-                                <th name="th_remaining_leaves" class="text-end">
-                                    Remaining
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="leaves_table">
-                            <t t-foreach="leave_allocations[doc.id]" t-as="allocation">
+                 <t t-if="fixed_work_hours">
+                        <h5>Overview</h5>
 
+                        <table
+                            class="table table-sm allocations_table"
+                            name="allocations_table"
+                        >
+                            <thead>
+                                <tr><th colspan="5" class="text-center" style="text-align: center; font-size: 12px;">Flexitime</th></tr>
                                 <tr>
-                                    <td id="description" class="text-start">
-                                        <t t-out="allocation.name" />
+                                    <th name="th_description" class="text-start">
+                                        +/-
+                                    </th>
+                                    <th name="th_leave_type" class="text-start">
+                                        Saldo
+                                    </th>
+                                    <th name="th_allocation" class="text-end">
+                                        Diff
+                                    </th>
+                                    <th name="th_leaves_taken" class="text-end">
+                                        
+                                    </th>
+                                    <th name="th_remaining_leaves" class="text-end">
+                                        
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="leaves_table">
+                               
+                                <tr>
+                                    <td id="flexitime" class="text-start">
+                                        <t t-out="summary[doc.id]['overtime_calculated']" />
                                     </td>
                                     <td id="leave_type" class="text-start">
-                                        <t t-out="allocation.holiday_status_id.name" />
+                                        <t t-out="summary[doc.id]['total_overtime_up_to_previous_month']" />
                                     </td>
                                     <td id="allocation" class="text-end">
-                                        <t t-out="allocation.duration_display" />
+                                        <t t-out="summary[doc.id]['overtime_diff']" />
                                     </td>
                                     <td id="leaves_taken" class="text-end">
-                                        <t t-out="round(allocation.leaves_taken, 2)" />
+                                       
                                     </td>
                                     <td id="remaining_leaves" class="text-end">
-                                        <t
-                                            t-out="allocation.remaining_leaves_display"
-                                        />
+                                       
                                     </td>
                                 </tr>
+                                <tr><th colspan="5" class="text-center" style="text-align: center; font-size: 12px;">Leaves</th></tr>
+                                <tr style="border-bottom: 1px solid black;">
+                                    <th name="th_description" class="text-start">
+                                        Description
+                                    </th>
+                                    <th name="th_leave_type" class="text-start">
+                                        Time Off Type
+                                    </th>
+                                    <th name="th_allocation" class="text-end">
+                                        Allocation
+                                    </th>
+                                    <th name="th_leaves_taken" class="text-end">
+                                        Leaves Taken
+                                    </th>
+                                    <th name="th_remaining_leaves" class="text-end">
+                                        Remaining
+                                    </th>
+                                </tr>
 
-                            </t>
-                        </tbody>
-                    </table>
-                </t> -->
+                                <t t-foreach="leave_allocations[doc.id]" t-as="allocation">
 
-                <t t-if="fixed_work_hours">
-                <br/>
-                    <h5>Leave Allocations V2</h5>
-
-                    <div id="summary_enhanced" class="clearfix" name="summary_enhanced">
-                        <div>
-                            <style>
-                                table.summary_table_v2 th {
-                                    text-align: left;
-                                }
-                                table.summary_table_v2 td {
-                                    text-align: left;
-                                }
-                            </style>
-                            <table
-                                class="table table-sm summary_table_v2"
-                                name="summary_table_v2"
-                            >
-
-                                <tbody class="summary_table_v2">
-                                    <tr t-if="fixed_work_hours">
-                                        <th name="th_balance">
-                                            Employee
-                                        </th>
-                                        <th name="th_period">
-                                            Period
-                                        </th>
-                                        <th name="th_overtime_calculated">
-                                            +/-
-                                        </th>
-                                        <th name="th_overtime_calculated_prev_month">
-                                            +/- prev.m.
-                                        </th>
-                                        <th name="th_overtime">
-                                            +/- Diff
-                                        </th>
-                                        <th name="th_leaves">
-                                            Leaves
-                                        </th>
-
-                                        <!-- <t
-                                            t-foreach="summary[doc.id]['leaves']"
-                                            t-as="item"
-                                        >
-                                            <th name="th_leave_key">
-                                                <t t-out="item" />
-                                            </th>
-                                        </t> -->
-                                    </tr>
-                                    <tr t-if="fixed_work_hours">
-                                        <td id="active_leaves">
-                                            <span t-out="doc.name" />
+                                    <tr>
+                                        <td id="description" class="text-start">
+                                            <t t-out="allocation.name" />
                                         </td>
-                                        <td id="current_period">
-                                            <span
-                                                t-out="dates[doc.id]['start_date']"
-                                                t-options="{'widget': 'date'}"
-                                            /><span>-</span>
-                                            <span
-                                                t-out="dates[doc.id]['end_date']"
-                                                t-options="{'widget': 'date'}"
+                                        <td id="leave_type" class="text-start">
+                                            <t t-out="allocation.holiday_status_id.name" />
+                                        </td>
+                                        <td id="allocation" class="text-end">
+                                            <t t-out="allocation.duration_display" />
+                                        </td>
+                                        <td id="leaves_taken" class="text-end">
+                                            <t t-out="round(allocation.leaves_taken, 2)" />
+                                        </td>
+                                        <td id="remaining_leaves" class="text-end">
+                                            <t
+                                                t-out="allocation.remaining_leaves_display"
                                             />
                                         </td>
-                                        <td id="overtime_calculated">
-                                            <t t-out="summary[doc.id]['overtime_calculated']" />
-                                        </td>
-                                        <td id="overtime_calculated_prev_month">
-                                            
-                                        </td>
-                                        <td id="overtime_calculated_diff">
-                                            
-                                        </td>
-                                        <td id="leaves">
-                                            
-                                        </td>
-                                        <!-- <t
-                                            t-foreach="summary[doc.id]['leaves'].values()"
-                                            t-as="leave_value"
-                                        >
-                                            <td id="leave">
-                                            <t t-out="leave_value" />
-                                            </td>
-                                        </t> -->
                                     </tr>
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                                </t>
 
+                              
+                            </tbody>
+                        </table>
+                    </t>
+
+                    <!-- <t t-if="fixed_work_hours">
+                        <h5>Leave Allocations</h5>
+
+                        <table
+                            class="table table-sm allocations_table"
+                            name="allocations_table"
+                        >
+                            <thead>
+                                <tr>
+                                    <th name="th_description" class="text-start">
+                                        Description
+                                    </th>
+                                    <th name="th_leave_type" class="text-start">
+                                        Time Off Type
+                                    </th>
+                                    <th name="th_allocation" class="text-end">
+                                        Allocation
+                                    </th>
+                                    <th name="th_leaves_taken" class="text-end">
+                                        Leaves Taken
+                                    </th>
+                                    <th name="th_remaining_leaves" class="text-end">
+                                        Remaining
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="leaves_table">
+                                <t t-foreach="leave_allocations[doc.id]" t-as="allocation">
+
+                                    <tr>
+                                        <td id="description" class="text-start">
+                                            <t t-out="allocation.name" />
+                                        </td>
+                                        <td id="leave_type" class="text-start">
+                                            <t t-out="allocation.holiday_status_id.name" />
+                                        </td>
+                                        <td id="allocation" class="text-end">
+                                            <t t-out="allocation.duration_display" />
+                                        </td>
+                                        <td id="leaves_taken" class="text-end">
+                                            <t t-out="round(allocation.leaves_taken, 2)" />
+                                        </td>
+                                        <td id="remaining_leaves" class="text-end">
+                                            <t
+                                                t-out="allocation.remaining_leaves_display"
+                                            />
+                                        </td>
+                                    </tr>
+
+                                </t>
+                            </tbody>
+                        </table>
+                    </t> -->
+
+                    <!-- <t t-if="fixed_work_hours">
+                    <br/>
+                        <h5>Leave Allocations V2</h5>
+
+                        <div id="summary_enhanced" class="clearfix" name="summary_enhanced">
+                            <div>
+                                <style>
+                                    table.summary_table_v2 th {
+                                        text-align: left;
+                                    }
+                                    table.summary_table_v2 td {
+                                        text-align: left;
+                                    }
+                                </style>
+                                <table
+                                    class="table table-sm summary_table_v2"
+                                    name="summary_table_v2"
+                                >
+
+                                    <tbody class="summary_table_v2">
+                                        <tr t-if="fixed_work_hours">
+                                            <th name="th_balance">
+                                                Employee
+                                            </th>
+                                            <th name="th_period">
+                                                Period
+                                            </th>
+                                            <th name="th_overtime_calculated">
+                                                +/-
+                                            </th>
+                                            <th name="th_overtime_calculated_prev_month">
+                                                +/- prev.m.
+                                            </th>
+                                            <th name="th_overtime">
+                                                +/- Diff
+                                            </th>
+                                            <th name="th_leaves">
+                                                Leaves
+                                            </th>
+
+                                        </tr>
+                                        <tr t-if="fixed_work_hours">
+                                            <td id="active_leaves">
+                                                <span t-out="doc.name" />
+                                            </td>
+                                            <td id="current_period">
+                                                <span
+                                                    t-out="dates[doc.id]['start_date']"
+                                                    t-options="{'widget': 'date'}"
+                                                /><span>-</span>
+                                                <span
+                                                    t-out="dates[doc.id]['end_date']"
+                                                    t-options="{'widget': 'date'}"
+                                                />
+                                            </td>
+                                            <td id="overtime_calculated">
+                                                <t t-out="summary[doc.id]['overtime_calculated']" />
+                                            </td>
+                                            <td id="overtime_calculated_prev_month">
+                                                
+                                            </td>
+                                            <td id="overtime_calculated_diff">
+                                                
+                                            </td>
+                                            <td id="leaves">
+                                                
+                                            </td>
+                                           
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </t> -->
                 </t>
 
 

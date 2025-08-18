@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_partner_color" model="ir.ui.view">
+        <field name="name">res.partner.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='internal_notes']" position="inside">
+                <group>
+                    <field name="color_hex" widget="color"/>
+                    <field name="color"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

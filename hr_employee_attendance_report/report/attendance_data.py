@@ -165,7 +165,7 @@ def get_attendances(self, employees, start_date, end_date):
             time_stamps = []
 
             for attendance in attendance_ids.filtered(
-                lambda a: a.check_in.date() == date.date()
+                lambda a: a.check_in.date() == date.date() and a.check_out - a.check_in > timedelta(seconds=3)
             ):
                 time_stamps.append(
                     {

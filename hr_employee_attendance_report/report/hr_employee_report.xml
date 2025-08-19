@@ -220,13 +220,13 @@
                                 <tr><th colspan="5" class="text-center" style="text-align: center; font-size: 12px;">Flexitime</th></tr>
                                 <tr>
                                     <th name="th_description" class="text-start">
-                                        +/-
+                                        +/- this month
                                     </th>
                                     <th name="th_leave_type" class="text-start">
-                                        Saldo
+                                        Saldo <span t-out="dates[doc.id]['end_date']" t-options="{'widget': 'date'}"/>
                                     </th>
                                     <th name="th_allocation" class="text-end">
-                                        Diff
+                                        Saldo <span t-out="dates[doc.id]['end_date_of_previous_month']" t-options="{'widget': 'date'}"/>
                                     </th>
                                     <th name="th_leaves_taken" class="text-end">
                                         
@@ -243,10 +243,10 @@
                                         <t t-out="summary[doc.id]['overtime_calculated']" />
                                     </td>
                                     <td id="leave_type" class="text-start">
-                                        <t t-out="summary[doc.id]['total_overtime_up_to_previous_month']" />
+                                        <t t-out="summary[doc.id]['total_overtime_up_to_this_month']" />
                                     </td>
                                     <td id="allocation" class="text-end">
-                                        <t t-out="summary[doc.id]['overtime_diff']" />
+                                        <t t-out="summary[doc.id]['total_overtime_up_to_previous_month']" />
                                     </td>
                                     <td id="leaves_taken" class="text-end">
                                        

@@ -26,15 +26,27 @@ def _get_leave_type_abbreviation(leave_type_name):
 def _get_local_time(date, tz):
     return pytz.utc.localize(date).astimezone(tz)
 
+def _get_last_day_of_month(any_day):
+    next_month = any_day.replace(day=28) + timedelta(days=4)
+    return next_month - timedelta(days=next_month.day)
+
 def _get_overtime_total_up_to_previous_month(employee, start_date):
-    first_day = start_date.replace(day=1)
-    last_day_of_previous_month = first_day - timedelta(days=1)
+    last_day_of_previous_month = start_date - timedelta(days=1)
     
     if employee.company_id.hr_attendance_overtime:
         total_overtime_up_to_previous_month = sum(employee.overtime_ids.filtered(lambda overtime: overtime.date <= last_day_of_previous_month.date()).mapped('duration'))
     else:
         total_overtime_up_to_previous_month = 0
     return total_overtime_up_to_previous_month
+
+def _get_overtime_total_up_to_this_month(employee, start_date):
+    last_day_of_this_month = _get_last_day_of_month(start_date)
+    
+    if employee.company_id.hr_attendance_overtime:
+        total_overtime_up_to_this_month = sum(employee.overtime_ids.filtered(lambda overtime: overtime.date <= last_day_of_this_month.date()).mapped('duration'))
+    else:
+        total_overtime_up_to_this_month = 0
+    return total_overtime_up_to_this_month
 
 def get_attendances(self, employees, start_date, end_date):
     """Group attendances by user and day."""
@@ -55,6 +67,7 @@ def get_attendances(self, employees, start_date, end_date):
         dates[employee.id] = {}
         dates[employee.id]["start_date"] = start_date
         dates[employee.id]["end_date"] = end_date - timedelta(days=1)
+        dates[employee.id]["end_date_of_previous_month"] = start_date - timedelta(days=1)
 
         # Get all attendances and overtime in range
         attendance_ids = self.env["hr.attendance"].search(
@@ -108,6 +121,7 @@ def get_attendances(self, employees, start_date, end_date):
             "worked_hours": round(sum(attendance_ids.mapped("worked_hours")), 2),
             "overtime_total": round(employee.total_overtime, 2),
             "total_overtime_up_to_previous_month": round(_get_overtime_total_up_to_previous_month(employee, start_date), 2),
+            "total_overtime_up_to_this_month": round(_get_overtime_total_up_to_this_month(employee, start_date), 2),
             # "overtime_paid_out_total": round(employee.total_overtime_paid_out, 2),
         }
 

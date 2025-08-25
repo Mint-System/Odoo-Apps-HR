@@ -220,46 +220,38 @@
                                 <tr><th colspan="5" class="text-center" style="text-align: center; font-size: 12px;">Flexitime</th></tr>
                                 <tr>
                                     <th name="th_description" class="text-start">
-                                        +/- this month
-                                    </th>
-                                    <th name="th_leave_type" class="text-start">
-                                        Saldo <span t-out="dates[doc.id]['end_date']" t-options="{'widget': 'date'}"/>
+                                        
                                     </th>
                                     <th name="th_allocation" class="text-end">
                                         Saldo <span t-out="dates[doc.id]['end_date_of_previous_month']" t-options="{'widget': 'date'}"/>
                                     </th>
-                                    <th name="th_leaves_taken" class="text-end">
-                                        
+                                    <th name="th_description" class="text-end">
+                                        +/- <span t-out="dates[doc.id]['month_and_year']"/>
                                     </th>
-                                    <th name="th_remaining_leaves" class="text-end">
-                                        
+                                    <th name="th_leave_type" class="text-end">
+                                        Saldo <span t-out="dates[doc.id]['end_date']" t-options="{'widget': 'date'}"/>
                                     </th>
+                                   
                                 </tr>
                             </thead>
-                            <tbody class="leaves_table">
+                            <tbody class="flexitime_table">
                                
                                 <tr>
                                     <td id="flexitime" class="text-start">
-                                        <t t-out="summary[doc.id]['overtime_calculated']" />
+                                       Flexitime
                                     </td>
-                                    <td id="leave_type" class="text-start">
-                                        <t t-out="summary[doc.id]['total_overtime_up_to_this_month']" />
-                                    </td>
-                                    <td id="allocation" class="text-end">
+                                    <td id="flexitime-previous" class="text-end">
                                         <t t-out="summary[doc.id]['total_overtime_up_to_previous_month']" />
                                     </td>
-                                    <td id="leaves_taken" class="text-end">
-                                       
+                                    <td id="flexitime-new" class="text-end">
+                                        <t t-out="summary[doc.id]['overtime_calculated']" />
                                     </td>
-                                    <td id="remaining_leaves" class="text-end">
-                                       
+                                    <td id="flexitime-this-month" class="text-end">
+                                        <t t-out="summary[doc.id]['total_overtime_up_to_this_month']" />
                                     </td>
                                 </tr>
                                 <tr><th colspan="5" class="text-center" style="text-align: center; font-size: 12px;">Leaves</th></tr>
                                 <tr style="border-bottom: 1px solid black;">
-                                    <th name="th_description" class="text-start">
-                                        Description
-                                    </th>
                                     <th name="th_leave_type" class="text-start">
                                         Time Off Type
                                     </th>
@@ -277,9 +269,6 @@
                                 <t t-foreach="leave_allocations[doc.id]" t-as="allocation">
 
                                     <tr>
-                                        <td id="description" class="text-start">
-                                            <t t-out="allocation.name" />
-                                        </td>
                                         <td id="leave_type" class="text-start">
                                             <t t-out="allocation.holiday_status_id.name" />
                                         </td>
@@ -296,6 +285,55 @@
                                         </td>
                                     </tr>
 
+                                </t>
+                                <tr><td colspan="4" style="border-top: 1px solid black; border-bottom: 1px solid black;">Ausführliche Version</td></tr>
+                                <t t-foreach="leave_allocations_per_type[doc.id]" t-as="allocation">
+
+                                    <tr>
+                                        <td id="leave_type" class="text-start">
+                                            <t t-out="allocation['code']" />
+                                        </td>
+                                        <td id="allocation" class="text-end">
+                                            <t t-out="allocation['number_of_days_display']" />
+                                            Days
+                                        </td>
+                                        <td id="leaves_taken" class="text-end">
+                                            <t t-out="round(allocation['leaves_taken'], 2)" />
+                                            Days
+                                        </td>
+                                        <td id="remaining_leaves" class="text-end">
+                                            <t
+                                                t-out="allocation['remaining_leaves_days']"
+                                            />
+                                            Days
+                                        </td>
+                                    </tr>
+
+                                </t>
+                                <!-- <tr><td id="sick" class="text-start">
+                                        Sick Days
+                                    </td>
+                                    <td id="sick_allocation" class="text-end">
+                                        
+                                    </td>
+                                    <td id="sick_days" class="text-end">
+                                        <t t-out="summary[doc.id]['sick_days']" />
+                                    </td>
+                                    <td id="sick_remaining" class="text-end">
+                                        
+                                    </td>
+                                </tr> -->
+                                <tr><td colspan="4" style="border-top: 1px solid black; border-bottom: 1px solid black;">Sonstige Abwesenheiten</td></tr>
+
+                                <t t-foreach="summary[doc.id]['leaves_without_allocation'].items()" t-as="kv">
+                                    <tr>
+                                        <!-- kv is a tuple: (key, value) -->
+                                        <td><t t-out="kv[0]"/></td>
+                                        <td></td>
+                                        <td class="text-end"><t t-out="kv[1]"/>
+                                        Days
+                                        </td>
+                                    </tr>
                                 </t>
 
                               

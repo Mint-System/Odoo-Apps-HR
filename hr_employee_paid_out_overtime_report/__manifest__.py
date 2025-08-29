@@ -9,7 +9,7 @@
     "category": "Repository",
     "version": "16.0.1.0.0",
     "license": "AGPL-3",
-    "depends": ["hr_attendance"],
+    "depends": ["hr_attendance", "hr_employee_attendance_report"],
     "data": ["views/hr_attendance_overtime_views.xml"],
     "installable": True,
     "application": False,

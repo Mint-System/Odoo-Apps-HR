@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0+e\n"
+"Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-07 09:36+0000\n"
-"PO-Revision-Date: 2023-04-07 09:36+0000\n"
+"POT-Creation-Date: 2025-08-29 08:30+0000\n"
+"PO-Revision-Date: 2025-08-29 08:30+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -23,12 +23,18 @@ msgstr "'Bericht Anwesenheit'"
 
 #. module: hr_employee_attendance_report
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
-msgid ""
-"<br/>\n"
-"                    Until:"
-msgstr ""
-"<br/>\n"
-"                    Bis:"
+msgid "<span class=\"light-text\">Employee:</span>"
+msgstr "<span class=\"light-text\">Mitarbeiter:</span>"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "<span class=\"light-text\">From:</span>"
+msgstr "<span class=\"light-text\">Von:</span>"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "<span class=\"light-text\">Until: </span>"
+msgstr "<span class=\"light-text\">Bis: </span>"
 
 #. module: hr_employee_attendance_report
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
@@ -58,7 +64,7 @@ msgstr "Bericht Abwesenheit und Anwesenheit"
 #. module: hr_employee_attendance_report
 #: model:ir.model,name:hr_employee_attendance_report.model_hr_employee_attendance_report_select_period
 msgid "Attendance and leave report period selector"
-msgstr ""
+msgstr "Bericht Abwesenheit und Anwesenheit Zeitraum"
 
 #. module: hr_employee_attendance_report
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.select_period
@@ -68,27 +74,57 @@ msgstr "Abbrechen"
 #. module: hr_employee_attendance_report
 #: model:ir.model.fields,field_description:hr_employee_attendance_report.field_hr_employee_attendance_report_select_period__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Angelegt von"
 
 #. module: hr_employee_attendance_report
 #: model:ir.model.fields,field_description:hr_employee_attendance_report.field_hr_employee_attendance_report_select_period__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Angelegt am"
 
 #. module: hr_employee_attendance_report
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
-msgid "Date"
-msgstr "Datum"
+msgid "Days"
+msgstr "Tage"
 
 #. module: hr_employee_attendance_report
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
-msgid "Description"
-msgstr "Beschreibung"
+msgid "Mon"
+msgstr "Mo"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Tue"
+msgstr "Di"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Wed"
+msgstr "Mi"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Thu"
+msgstr "Do"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Fri"
+msgstr "Fr"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Sat"
+msgstr "Sa"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Sun"
+msgstr "So"
 
 #. module: hr_employee_attendance_report
 #: model:ir.model.fields,field_description:hr_employee_attendance_report.field_hr_employee_attendance_report_select_period__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Bezeichnung"
 
 #. module: hr_employee_attendance_report
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.select_period
@@ -97,8 +133,8 @@ msgstr "Herunterladen"
 
 #. module: hr_employee_attendance_report
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
-msgid "Employee:"
-msgstr "Mitarbeitende:"
+msgid "Flexitime"
+msgstr "Gleitzeit"
 
 #. module: hr_employee_attendance_report
 #: model:ir.model.fields,field_description:hr_employee_attendance_report.field_hr_employee_attendance_report_select_period__date_from
@@ -106,34 +142,24 @@ msgid "From"
 msgstr "Von"
 
 #. module: hr_employee_attendance_report
-#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
-msgid "From:"
-msgstr "Von:"
-
-#. module: hr_employee_attendance_report
 #: model:ir.model.fields,field_description:hr_employee_attendance_report.field_hr_employee_attendance_report_select_period__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: hr_employee_attendance_report
 #: model:ir.model.fields,field_description:hr_employee_attendance_report.field_hr_employee_attendance_report_select_period____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Letzte Änderung am"
 
 #. module: hr_employee_attendance_report
 #: model:ir.model.fields,field_description:hr_employee_attendance_report.field_hr_employee_attendance_report_select_period__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Zuletzt aktualisiert von"
 
 #. module: hr_employee_attendance_report
 #: model:ir.model.fields,field_description:hr_employee_attendance_report.field_hr_employee_attendance_report_select_period__write_date
 msgid "Last Updated on"
-msgstr ""
-
-#. module: hr_employee_attendance_report
-#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
-msgid "Leave Allocations"
-msgstr "Abwesenheitsansprüche"
+msgstr "Zuletzt aktualisiert am"
 
 #. module: hr_employee_attendance_report
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
@@ -142,18 +168,23 @@ msgstr "Abwesenheiten Stunden"
 
 #. module: hr_employee_attendance_report
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
-msgid "Leaves Taken"
+msgid "Leave Types"
+msgstr "Abwesenheitsarten"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Leaves"
 msgstr "Abwesenheiten"
 
 #. module: hr_employee_attendance_report
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
-msgid "Overtime"
-msgstr "Überstunden"
+msgid "Leaves Taken"
+msgstr "Abwesenheiten genommen"
 
 #. module: hr_employee_attendance_report
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
-msgid "Overtime Total"
-msgstr "Überstunden Total"
+msgid "Overview"
+msgstr "Übersicht"
 
 #. module: hr_employee_attendance_report
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
@@ -172,8 +203,33 @@ msgstr "Verbleibend"
 
 #. module: hr_employee_attendance_report
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Saldo"
+msgstr "Saldo"
+
+#. module: hr_employee_attendance_report
+#: model:ir.model.fields,field_description:hr_employee_attendance_report.field_hr_employee_attendance_report_select_period__show_diff_hours
+msgid "Show +/- Hours"
+msgstr "Zeige GZ-Stunden"
+
+#. module: hr_employee_attendance_report
+#: model:ir.model.fields,field_description:hr_employee_attendance_report.field_hr_employee_attendance_report_select_period__show_odoo_overtimes
+msgid "Show Odoo Overtimes"
+msgstr "Zeite Überstunden (Odoo)"
+
+#. module: hr_employee_attendance_report
+#: model:ir.model.fields,field_description:hr_employee_attendance_report.field_hr_employee_attendance_report_select_period__show_weekdays
+msgid "Show Weekdays"
+msgstr "Zeige Wochentage"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
 msgid "Time Off Type"
 msgstr "Abwesenheitstyp"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Time Stamps"
+msgstr "Zeitstempel"
 
 #. module: hr_employee_attendance_report
 #: model:ir.model.fields,field_description:hr_employee_attendance_report.field_hr_employee_attendance_report_select_period__date_until
@@ -182,5 +238,37 @@ msgstr "Bis"
 
 #. module: hr_employee_attendance_report
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "WKDY"
+msgstr "WT"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
 msgid "Worked Hours"
 msgstr "Gearbeitete Stunden"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "h absent"
+msgstr "h abwesend"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "h planned"
+msgstr "h geplant"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "h present"
+msgstr "h anwesend"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Overtime (paid out)"
+msgstr "Überstunden ausgezahlt"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Overtime without paid out"
+msgstr "Überstunden Saldo"
+
+

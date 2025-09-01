@@ -98,10 +98,10 @@
                                     <span t-out="attendance['weekday']" ></span>
                                 </td>
                                 <td id="planned_hours" t-if="fixed_work_hours" style="text-align: right;">
-                                    <t t-out="attendance['planned_hours']" t-options="{'widget': 'decimal_align', 'decimals': 1}"/>
+                                    <t t-out="attendance['planned_hours']" t-options="{'widget': 'decimal_align', 'decimals': 2}"/>
                                 </td>
                                 <td text-align="right" id="leave_hours" t-if="fixed_work_hours" >
-                                    <t t-out="attendance['leave_hours']" t-options="{'widget': 'decimal_align', 'decimals': 1}"/>
+                                    <t t-out="attendance['leave_hours']" t-options="{'widget': 'decimal_align', 'decimals': 2}"/>
                                 </td>
                                 <td id="leave_types" t-if="fixed_work_hours" style="text-align: left;">
                                     <span t-out="attendance['leave_types']" ></span>
@@ -184,7 +184,7 @@
                                 </tr>
                                 <tr t-if="show_paid_out">
                                     <th name="th_overtime_paid_out">
-                                        Overtime (paid out)
+                                        Flexitime (paid out)
                                     </th>
                                     <td id="overtime_paid_out" class="text-right">
                                         <t t-out="summary[doc.id]['overtime_paid_out']" />
@@ -192,7 +192,7 @@
                                 </tr> 
                                 <tr t-if="show_paid_out">
                                     <th name="th_overtime_without_paid_out">
-                                        Overtime without paid out
+                                        Flexitime Saldo
                                     </th>
                                     <td id="overtime_without_paid_out">
                                         <t t-out="summary[doc.id]['overtime_without_paid_out']" />
@@ -248,7 +248,7 @@
                                         <t t-out="summary[doc.id]['total_overtime_up_to_previous_month']" />
                                     </td>
                                     <td id="flexitime-new" class="text-end">
-                                        <t t-out="summary[doc.id]['overtime_calculated']" />
+                                        <t t-out="summary[doc.id]['overtime_without_paid_out']" />
                                     </td>
                                     <td id="flexitime-this-month" class="text-end">
                                         <t t-out="summary[doc.id]['total_overtime_up_to_this_month']" />

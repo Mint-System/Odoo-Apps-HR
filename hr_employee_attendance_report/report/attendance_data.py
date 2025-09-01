@@ -34,20 +34,24 @@ def _get_last_day_of_month(any_day):
 
 def _get_overtime_total_up_to_previous_month(employee, start_date):
     last_day_of_previous_month = start_date - timedelta(days=1)
+    _logger.info("last_day_of_previous_month %s", last_day_of_previous_month)
     
     if employee.company_id.hr_attendance_overtime:
         total_overtime_up_to_previous_month = sum(employee.overtime_ids.filtered(lambda overtime: overtime.date <= last_day_of_previous_month.date()).mapped('duration'))
     else:
         total_overtime_up_to_previous_month = 0
+    _logger.info("total_overtime_up_to_previous_month %s", total_overtime_up_to_previous_month)
     return total_overtime_up_to_previous_month
 
 def _get_overtime_total_up_to_this_month(employee, start_date):
     last_day_of_this_month = _get_last_day_of_month(start_date)
+    _logger.info("last_day_of_this_month %s", last_day_of_this_month)
     
     if employee.company_id.hr_attendance_overtime:
         total_overtime_up_to_this_month = sum(employee.overtime_ids.filtered(lambda overtime: overtime.date <= last_day_of_this_month.date()).mapped('duration'))
     else:
         total_overtime_up_to_this_month = 0
+    _logger.info("total_overtime_up_to_this_month %s", total_overtime_up_to_this_month)
     return total_overtime_up_to_this_month
 
 

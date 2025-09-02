@@ -57,5 +57,3 @@ class HrAttendance(models.Model):
         body = _("This attendance was automatically created to cover an unjustified absence on that day.")
         for technical_attendance in technical_attendances - to_unlink:
             technical_attendance.message_post(body=body)
-
-        # to_unlink.unlink()

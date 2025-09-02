@@ -6,6 +6,7 @@ class CalendarEvent(models.Model):
 
     # color = fields.Integer(compute="_compute_color")
     color = fields.Integer(related="user_id.color")
+    test_color = fields.Integer(default=7)
     
     # @api.depends("user_id")
     # def _compute_color(self):

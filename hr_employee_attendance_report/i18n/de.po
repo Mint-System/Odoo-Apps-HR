@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-01 15:38+0000\n"
-"PO-Revision-Date: 2025-09-01 15:38+0000\n"
+"POT-Creation-Date: 2025-09-02 13:30+0000\n"
+"PO-Revision-Date: 2025-09-02 13:30+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -102,6 +102,16 @@ msgid "Flexitime"
 msgstr "Gleitzeit"
 
 #. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Flexitime (paid out)"
+msgstr "Gleitzeit ausgezahlt"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Flexitime Saldo"
+msgstr "Gleitzeit Saldo"
+
+#. module: hr_employee_attendance_report
 #: model:ir.model.fields,field_description:hr_employee_attendance_report.field_hr_employee_attendance_report_select_period__date_from
 msgid "From"
 msgstr "Von"
@@ -140,16 +150,6 @@ msgstr "Abwesenheitsarten"
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
 msgid "Leaves"
 msgstr "Abwesenheiten"
-
-#. module: hr_employee_attendance_report
-#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
-msgid "Flexitime (paid out)"
-msgstr "Gleitzeit ausgezahlt"
-
-#. module: hr_employee_attendance_report
-#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
-msgid "Flexitime Saldo"
-msgstr "Gleitzeit Saldo"
 
 #. module: hr_employee_attendance_report
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
@@ -225,3 +225,32 @@ msgstr "h geplant"
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
 msgid "h present"
 msgstr "h anwesend"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Leave Type"
+msgstr "Abwesenheitsart"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Allocation"
+msgstr "Anspruch"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Leaves Taken"
+msgstr "bereits eingelöst"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Remaining"
+msgstr "verbleibend"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Other Leaves"
+msgstr "Sonstige Abwesenheiten"
+
+
+
+

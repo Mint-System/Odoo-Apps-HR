@@ -291,6 +291,20 @@
 
                                 </t> -->
                                 <tr><th colspan="5" class="text-center" style="text-align: center; font-size: 12px;">Leaves</th></tr>
+                                <tr style="border-bottom: 1px solid black;">
+                                    <th name="th_leave_type" class="text-start">
+                                        Leave Type
+                                    </th>
+                                    <th name="th_allocation" class="text-end">
+                                        Allocation
+                                    </th>
+                                    <th name="th_leaves_taken" class="text-end">
+                                        Leaves Taken
+                                    </th>
+                                    <th name="th_remaining_leaves" class="text-end">
+                                        Remaining
+                                    </th>
+                                </tr>
                                 <t t-foreach="leave_allocations_per_type[doc.id]" t-as="allocation">
 
                                     <tr>
@@ -327,7 +341,7 @@
                                         
                                     </td>
                                 </tr> -->
-                                <tr><td colspan="4" style="border-top: 1px solid black; border-bottom: 1px solid black;">Sonstige Abwesenheiten</td></tr>
+                                <tr><td colspan="4" style="border-top: 1px solid black; border-bottom: 1px solid black;">Other Leaves</td></tr>
 
                                 <t t-foreach="summary[doc.id]['leaves_without_allocation'].items()" t-as="kv">
                                     <tr>

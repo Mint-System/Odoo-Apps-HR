@@ -80,9 +80,7 @@ def get_attendances(self, employees, start_date, end_date):
             # Get work hours
             min_check_date = datetime.combine(check_date, time.min)
             max_check_date = datetime.combine(check_date, time.max)
-            work_hours = employee.resource_calendar_id.get_work_hours_count(
-                min_check_date, max_check_date, True
-            )
+            work_hours = employee.resource_calendar_id.get_work_hours_count(min_check_date, max_check_date, True)
             planned_hours += work_hours
 
             # Get leave hours for this date
@@ -103,17 +101,11 @@ def get_attendances(self, employees, start_date, end_date):
 
             # Get attendance hours for this date
             worked_hours = sum(
-                attendance_ids.filtered(
-                    lambda a: min_check_date < a.check_in < max_check_date
-                ).mapped("worked_hours")
+                attendance_ids.filtered(lambda a: min_check_date < a.check_in < max_check_date).mapped("worked_hours")
             )
 
             # Get overtime hours for this date
-            overtime_hours = sum(
-                overtime_ids.filtered(lambda o: o.date == check_date.date()).mapped(
-                    "duration"
-                )
-            )
+            overtime_hours = sum(overtime_ids.filtered(lambda o: o.date == check_date.date()).mapped("duration"))
             overtime += overtime_hours
 
             # Create data entry
@@ -124,9 +116,7 @@ def get_attendances(self, employees, start_date, end_date):
                     "leave_hours": round(leave_hours, 2),
                     "worked_hours": round(worked_hours, 2),
                     "overtime": round(overtime_hours, 2),
-                    "background_color": "lightgrey"
-                    if work_hours == 0 and fixed_work_hours
-                    else "none",
+                    "background_color": "lightgrey" if work_hours == 0 and fixed_work_hours else "none",
                 }
             )
 

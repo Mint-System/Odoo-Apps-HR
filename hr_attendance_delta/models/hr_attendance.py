@@ -9,9 +9,7 @@ _logger = logging.getLogger(__name__)
 class HrAttendance(models.Model):
     _inherit = "hr.attendance"
 
-    delta_hours = fields.Float(
-        compute="_compute_delta_hours", store=True, readonly=True
-    )
+    delta_hours = fields.Float(compute="_compute_delta_hours", store=True, readonly=True)
 
     @api.depends("check_in")
     def _compute_delta_hours(self):
@@ -28,9 +26,7 @@ class HrAttendance(models.Model):
                 limit=1,
             )
             if last_attendance:
-                attendance.delta_hours = (
-                    attendance.check_in - last_attendance.check_out
-                ).total_seconds() / 3600
+                attendance.delta_hours = (attendance.check_in - last_attendance.check_out).total_seconds() / 3600
             else:
                 attendance.delta_hours = 0.0
 
@@ -49,6 +45,4 @@ class HrAttendance(models.Model):
                 limit=1,
             )
             if next_attendance:
-                next_attendance.delta_hours = (
-                    next_attendance.check_in - attendance.check_out
-                ).total_seconds() / 3600
+                next_attendance.delta_hours = (next_attendance.check_in - attendance.check_out).total_seconds() / 3600

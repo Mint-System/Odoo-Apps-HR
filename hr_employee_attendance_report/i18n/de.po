@@ -87,6 +87,11 @@ msgid "Days"
 msgstr "Tage"
 
 #. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Hours"
+msgstr "Stunden"
+
+#. module: hr_employee_attendance_report
 #: model:ir.model.fields,field_description:hr_employee_attendance_report.field_hr_employee_attendance_report_select_period__display_name
 msgid "Display Name"
 msgstr "Bezeichnung"
@@ -103,13 +108,13 @@ msgstr "Gleitzeit"
 
 #. module: hr_employee_attendance_report
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
-msgid "Flexitime (paid out)"
-msgstr "Gleitzeit ausgezahlt"
+msgid "Flexitime (paid out) Hours"
+msgstr "Gleitzeit ausgezahlt Stunden"
 
 #. module: hr_employee_attendance_report
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
-msgid "Flexitime Saldo"
-msgstr "Gleitzeit Saldo"
+msgid "Flexitime Saldo Hours"
+msgstr "Gleitzeit Saldo Stunden"
 
 #. module: hr_employee_attendance_report
 #: model:ir.model.fields,field_description:hr_employee_attendance_report.field_hr_employee_attendance_report_select_period__date_from

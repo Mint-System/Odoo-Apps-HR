@@ -80,6 +80,7 @@ def get_attendances(self, employees, start_date, end_date):
         dates[employee.id]["end_date"] = end_date - timedelta(days=1)
         dates[employee.id]["end_date_of_previous_month"] = start_date - timedelta(days=1)
         dates[employee.id]["month_and_year"]= start_date.strftime("%B %Y")
+        dates[employee.id]["year"] = start_date.year
 
         # Get all attendances and overtime in range
         attendance_ids = self.env["hr.attendance"].search(

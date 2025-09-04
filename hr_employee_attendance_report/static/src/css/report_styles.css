@@ -66,3 +66,12 @@
     white-space: nowrap;
 }
 
+.allocations {
+    margin-top: 50px;
+}
+
+.empty-row {
+    height: 15px;
+    border: none !important;
+}
+

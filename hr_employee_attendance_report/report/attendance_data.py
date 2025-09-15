@@ -54,6 +54,18 @@ def _get_overtime_total_up_to_this_month(employee, start_date):
     _logger.info("total_overtime_up_to_this_month %s", total_overtime_up_to_this_month)
     return total_overtime_up_to_this_month
 
+def get_code(self, leave_type):
+    existing_codes = set(lt.code for lt in self.env["hr.leave.type"].search([("requires_allocation", "=", "yes"), ("company_id", "=", self.env.company.id)]))
+    _logger.info("### existing_codes %s", existing_codes)
+    counter = 0
+    new_code = ''.join(word[0:counter+1] for word in leave_type.name.split() if word).upper()
+    while new_code in existing_codes:
+        counter += 1
+        new_code = ''.join(word[0:counter+1] for word in leave_type.name.split() if word).upper()
+    _logger.info("### new_code %s", new_code)
+
+    return new_code
+
 
 
 def get_attendances(self, employees, start_date, end_date):
@@ -144,12 +156,14 @@ def get_attendances(self, employees, start_date, end_date):
         leaves_dict = {}
         leaves_without_allocation_dict = {}
         leaves_without_allocation_descriptions = {}
-        for leave_type in self.env["hr.leave.type"].search([]):
-            code = leave_type.code
+        for leave_type in self.env["hr.leave.type"].search([("company_id", "=", employee.company_id.id )]):
+            code = get_code(self, leave_type)
+            #code = leave_type.code
             display_name = leave_type.display_name
-            if not code:
-                code = ''.join(word[0] for word in leave_type.name.split() if word).upper()
-                leave_type.write({'code': code})
+            # if not code:
+            #     code = ''.join(word[0] for word in leave_type.name.split() if word).upper()
+            #     leave_type.write({'code': code})
+            leave_type.write({'code': code})
             leaves_dict[code] = 0.0
             if leave_type.requires_allocation == 'no':
                 leaves_without_allocation_dict[code] = 0.0
@@ -269,12 +283,15 @@ def get_leave_allocations(self, employees):
     """Get data on leave and allocations."""
 
     leave_codes = []
-    for leave_type in self.env["hr.leave.type"].search([("requires_allocation", "=", "yes")]):
-        code = leave_type.code
-        if not code:
-            code = ''.join(word[0] for word in leave_type.name.split() if word).upper()
-            leave_type.write({'code': code})
-        
+    # leave_codes = set(leave_type.code for leave_type in self.env["hr.leave.type"].search([("requires_allocation", "=", "yes"), ("company_id", "=", self.env.company.id)]))
+    for leave_type in self.env["hr.leave.type"].search([("requires_allocation", "=", "yes"), ("company_id", "=", self.env.company.id)]):
+        code = get_code(self, leave_type)
+        # if not code:
+        #     new_code = ''.join(word[0] for word in leave_type.name.split() if word).upper()
+        #     if new_code not in leave_codes:
+        #         leave_type.write({'code': new_code})
+        #         leave_codes.append(new_code)
+        leave_type.write({'code': code})
         leave_codes.append(code)
 
     _logger.info("leave code %s", leave_codes)

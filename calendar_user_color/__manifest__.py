@@ -20,7 +20,6 @@
     "images": ["images/screen.png"],
     "assets": {
         "web.assets_backend": [
-            "calendar_user_color/static/src/views/attendee_calendar/calendar_model.js",
             "calendar_user_color/static/src/views/attendee_calendar/attendee_calendar_model_color.js",
         ]
     },

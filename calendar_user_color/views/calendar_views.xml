@@ -8,6 +8,9 @@
             <calendar position="attributes">
                 <attribute name="color">color</attribute>
             </calendar>
+            <xpath expr="//calendar" position="inside">
+            <field name="user_id" color="color" />
+            </xpath>
         </field>
     </record>
 </odoo>

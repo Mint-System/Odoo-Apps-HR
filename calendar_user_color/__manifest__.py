@@ -11,16 +11,17 @@
     "license": "AGPL-3",
     "depends": ["base", "calendar"],
     "data": [
-        # "views/calendar_views.xml",
+        "views/calendar_views.xml",
         "views/res_partner_views.xml",
     ],
     "installable": True,
     "application": False,
     "auto_install": False,
     "images": ["images/screen.png"],
-    # "assets": {
-    #     "web.assets_backend": [
-    #         "calendar_user_color/static/src/views/**/*",
-    #     ]
-    # },
+    "assets": {
+        "web.assets_backend": [
+            "calendar_user_color/static/src/views/attendee_calendar/calendar_model.js",
+            "calendar_user_color/static/src/views/attendee_calendar/attendee_calendar_model_color.js",
+        ]
+    },
 }

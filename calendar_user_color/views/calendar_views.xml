@@ -5,13 +5,20 @@
         <field name="name">calendar.event</field>
         <field name="inherit_id" ref="calendar.view_calendar_event_calendar" />
         <field name="arch" type="xml">
-            <calendar position="attributes">
+            <!-- <calendar position="attributes">
                 <attribute name="color">color</attribute>
-            </calendar>
+            </calendar> -->
+            <xpath expr="//calendar/field[@name='partner_ids']" position="replace">
+            
+            <!-- 
             <field name="partner_id" position="after">
                 <field name="color" invisible="0" />
-            </field>
-            
+            </field> -->
+                <field name="partner_ids" options="{'block': True, 'icon': 'fa fa-users'}"
+                        filters="1" widget="many2manyattendeeexpandable" write_model="calendar.filters"
+                        write_field="partner_id" filter_field="partner_checked" avatar_field="avatar_128" color="color"
+                    />
+            </xpath>
         </field>
     </record>
 </odoo>

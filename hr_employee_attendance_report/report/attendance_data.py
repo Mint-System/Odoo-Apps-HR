@@ -187,7 +187,8 @@ def get_attendances(self, employees, start_date, end_date):
                 or min_check_date <= l.date_to <= max_check_date
             )
 
-            active_leaves_dict = defaultdict(float)            
+            active_leaves_dict = defaultdict(float)
+            missing_breaks_dict = defaultdict(float)            
            
             for leave_code in leaves_dict.keys():
                 leave_hours_per_leave = 0.0
@@ -199,7 +200,10 @@ def get_attendances(self, employees, start_date, end_date):
                 else:
                     leave_hours_per_leave = number_of_hours_per_leave
 
-                active_leaves_dict[leave_code] += leave_hours_per_leave
+                if leave_code != "MB":
+                    active_leaves_dict[leave_code] += leave_hours_per_leave
+                else:
+                    missing_breaks_dict[leave_code] += leave_hours_per_leave
 
             for leave_code in leaves_without_allocation_dict.keys():
                 number_of_days_per_leave_without_allocation = 0
@@ -215,6 +219,8 @@ def get_attendances(self, employees, start_date, end_date):
             worked_hours = sum(
                 attendance_ids.filtered(lambda a: min_check_date < a.check_in < max_check_date).mapped("worked_hours")
             )
+
+            missing_breaks = active_leaves_dict["MB"]
 
             # Get time stamps for this date
             user_tz = pytz.timezone(self.env.context.get("tz") or "UTC")
@@ -247,8 +253,8 @@ def get_attendances(self, employees, start_date, end_date):
                     "planned_hours": round(work_hours, 2),
                     "leave_hours": round(leave_hours, 2),
                     "leave_types": leave_types,
-                    "worked_hours": round(worked_hours, 2),
-                    "diff_hours": round(worked_hours - (work_hours - leave_hours), 2),
+                    "worked_hours": round(worked_hours - missing_breaks, 2),
+                    "diff_hours": round(worked_hours + missing_breaks - (work_hours - leave_hours), 2),
                     "time_stamps": time_stamps_string,
                     "overtime": round(overtime_hours, 2),
                     "background_color": "lightgrey" if work_hours == 0 and fixed_work_hours else "none",
@@ -359,8 +365,6 @@ def get_leave_allocations(self, employees):
 
 
     return leave_allocations, leave_allocations_per_type
-
-
 
 
 def _get_report_values(self, docids, data=None, report_name=None):

@@ -134,13 +134,23 @@ def get_attendances(self, employees, start_date, end_date):
         ]
         filters = expression.AND([domain, expression.OR([from_domain, to_domain])])
         leave_ids = self.env["resource.calendar.leaves"].search(filters)
+        # filter out missing breaks
+        leave_ids_without_mb = leave_ids.filtered(
+                    lambda l: l.holiday_id.holiday_status_id.code != "MB"
+                )
+        missing_breaks_ids = leave_ids.filtered(
+                    lambda l: l.holiday_id.holiday_status_id.code == "MB"
+                )
         leave_hours = sum(leave_ids.holiday_id.mapped("number_of_hours_display"))
+        leave_hours_without_mb = sum(leave_ids_without_mb.holiday_id.mapped("number_of_hours_display"))
+        mb_hours = sum(missing_breaks_ids.holiday_id.mapped("number_of_hours_display"))
 
         # Update summary
         summary[employee.id] = {
             "fixed_work_hours": fixed_work_hours,
-            "leave_hours": round(leave_hours, 2),
-            "worked_hours": round(sum(attendance_ids.mapped("worked_hours")), 2),
+            # "leave_hours": round(leave_hours, 2),
+            "leave_hours": round(leave_hours_without_mb, 2),  # in summary leave hours are shown without mb
+            "worked_hours": round(sum(attendance_ids.mapped("worked_hours")) - mb_hours, 2),
             "overtime_total": round(employee.total_overtime, 2),
             "total_overtime_up_to_previous_month": round(_get_overtime_total_up_to_previous_month(employee, start_date), 2),
             "total_overtime_up_to_this_month": round(_get_overtime_total_up_to_this_month(employee, start_date), 2),
@@ -167,7 +177,7 @@ def get_attendances(self, employees, start_date, end_date):
             #     leave_type.write({'code': code})
             leave_type.write({'code': code})
             leaves_dict[code] = 0.0
-            if leave_type.requires_allocation == 'no':
+            if leave_type.requires_allocation == 'no' and code != "MB":
                 leaves_without_allocation_dict[code] = 0.0
                 leaves_without_allocation_descriptions[code] = display_name
 
@@ -212,15 +222,16 @@ def get_attendances(self, employees, start_date, end_date):
                 active_leaves_dict_without_allocation[leave_code] += number_of_days_per_leave_without_allocation
 
             leave_hours = sum(active_leaves_dict.values())
+            missing_breaks_hours = sum(missing_breaks_dict.values())
 
             leave_types = " ".join([leave_code + ": " + str(round(leave_hours_per_leave, 2)) for leave_code, leave_hours_per_leave in active_leaves_dict.items() if leave_hours_per_leave > 0.0])
+            missing_breaks = " ".join([leave_code + ": " + str(round(leave_hours_per_leave, 2)) for leave_code, leave_hours_per_leave in missing_breaks_dict.items() if leave_hours_per_leave > 0.0])
 
             # Get attendance hours for this date
             worked_hours = sum(
                 attendance_ids.filtered(lambda a: min_check_date < a.check_in < max_check_date).mapped("worked_hours")
             )
 
-            missing_breaks = active_leaves_dict["MB"]
 
             # Get time stamps for this date
             user_tz = pytz.timezone(self.env.context.get("tz") or "UTC")
@@ -253,8 +264,9 @@ def get_attendances(self, employees, start_date, end_date):
                     "planned_hours": round(work_hours, 2),
                     "leave_hours": round(leave_hours, 2),
                     "leave_types": leave_types,
-                    "worked_hours": round(worked_hours - missing_breaks, 2),
-                    "diff_hours": round(worked_hours + missing_breaks - (work_hours - leave_hours), 2),
+                    "missing_breaks": missing_breaks,
+                    "worked_hours": round(worked_hours - missing_breaks_hours, 2),
+                    "diff_hours": round(worked_hours - missing_breaks_hours - (work_hours - leave_hours), 2),
                     "time_stamps": time_stamps_string,
                     "overtime": round(overtime_hours, 2),
                     "background_color": "lightgrey" if work_hours == 0 and fixed_work_hours else "none",

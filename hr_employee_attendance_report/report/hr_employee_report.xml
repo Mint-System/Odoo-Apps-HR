@@ -104,7 +104,9 @@
                                     <t t-out="attendance['leave_hours']" t-options="{'widget': 'decimal_align', 'decimals': 2}"/>
                                 </td>
                                 <td id="leave_types" t-if="fixed_work_hours" style="text-align: left;">
-                                    <span t-out="attendance['leave_types']" ></span>
+                                    <span t-out="attendance['leave_types']" ></span> 
+                                    <span t-if="attendance['leave_types'] and attendance['missing_breaks']" >|</span>
+                                    <span t-if="attendance['missing_breaks']" >Pause fehlt</span>
                                 </td>
                                 <td id="worked_hours" style="text-align: right;">
                                     <t t-out="attendance['worked_hours']" t-options="{'widget': 'decimal_align', 'decimals': 2}" />

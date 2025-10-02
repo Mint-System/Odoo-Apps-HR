@@ -150,7 +150,8 @@ def get_attendances(self, employees, start_date, end_date):
             "fixed_work_hours": fixed_work_hours,
             # "leave_hours": round(leave_hours, 2),
             "leave_hours": round(leave_hours_without_mb, 2),  # in summary leave hours are shown without mb
-            "worked_hours": round(sum(attendance_ids.mapped("worked_hours")) - mb_hours, 2),
+            # "worked_hours": round(sum(attendance_ids.mapped("worked_hours")) - mb_hours, 2),
+            "worked_hours": round(sum(attendance_ids.mapped("worked_hours")), 2),
             "overtime_total": round(employee.total_overtime, 2),
             "total_overtime_up_to_previous_month": round(_get_overtime_total_up_to_previous_month(employee, start_date), 2),
             "total_overtime_up_to_this_month": round(_get_overtime_total_up_to_this_month(employee, start_date), 2),
@@ -182,6 +183,8 @@ def get_attendances(self, employees, start_date, end_date):
                 leaves_without_allocation_descriptions[code] = display_name
 
         active_leaves_dict_without_allocation = defaultdict(float)
+
+        mb_counter = 0
 
         for date in _daterange(start_date, end_date):
             # Get work hours
@@ -258,13 +261,23 @@ def get_attendances(self, employees, start_date, end_date):
                 overtime_paid_out_hours = sum(overtime_paid_out_ids.filtered(lambda o: o.paid_out and o.date == date.date()).mapped("duration"))
                 overtime_paid_out += overtime_paid_out_hours
 
+            missing_break = self.env["hr.missing.break"].search([("employee_id", "=", employee.id), ("working_day", "=", date)])
+            
+            if missing_break:
+                mb_counter += 1
+                missing_breaks_hours = 0.5
+                mb = True
+            else:
+                missing_breaks_hours = 0.0
+                mb = False
+
             attendances_data_dict = {
                     "date": date,
                     "weekday": format_date(self.env, date, date_format="EE"),
                     "planned_hours": round(work_hours, 2),
                     "leave_hours": round(leave_hours, 2),
                     "leave_types": leave_types,
-                    "missing_breaks": missing_breaks,
+                    "missing_break": mb,
                     "worked_hours": round(worked_hours - missing_breaks_hours, 2),
                     "diff_hours": round(worked_hours - missing_breaks_hours - (work_hours - leave_hours), 2),
                     "time_stamps": time_stamps_string,
@@ -284,6 +297,7 @@ def get_attendances(self, employees, start_date, end_date):
         
 
         # Update summary
+        summary[employee.id]["worked_hours"] = summary[employee.id]["worked_hours"] - mb_counter * 0.5
         summary[employee.id]["planned_hours"] = round(planned_hours, 2)
         summary[employee.id]["sick_days"] = round(sick_days, 1)
         summary[employee.id]["overtime"] = round(overtime, 2)

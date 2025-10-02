@@ -9,7 +9,47 @@ _logger = logging.getLogger(__name__)
 
 class HrAttendance(models.Model):
     _inherit = "hr.attendance"
-    
+
+    def create_missing_break(self):
+        attendance = self
+        employee = attendance.employee_id
+        check_in = attendance.check_in
+        check_out = attendance.check_out
+        missing_break_date = check_in.date()
+
+        existing_break = self.env["hr.missing.break"].search([
+            ("employee_id", "=", employee.id),
+            ("working_day", "=", missing_break_date),
+        ], limit=1)
+
+        if check_out - check_in > timedelta(hours=7):
+            if not existing_break:
+                self.env["hr.missing.break"].create({"employee_id": employee.id, "working_day": missing_break_date})
+                not_title = "Missing break added"
+                not_type = "success"
+                not_message = f"A missing break for {employee.name} was added."
+            else:
+                not_title = "Missing break already exists"
+                not_type = "warning"
+                not_message = "Missing break for this day and employee already exists."
+        else:
+            not_title = "No Missing Break added"
+            not_type = "warning"
+            not_message = "Working hours are less than 7 hrs. No missing break created."
+
+        return {
+                "type": "ir.actions.client",
+                "tag": "display_notification",
+                "params": {
+                    "title": not_title,
+                    "message": not_message,
+                    "type": not_type,
+                    "sticky": False,
+                },
+        }
+
+
+
 
     def calculate_missing_break(self):
         leave_missing_break = self.env["hr.leave.type"].search([("code", "=", "MB"), ("company_id", "=", self.env.company.id)])

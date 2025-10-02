@@ -1,1 +1,1 @@
-from . import hr_attendance
+from . import hr_attendance, hr_missing_break

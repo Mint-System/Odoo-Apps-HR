@@ -9,13 +9,12 @@ _logger = logging.getLogger(__name__)
 
 class HrAttendance(models.Model):
     _inherit = "hr.attendance"
-
     
 
     def calculate_missing_break(self):
         leave_missing_break = self.env["hr.leave.type"].search([("name", "=", "Missing Break"), ("company_id", "=", self.env.company.id)])
         if not leave_missing_break:
-            leave_missing_break = self.env["hr.leave.type"].create({"name": "Missing Break", "code": "MB", "requires_allocation": "no", "leave_validation_type": "no_validation"})
+            leave_missing_break = self.env["hr.leave.type"].create({"name": "Missing Break", "code": "MB", "requires_allocation": "no", "leave_validation_type": "no_validation", "company_id": self.env.company.id})
 
         _logger.warning("leave_missing_break: %s" % (leave_missing_break))
 

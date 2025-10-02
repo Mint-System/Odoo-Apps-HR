@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Pivot view for attendance and leave report -->
+    <record id="hr_attendance_leave_report_pivot_view" model="ir.ui.view">
+        <field name="name">hr.attendance.leave.report.pivot</field>
+        <field name="model">hr.attendance.leave.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Attendance &amp; Leaves" sample="1">
+                <field name="date" type="col"/>
+                <field name="employee_id" type="row"/>
+                <field name="worked_hours" type="measure"/>
+                <field name="leave_hours_vacation" type="measure"/>
+                <field name="leave_hours_sick" type="measure"/>
+                <field name="total_leave_hours" type="measure"/>
+                <field name="attendance_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Graph view for attendance and leave report -->
+    <record id="hr_attendance_leave_report_graph_view" model="ir.ui.view">
+        <field name="name">hr.attendance.leave.report.graph</field>
+        <field name="model">hr.attendance.leave.report</field>
+        <field name="arch" type="xml">
+            <graph string="Attendance &amp; Leaves">
+                <field name="date"/>
+                <field name="worked_hours" type="measure"/>
+                <field name="leave_hours_vacation" type="measure"/>
+                <field name="leave_hours_sick" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Action to open the report -->
+    <record id="action_hr_attendance_leave_report" model="ir.actions.act_window">
+        <field name="name">Attendance &amp; Leave Report</field>
+        <field name="res_model">hr.attendance.leave.report</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No attendance or leave data available
+            </p>
+        </field>
+    </record>
+
+</odoo>

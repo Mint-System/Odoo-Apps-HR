@@ -14,18 +14,23 @@
         "report/res_users_report.xml",
         "security/ir.model.access.csv",
         "wizard/select_period.xml",
+        "views/hr_attendance_views.xml",
     ],
     "installable": True,
     "application": False,
     "auto_install": False,
     "images": ["images/screen.png"],
     'assets': {
-    'web.report_assets_common': [
-        'hr_employee_attendance_report/static/src/css/report_styles.css',
-    ],
-    'web.report_assets_pdf': [
-        'hr_employee_attendance_report/static/src/css/report_styles.css',
-    ],
-}
+        'web.assets_backend': [
+          'hr_employee_attendance_report/static/src/css/attendance.css',
+        ],
+        'web.report_assets_common': [
+            'hr_employee_attendance_report/static/src/css/report_styles.css',
+        ],
+        'web.report_assets_pdf': [
+            'hr_employee_attendance_report/static/src/css/report_styles.css',
+        ],
+    }
 
 }
+

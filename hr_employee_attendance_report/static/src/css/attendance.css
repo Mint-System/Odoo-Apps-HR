@@ -1,7 +1,4 @@
 /* Footnote-style red asterisk after check_out when missing break exists */
-.o_list_view .o_data_row.o_list_decoration_danger td[data-name="check_out"]::after {
-    content: "*";
-    color: red;
-    font-weight: bold;
-    margin-left: 2px;
+.o_data_row .o_data_cell.text-danger::after {
+    content: " *";
 }

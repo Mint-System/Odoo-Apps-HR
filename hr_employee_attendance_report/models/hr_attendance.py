@@ -11,7 +11,7 @@ class HrAttendance(models.Model):
     _inherit = "hr.attendance"
     has_missing_break = fields.Boolean(
         string="Missing Break",
-        compute="_compute_has_missing_break",
+    #    compute="_compute_has_missing_break",
         store=True
     )
     check_out_display = fields.Char(
@@ -58,7 +58,7 @@ class HrAttendance(models.Model):
 
         if existing_break:
             existing_break.unlink()
-            # self.has_missing_break = False
+            self.has_missing_break = False
             return {
                 "type": "ir.actions.client",
                 "tag": "display_notification",
@@ -72,7 +72,7 @@ class HrAttendance(models.Model):
 
         if check_out - check_in > timedelta(hours=7):
             self.env["hr.missing.break"].create({"employee_id": employee.id, "working_day": missing_break_date})
-            # self.has_missing_break = True
+            self.has_missing_break = True
             not_title = "Missing break added"
             not_type = "success"
             not_message = f"A missing break for {employee.name} was added."

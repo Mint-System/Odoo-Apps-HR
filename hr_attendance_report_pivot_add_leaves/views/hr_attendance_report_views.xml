@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <odoo>
-    <record id="menu_hr_attendance_report" model="ir.ui.menu">
-        <field name="action" eval="False"/>
-    </record>
-
+    <data noupdate="1">
+        <record id="menu_hr_attendance_report" model="ir.ui.menu">
+            <field name="action" eval="False"/>
+        </record>
+    </data>
+    
     <menuitem
         id="menu_hr_attendance_report_standard"
         name="Attendance Analysis"
@@ -19,4 +20,4 @@
         action="action_hr_attendance_leave_report"
         sequence="30"
         groups="hr_attendance.group_hr_attendance_user"/> 
-</odoo>
+</odoo> 

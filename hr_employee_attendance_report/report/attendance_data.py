@@ -134,23 +134,14 @@ def get_attendances(self, employees, start_date, end_date):
         ]
         filters = expression.AND([domain, expression.OR([from_domain, to_domain])])
         leave_ids = self.env["resource.calendar.leaves"].search(filters)
-        # filter out missing breaks
-        leave_ids_without_mb = leave_ids.filtered(
-                    lambda l: l.holiday_id.holiday_status_id.code != "MB"
-                )
-        missing_breaks_ids = leave_ids.filtered(
-                    lambda l: l.holiday_id.holiday_status_id.code == "MB"
-                )
+        print("#########v LEAVE IDs:", leave_ids)
+
         leave_hours = sum(leave_ids.holiday_id.mapped("number_of_hours_display"))
-        leave_hours_without_mb = sum(leave_ids_without_mb.holiday_id.mapped("number_of_hours_display"))
-        mb_hours = sum(missing_breaks_ids.holiday_id.mapped("number_of_hours_display"))
 
         # Update summary
         summary[employee.id] = {
             "fixed_work_hours": fixed_work_hours,
-            # "leave_hours": round(leave_hours, 2),
-            "leave_hours": round(leave_hours_without_mb, 2),  # in summary leave hours are shown without mb
-            # "worked_hours": round(sum(attendance_ids.mapped("worked_hours")) - mb_hours, 2),
+            "leave_hours": round(leave_hours, 2),
             "worked_hours": round(sum(attendance_ids.mapped("worked_hours")), 2),
             "overtime_total": round(employee.total_overtime, 2),
             "total_overtime_up_to_previous_month": round(_get_overtime_total_up_to_previous_month(employee, start_date), 2),
@@ -200,6 +191,8 @@ def get_attendances(self, employees, start_date, end_date):
                 or min_check_date <= l.date_to <= max_check_date
             )
 
+            print("########### ACTIVE LEAVES:", active_leaves )
+
             active_leaves_dict = defaultdict(float)
             missing_breaks_dict = defaultdict(float)            
            
@@ -228,6 +221,7 @@ def get_attendances(self, employees, start_date, end_date):
             missing_breaks_hours = sum(missing_breaks_dict.values())
 
             leave_types = " ".join([leave_code + ": " + str(round(leave_hours_per_leave, 2)) for leave_code, leave_hours_per_leave in active_leaves_dict.items() if leave_hours_per_leave > 0.0])
+            _logger.warning(f"########## Date: {date}, leave_types: {leave_types}")
             missing_breaks = " ".join([leave_code + ": " + str(round(leave_hours_per_leave, 2)) for leave_code, leave_hours_per_leave in missing_breaks_dict.items() if leave_hours_per_leave > 0.0])
 
             # Get attendance hours for this date

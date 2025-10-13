@@ -256,6 +256,11 @@ msgstr "verbleibend"
 msgid "Other Leaves"
 msgstr "Sonstige Abwesenheiten"
 
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Missing Break"
+msgstr "Pause fehlt"
+
 
 
 

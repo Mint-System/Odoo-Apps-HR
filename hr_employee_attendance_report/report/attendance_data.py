@@ -54,8 +54,8 @@ def _get_overtime_total_up_to_this_month(employee, start_date):
     _logger.info("total_overtime_up_to_this_month %s", total_overtime_up_to_this_month)
     return total_overtime_up_to_this_month
 
-def get_code(self, leave_type):
-    existing_codes = set(lt.code for lt in self.env["hr.leave.type"].search([("requires_allocation", "=", "yes"), ("company_id", "=", self.env.company.id)]))
+def get_code(self, leave_type, company_id):
+    existing_codes = set(lt.code for lt in self.env["hr.leave.type"].search([("requires_allocation", "=", "yes"), ("company_id", "=", company_id)]))
     _logger.info("### existing_codes %s", existing_codes)
     counter = 0
     if leave_type.code:
@@ -134,7 +134,7 @@ def get_attendances(self, employees, start_date, end_date):
         ]
         filters = expression.AND([domain, expression.OR([from_domain, to_domain])])
         leave_ids = self.env["resource.calendar.leaves"].search(filters)
-        print("#########v LEAVE IDs:", leave_ids)
+        print("######### LEAVE IDs:", leave_ids)
 
         leave_hours = sum(leave_ids.holiday_id.mapped("number_of_hours_display"))
 
@@ -161,15 +161,10 @@ def get_attendances(self, employees, start_date, end_date):
         leaves_without_allocation_dict = {}
         leaves_without_allocation_descriptions = {}
         for leave_type in self.env["hr.leave.type"].search([("company_id", "=", employee.company_id.id )]):
-            code = get_code(self, leave_type)
-            #code = leave_type.code
+            code = get_code(self, leave_type, employee.company_id.id)
             display_name = leave_type.display_name
-            # if not code:
-            #     code = ''.join(word[0] for word in leave_type.name.split() if word).upper()
-            #     leave_type.write({'code': code})
-            leave_type.write({'code': code})
             leaves_dict[code] = 0.0
-            if leave_type.requires_allocation == 'no' and code != "MB":
+            if leave_type.requires_allocation == 'no':
                 leaves_without_allocation_dict[code] = 0.0
                 leaves_without_allocation_descriptions[code] = display_name
 
@@ -206,10 +201,7 @@ def get_attendances(self, employees, start_date, end_date):
                 else:
                     leave_hours_per_leave = number_of_hours_per_leave
 
-                if leave_code != "MB":
-                    active_leaves_dict[leave_code] += leave_hours_per_leave
-                else:
-                    missing_breaks_dict[leave_code] += leave_hours_per_leave
+                active_leaves_dict[leave_code] += leave_hours_per_leave
 
             for leave_code in leaves_without_allocation_dict.keys():
                 number_of_days_per_leave_without_allocation = 0
@@ -218,11 +210,9 @@ def get_attendances(self, employees, start_date, end_date):
                 active_leaves_dict_without_allocation[leave_code] += number_of_days_per_leave_without_allocation
 
             leave_hours = sum(active_leaves_dict.values())
-            missing_breaks_hours = sum(missing_breaks_dict.values())
 
             leave_types = " ".join([leave_code + ": " + str(round(leave_hours_per_leave, 2)) for leave_code, leave_hours_per_leave in active_leaves_dict.items() if leave_hours_per_leave > 0.0])
             _logger.warning(f"########## Date: {date}, leave_types: {leave_types}")
-            missing_breaks = " ".join([leave_code + ": " + str(round(leave_hours_per_leave, 2)) for leave_code, leave_hours_per_leave in missing_breaks_dict.items() if leave_hours_per_leave > 0.0])
 
             # Get attendance hours for this date
             worked_hours = sum(
@@ -288,8 +278,6 @@ def get_attendances(self, employees, start_date, end_date):
             )
 
 
-        
-
         # Update summary
         summary[employee.id]["worked_hours"] = summary[employee.id]["worked_hours"] - mb_counter * 0.5
         summary[employee.id]["planned_hours"] = round(planned_hours, 2)
@@ -311,15 +299,8 @@ def get_leave_allocations(self, employees):
     """Get data on leave and allocations."""
 
     leave_codes = []
-    # leave_codes = set(leave_type.code for leave_type in self.env["hr.leave.type"].search([("requires_allocation", "=", "yes"), ("company_id", "=", self.env.company.id)]))
     for leave_type in self.env["hr.leave.type"].search([("requires_allocation", "=", "yes"), ("company_id", "=", self.env.company.id)]):
-        code = get_code(self, leave_type)
-        # if not code:
-        #     new_code = ''.join(word[0] for word in leave_type.name.split() if word).upper()
-        #     if new_code not in leave_codes:
-        #         leave_type.write({'code': new_code})
-        #         leave_codes.append(new_code)
-        leave_type.write({'code': code})
+        code = get_code(self, leave_type, self.env.company.id)
         leave_codes.append(code)
 
     _logger.info("leave code %s", leave_codes)

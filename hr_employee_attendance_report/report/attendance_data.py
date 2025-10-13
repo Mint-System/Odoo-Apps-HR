@@ -251,6 +251,7 @@ def get_attendances(self, employees, start_date, end_date):
                 mb_counter += 1
                 missing_breaks_hours = 0.5
                 mb = True
+                leave_types = leave_types + " | Fehl. Pause" if leave_types else "Fehl. Pause" 
             else:
                 missing_breaks_hours = 0.0
                 mb = False
@@ -278,6 +279,7 @@ def get_attendances(self, employees, start_date, end_date):
             attendances[employee.id].append(
                 attendances_data_dict
             )
+            
 
 
         # Update summary
@@ -293,6 +295,9 @@ def get_attendances(self, employees, start_date, end_date):
         summary[employee.id]["leaves_without_allocation_descriptions"] = leaves_without_allocation_descriptions
         summary[employee.id]["show_paid_out"] = show_paid_out_overtime
         summary[employee.id]["overtime_without_paid_out"] = round(summary[employee.id]["overtime_calculated"] - (-summary[employee.id]["overtime_paid_out"]), 2)
+
+        for att in attendances[employee.id]:
+             _logger.warning(f"att data: {att['date']}, mb: {att['missing_break']}")
         
     return dates, attendances, summary
 

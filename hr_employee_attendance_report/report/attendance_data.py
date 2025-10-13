@@ -255,6 +255,8 @@ def get_attendances(self, employees, start_date, end_date):
                 missing_breaks_hours = 0.0
                 mb = False
 
+            _logger.warning(f"mb: {mb}")
+
             attendances_data_dict = {
                     "date": date,
                     "weekday": format_date(self.env, date, date_format="EE"),

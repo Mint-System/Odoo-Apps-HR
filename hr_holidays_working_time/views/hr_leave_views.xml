@@ -23,7 +23,7 @@
                 <button
                     name="action_attendance_view"
                     type="object"
-                    attrs="{'invisible': [('attendance_count','=',0)]}"
+                    invisible="attendance_count == 0"
                 >View Attendances</button>
             </header>
 
@@ -32,12 +32,9 @@
                 <label
                     for="record_as_attendance"
                     string=""
-                    attrs="{'invisible': [('record_as_attendance', '=', False)]}"
+                    invisible="not record_as_attendance"
                 />
-                <div
-                    attrs="{'invisible': [('record_as_attendance', '=', False)]}"
-                    class="fst-italic text-muted"
-                >
+                <div invisible="not record_as_attendance" class="fst-italic text-muted">
                     This leave will be recorded as attendance.
                 </div>
             </xpath>

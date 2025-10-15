@@ -8,13 +8,10 @@
             <group name="allocation_validation" position="after">
                 <group name="working_time" string="Working Time">
                     <field name="record_as_attendance" />
-                    <field
-                        name="calendar_id"
-                        attrs="{'invisible': [('record_as_attendance', '=', False)]}"
-                    />
+                    <field name="calendar_id" invisible="not record_as_attendance" />
                     <field
                         name="calendar_max_hours"
-                        attrs="{'invisible': [('record_as_attendance', '=', False)]}"
+                        invisible="not record_as_attendance"
                     />
                 </group>
             </group>

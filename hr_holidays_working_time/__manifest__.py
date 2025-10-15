@@ -6,7 +6,7 @@
     "author": "Mint System GmbH",
     "website": "https://www.mint-system.ch/",
     "category": "Human Resources",
-    "version": "16.0.1.0.0",
+    "version": "18.0.1.0.0",
     "license": "AGPL-3",
     "depends": ["hr_holidays_attendance", "hr_leave_custom_hour_interval"],
     "data": [

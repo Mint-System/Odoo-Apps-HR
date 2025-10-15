@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="ir_cron_compute_planned_hours" model="ir.cron">
+	    <field name="name">Compute Planned Hours (Yesterday)</field>
+	    <field name="model_id" ref="model_hr_employee_planned_hours"/>
+	    <field name="state">code</field>
+	    <field name="code">model.compute_planned_hours()
+		</field>
+	    <field name="interval_number">1</field>
+	    <field name="interval_type">days</field>
+	    <field name="numbercall">-1</field>
+	    <field name="active">True</field>
+	</record>
+
+</odoo>

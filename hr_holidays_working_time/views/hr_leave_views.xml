@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_leave_form_note" model="ir.ui.view">
+        <field name="name">hr_holidays_working_time.hr_leave_view_form</field>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_form" />
+        <field name="arch" type="xml">
+            <!-- <widget name="web_ribbon" position="after">
+                <div name="button_box" class="oe_button_box">
+                    <button
+                        class="oe_stat_button"
+                        name="action_attendance_view"
+                        type="object"
+                        icon="fa-clock-o"
+                    >
+                        <field string="Attendances" name="attendance_count" widget="statinfo" />
+                    </button>
+                </div>
+            </widget> -->
+
+            <header position="inside">
+                <field name="attendance_count" invisible="1" />
+                <button
+                    name="action_attendance_view"
+                    type="object"
+                    attrs="{'invisible': [('attendance_count','=',0)]}"
+                >View Attendances</button>
+            </header>
+
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="record_as_attendance" invisible="1" />
+                <label
+                    for="record_as_attendance"
+                    string=""
+                    attrs="{'invisible': [('record_as_attendance', '=', False)]}"
+                />
+                <div
+                    attrs="{'invisible': [('record_as_attendance', '=', False)]}"
+                    class="fst-italic text-muted"
+                >
+                    This leave will be recorded as attendance.
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -6,6 +6,7 @@ class HREmployeePlannedHours(models.Model):
     _name = "hr.employee.planned.hours"
     _description = "Planned Work Hours per Employee per Day"
     _order = "date desc, employee_id"
+    _auto=True
 
     employee_id = fields.Many2one('hr.employee', required=True, index=True)
     date = fields.Date(required=True, index=True)

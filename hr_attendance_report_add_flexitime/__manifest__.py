@@ -8,6 +8,7 @@
     "website": "https://www.mint-system.ch",
     "category": "Repository",
     "version": "16.0.1.0.0",
+    "post_init_hook": "post_init_hook",
     "license": "AGPL-3",
     "depends": ["base", "hr_attendance", "hr_holidays"],
     "data": [

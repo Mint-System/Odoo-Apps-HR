@@ -35,4 +35,4 @@ Working time morning:
 - Create a leave with type "Working Time"
 - Select half-day and morning
 - Approve the leave and click on "View Attendances"
-- Check if an attendance
+- Check if an attendance half the work hours has been created

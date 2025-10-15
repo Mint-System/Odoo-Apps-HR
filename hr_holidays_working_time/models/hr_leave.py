@@ -139,21 +139,27 @@ class HrLeave(models.Model):
                 # Create an attendance for each day.
                 while start_date <= end_date:
                     work_hours = self.calendar_id.get_work_hours_count(start_date, start_date + timedelta(days=1))
+
                     if work_hours > 0:
                         # Get start and end time in hours
                         hour_from = self.get_work_hour(start_date, "morning")
-                        hour_to = hour_from + work_hours
+                        # Add 1 hour offset to compensate lunch break deduction on attendance records
+                        hour_to = hour_from + work_hours + 1
+
+                        # _logger.warning([work_hours, hour_from, hour_to])
 
                         # Convert from user tz to utc
                         date_from = user_tz.localize(start_date).astimezone(pytz.utc).replace(tzinfo=None)
 
                         # The checkin time is defined by the calendar
                         # The checkout time is checkin plus average hours from calendar
+                        check_in = date_from + timedelta(hours=hour_from)
+                        check_out = date_from + timedelta(hours=hour_to)
                         attendance_vals.append(
                             {
                                 "employee_id": self.employee_id.id,
-                                "check_in": date_from + timedelta(hours=hour_from),
-                                "check_out": date_from + timedelta(hours=hour_to),
+                                "check_in": check_in,
+                                "check_out": check_out,
                                 "leave_id": self.id,
                             }
                         )
@@ -212,8 +218,8 @@ class HrLeave(models.Model):
     def action_confirm(self):
         return super().action_confirm()
 
-    def action_approve(self):
-        res = super().action_approve()
+    def action_approve(self, check_state=True):
+        res = super().action_approve(check_state)
         if not self.attendance_ids:
             self.create_attendances()
         return res

@@ -17,30 +17,39 @@ import { session } from "@web/session";
 // });
 
 
+const partnerColorMap = session.partner_color_map || {};
 
 
 patch(AttendeeCalendarModel.prototype, {
     async updateAttendeeData(data) {
         const res = await super.updateAttendeeData(...arguments);
 
-        // Get current user's color (from session)
-        const userColor = session.color;
-        console.log("user color:", userColor);
+        console.log("user colors:", partnerColorMap);
 
         for (const event of Object.values(data.records)) {
+            console.log("event:", event)
             const eventData = event.rawRecord;
-            console.log("session.uid:", session.uid);
-            console.log("session.partner_id:", session.partner_id);
+
             console.log("event.ColorIndex:", event.colorIndex);
 
             console.log("eventData:", eventData);
             console.log("eventData.partner_ids:", eventData.partner_ids)
 
+            const partnerId = event.attendeeId;
+            console.log("partnerId:", partnerId);
+
+
             // If event has the current user as attendee, use his color
-            if (eventData.partner_ids?.includes(session.partner_id)) {
-                event.colorIndex = userColor;
+            // if (eventData.partner_ids?.includes(session.partner_id)) {
+            //     event.colorIndex = userColor;
+            // } else {
+            //     // fallback: keep creator's color
+            //     event.colorIndex = eventData.color;
+            // }
+            if (partnerColorMap[partnerId]) {
+                event.colorIndex = partnerColorMap[partnerId];
             } else {
-                // fallback: keep creator's color
+                // fallback: event creator’s color or default
                 event.colorIndex = eventData.color;
             }
         }

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models
-from datetime import datetime, time
+from datetime import datetime, time, date
 
 class HREmployeePlannedHours(models.Model):
     _name = "hr.employee.planned.hours"

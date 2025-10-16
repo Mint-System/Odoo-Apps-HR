@@ -1,1 +1,1 @@
-from . import calendar_event, calendar_filters
+from . import ir_http, calendar_event, calendar_filters

@@ -16,10 +16,12 @@ class HRAttendanceReport(models.Model):
             (hra.worked_hours - COALESCE(ph.planned_hours, 0)) AS diff_hours
         """
 
+
     def _join(self):
         return super()._join() + """
             LEFT JOIN hr_employee_planned_hours ph
-                ON ph.employee_id = hra.employee_id
+                ON hra.ot_check = 1
+                AND ph.employee_id = hra.employee_id
                 AND ph.date = hra.check_in
         """
 

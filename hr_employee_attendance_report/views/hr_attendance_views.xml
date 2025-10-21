@@ -8,9 +8,10 @@
 	      <xpath expr="//field[@name='check_out']" position="before">
 		     <field name="has_missing_break" invisible="1" />
 		  </xpath> 
-	      <xpath expr="//field[@name='check_out']" position="attributes">
+	       <xpath expr="//field[@name='check_out']" position="attributes">
 		     <attribute name="decoration-danger">has_missing_break</attribute>
-		  </xpath> 
+		     <attribute name="class" add="missing-break"/>
+		  </xpath>  
 	    </field>
 	</record>
 </odoo>

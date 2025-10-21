@@ -27,6 +27,7 @@
         ],
         'web.report_assets_common': [
             'hr_employee_attendance_report/static/src/css/report_styles.css',
+            'hr_employee_attendance_report/static/src/css/attendance.css',
         ],
         'web.report_assets_pdf': [
             'hr_employee_attendance_report/static/src/css/report_styles.css',

@@ -1,4 +1,7 @@
-/* Footnote-style red asterisk after check_out when missing break exists */
-.o_data_row .o_data_cell.text-danger::after {
+.o_data_cell.missing-break.text-danger span::after,
+.o_data_cell.missing-break.text-danger::after {
     content: " *";
+    color: red;
+    display: inline;
+    margin-left: 2px;
 }

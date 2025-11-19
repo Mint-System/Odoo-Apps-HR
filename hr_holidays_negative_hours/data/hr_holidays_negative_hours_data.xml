@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<odoo noupdate="1">
+<odoo>
     <record id="holiday_status_compensate_extra_hours" model="hr.leave.type">
         <field name="name">Compensation</field>
         <field name="request_unit">hour</field>

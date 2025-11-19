@@ -1,0 +1,8 @@
+- Enable option "Display Extra Hours"
+- Create time off request for 16 hours
+- Selection "Compensation" as type
+- Submit the request
+- Go to my profile
+- Ensure the extra hours is negative
+- Refuse the request
+- Ensure the extra hours is restored

@@ -2,6 +2,7 @@ import logging
 from datetime import datetime, time, timedelta
 
 from dateutil.relativedelta import relativedelta
+from pytz import timezone
 
 from odoo import fields
 from odoo.osv import expression
@@ -80,7 +81,10 @@ def get_attendances(self, employees, start_date, end_date):
             # Get work hours
             min_check_date = datetime.combine(check_date, time.min)
             max_check_date = datetime.combine(check_date, time.max)
-            work_hours = employee.resource_calendar_id.get_work_hours_count(min_check_date, max_check_date, True)
+            resource_timezone = timezone(employee.resource_calendar_id.tz)
+            work_hours = employee.resource_calendar_id.get_work_hours_count(
+                min_check_date.replace(tzinfo=resource_timezone), max_check_date.replace(tzinfo=resource_timezone),
+                True)
             planned_hours += work_hours
 
             # Get leave hours for this date

@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//page[@name='internal_notes']" position="inside">
                 <group>
-                    <field name="color" widget="color_picker"/>
+                    <field name="color" widget="color_picker" />
                 </group>
             </xpath>
         </field>

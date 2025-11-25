@@ -1,15 +1,15 @@
 {
-    "name": "HR Employee Skill",
+    "name": "HR Holidays Remaining Leaves",
     "summary": """
-        Views to manage HR employee skills.
+        Show remaining leaves per employee in allocation overview.
     """,
     "author": "Mint System GmbH",
     "website": "https://github.com/OCA/sale-workflow",
     "category": "Human Resources",
     "version": "17.0.1.0.0",
     "license": "AGPL-3",
-    "depends": ["hr_skills"],
-    "data": ["views/views.xml"],
+    "depends": ["hr_holidays"],
+    "data": ["views/hr_leave_allocation.xml"],
     "installable": True,
     "application": False,
     "auto_install": False,

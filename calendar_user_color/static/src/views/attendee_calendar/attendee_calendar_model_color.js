@@ -1,11 +1,9 @@
 /** @odoo-module **/
-import { AttendeeCalendarModel } from "@calendar/views/attendee_calendar/attendee_calendar_model";
-import { patch } from "@web/core/utils/patch";
-import { session } from "@web/session";
-
+import {AttendeeCalendarModel} from "@calendar/views/attendee_calendar/attendee_calendar_model";
+import {patch} from "@web/core/utils/patch";
+import {session} from "@web/session";
 
 const partnerColorMap = session.partner_color_map || {};
-
 
 patch(AttendeeCalendarModel.prototype, {
     async updateAttendeeData(data) {
@@ -26,6 +24,3 @@ patch(AttendeeCalendarModel.prototype, {
         return res;
     },
 });
-
-
-

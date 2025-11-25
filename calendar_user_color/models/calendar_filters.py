@@ -1,5 +1,6 @@
 from odoo import fields, models
 
+
 class CalendarFilter(models.Model):
     _inherit = "calendar.filters"
 

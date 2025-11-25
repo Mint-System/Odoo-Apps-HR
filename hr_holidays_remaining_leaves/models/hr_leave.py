@@ -45,9 +45,6 @@ class HolidaysAllocation(models.Model):
                     ("employee_id", "=", allocation.employee_id.id),
                     ("state", "=", "validate"),
                     ("holiday_status_id", "=", allocation.holiday_status_id.id),
-                    "|",
-                    ("holiday_allocation_id", "=", allocation.id),
-                    ("holiday_allocation_id", "=", False),
                 ]
             )
 

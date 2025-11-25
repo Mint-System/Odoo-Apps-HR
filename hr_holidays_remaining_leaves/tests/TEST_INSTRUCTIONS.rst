@@ -1,0 +1,4 @@
+- Open App Time Off.
+- Go to Management > Allocations.
+- Check if two additional columns "Remaining" and "Current Remaining" are visible.
+- The two numbers should be different if the current date is in an validated leave.

@@ -261,10 +261,11 @@
 
                                 </t>
                                 <tr><th colspan="5" class="text-center" style="text-align: center; font-size: 10px;">Other Leaves <span t-out="dates[doc.id]['month_and_year']" style="margin-left: 3px;"/></th></tr>
-                                <t t-foreach="summary[doc.id]['leaves_without_allocation'].items()" t-as="kv">
+                             
+                                <t t-foreach="unallocated_leaves[doc.id].items()" t-as="kv">
                                     <tr>
                                         <!-- kv is a tuple: (key, value) -->
-                                        <td><t t-out="summary[doc.id]['leaves_without_allocation_descriptions'][kv[0]]"/></td>
+                                        <td><t t-out="kv[0]"/></td>
                                         <td></td>
                                         <td class="text-end"><t t-out="kv[1]"/>
                                         Days
@@ -307,22 +308,6 @@
                                     </td>
                                 </tr>
                                
-                               
-                                <!-- <tr><td id="sick" class="text-start">
-                                        Sick Days
-                                    </td>
-                                    <td id="sick_allocation" class="text-end">
-                                        
-                                    </td>
-                                    <td id="sick_days" class="text-end">
-                                        <t t-out="summary[doc.id]['sick_days']" />
-                                    </td>
-                                    <td id="sick_remaining" class="text-end">
-                                        
-                                    </td>
-                                </tr> -->
-                               
-
                               
                             </tbody>
                         </table>

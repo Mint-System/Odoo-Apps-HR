@@ -80,9 +80,11 @@ def get_attendances(self, employees, start_date, end_date):
 
     show_paid_out_overtime = self.env.context.get("show_paid_out_overtime", False)
 
-
+    
     # Iterate on users
     for employee in employees:
+        _logger.warning(f"### START DATE: {start_date}")
+        _logger.warning(f"### END DATE: {end_date}")
         # Get statics
         hours_per_day = employee.resource_calendar_id.hours_per_day
         fixed_work_hours = False if hours_per_day == 0 else True
@@ -92,6 +94,7 @@ def get_attendances(self, employees, start_date, end_date):
         dates[employee.id] = {}
         dates[employee.id]["start_date"] = start_date
         dates[employee.id]["end_date"] = end_date - timedelta(days=1)
+
         dates[employee.id]["end_date_of_previous_month"] = start_date - timedelta(days=1)
         dates[employee.id]["month_and_year"]= start_date.strftime("%B %Y")
         dates[employee.id]["year"] = start_date.year
@@ -134,7 +137,6 @@ def get_attendances(self, employees, start_date, end_date):
         ]
         filters = expression.AND([domain, expression.OR([from_domain, to_domain])])
         leave_ids = self.env["resource.calendar.leaves"].search(filters)
-        print("######### LEAVE IDs:", leave_ids)
 
         leave_hours = sum(leave_ids.holiday_id.mapped("number_of_hours_display"))
 
@@ -156,19 +158,12 @@ def get_attendances(self, employees, start_date, end_date):
         planned_hours = 0
         overtime = 0
         overtime_paid_out = 0
-        sick_days = 0
         leaves_dict = {}
-        leaves_without_allocation_dict = {}
-        leaves_without_allocation_descriptions = {}
         for leave_type in self.env["hr.leave.type"].search([("company_id", "=", employee.company_id.id )]):
             code = get_code(self, leave_type, employee.company_id.id)
             display_name = leave_type.display_name
             leaves_dict[code] = 0.0
-            if leave_type.requires_allocation == 'no':
-                leaves_without_allocation_dict[code] = 0.0
-                leaves_without_allocation_descriptions[code] = display_name
-
-        active_leaves_dict_without_allocation = defaultdict(float)
+        
 
         mb_counter = 0
 
@@ -186,8 +181,6 @@ def get_attendances(self, employees, start_date, end_date):
                 or min_check_date <= l.date_to <= max_check_date
             )
 
-            print("########### ACTIVE LEAVES:", active_leaves )
-
             active_leaves_dict = defaultdict(float)
             missing_breaks_dict = defaultdict(float)            
            
@@ -203,11 +196,6 @@ def get_attendances(self, employees, start_date, end_date):
 
                 active_leaves_dict[leave_code] += leave_hours_per_leave
 
-            for leave_code in leaves_without_allocation_dict.keys():
-                number_of_days_per_leave_without_allocation = 0
-                number_of_days_per_leave_without_allocation = active_leaves.filtered(
-                        lambda l: l.holiday_id.holiday_status_id.code == leave_code).holiday_id.number_of_days_display
-                active_leaves_dict_without_allocation[leave_code] += number_of_days_per_leave_without_allocation
 
             leave_hours = sum(active_leaves_dict.values())
 
@@ -285,14 +273,11 @@ def get_attendances(self, employees, start_date, end_date):
         # Update summary
         summary[employee.id]["worked_hours"] = summary[employee.id]["worked_hours"] - mb_counter * 0.5
         summary[employee.id]["planned_hours"] = round(planned_hours, 2)
-        summary[employee.id]["sick_days"] = round(sick_days, 1)
         summary[employee.id]["overtime"] = round(overtime, 2)
         summary[employee.id]["overtime_calculated"] = round(summary[employee.id]["worked_hours"] - (summary[employee.id]["planned_hours"] - summary[employee.id]["leave_hours"]), 2)
         summary[employee.id]["overtime_paid_out"] = round(overtime_paid_out, 2)
         summary[employee.id]["leaves"] = leaves_dict
         summary[employee.id]["overtime_diff"] = round(summary[employee.id]["overtime_calculated"] - summary[employee.id]["total_overtime_up_to_previous_month"], 2)
-        summary[employee.id]["leaves_without_allocation"] = active_leaves_dict_without_allocation
-        summary[employee.id]["leaves_without_allocation_descriptions"] = leaves_without_allocation_descriptions
         summary[employee.id]["show_paid_out"] = show_paid_out_overtime
         summary[employee.id]["overtime_without_paid_out"] = round(summary[employee.id]["overtime_calculated"] - (-summary[employee.id]["overtime_paid_out"]), 2)
 
@@ -300,6 +285,26 @@ def get_attendances(self, employees, start_date, end_date):
              _logger.warning(f"att data: {att['date']}, mb: {att['missing_break']}")
         
     return dates, attendances, summary
+
+
+def get_unallocated_leaves(self, employees, start_date, end_date):
+    unallocated_leaves = {}
+    for employee in employees:
+        unallocated_leaves[employee.id] = defaultdict(float)
+        leaves = self.env['hr.leave'].search([
+            ('employee_id', '=', employee.id),
+            ('state', '=', 'validate'),
+            ('holiday_status_id.requires_allocation', '=', 'no'),
+            ('date_from', '<=', end_date),
+            ('date_to', '>=', start_date),
+        ])
+
+        for leave in leaves:
+            code = leave.holiday_status_id.code
+            if code:
+                unallocated_leaves[employee.id][code] += leave.number_of_days
+
+        return unallocated_leaves
 
 
 def get_leave_allocations(self, employees):
@@ -375,6 +380,8 @@ def get_leave_allocations(self, employees):
     return leave_allocations, leave_allocations_per_type
 
 
+
+
 def _get_report_values(self, docids, data=None, report_name=None):
     now = fields.Datetime.now()
     # Last month default dates
@@ -400,6 +407,8 @@ def _get_report_values(self, docids, data=None, report_name=None):
 
     dates, attendances, summary = get_attendances(self, employees, start_date, end_date)
     leave_allocations, leave_allocations_per_type = get_leave_allocations(self, employees)
+    unallocated_leaves = get_unallocated_leaves(self, employees, start_date, end_date)
+    _logger.warning(f"##### unallocated_leaves: {unallocated_leaves}")
 
     _logger.warning("### context: %s", self.env.context)
     show_allocation = self.env.context.get("show_allocation", True)
@@ -413,6 +422,7 @@ def _get_report_values(self, docids, data=None, report_name=None):
         "summary": summary,
         "leave_allocations": leave_allocations,
         "leave_allocations_per_type": leave_allocations_per_type,
+        "unallocated_leaves": unallocated_leaves,
         "show_weekdays": data.get("show_weekdays", True),
         "show_diff_hours": data.get("show_diff_hours", True),
         "show_odoo_overtimes": data.get("show_odoo_overtimes", False),

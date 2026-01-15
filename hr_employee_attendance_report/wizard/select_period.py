@@ -34,7 +34,11 @@ class HREmployeeAttendanceReportSelectPeriod(models.TransientModel):
             report = "hr_employee_attendance_report.res_users_report"
 
         [data] = self.read()
-        action = self.env.ref(report).with_context(download_only=download_only).report_action(None, data)
+        action = (
+            self.env.ref(report)
+            .with_context(download_only=download_only)
+            .report_action(None, data)
+        )
         return action
 
     def download_report(self):

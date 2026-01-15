@@ -31,13 +31,13 @@
 
                 <p>Employee: <span t-out="doc.name" /></p>
                 <p>From: <span
-                    t-out="dates[doc.id]['start_date']"
-                    t-options="{'widget': 'date'}"
-                /><br />
+                        t-out="dates[doc.id]['start_date']"
+                        t-options="{'widget': 'date'}"
+                    /><br />
                     Until: <span
-                    t-out="dates[doc.id]['end_date']"
-                    t-options="{'widget': 'date'}"
-                /></p>
+                        t-out="dates[doc.id]['end_date']"
+                        t-options="{'widget': 'date'}"
+                    /></p>
 
                 <table class="table table-bordered table-sm" name="table_attendance">
                     <thead>

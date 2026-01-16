@@ -5,7 +5,7 @@ from collections import defaultdict
 import pytz
 from markupsafe import Markup
 
-from datetime import datetime, time, timedelta
+from datetime import datetime, time, timedelta, date
 from odoo.tools import format_date
 
 from dateutil.relativedelta import relativedelta
@@ -130,7 +130,7 @@ def get_attendances(self, employees, start_date, end_date):
 
         # Get leaves with from or to date in range
         from_domain = [("date_from", ">=", start_date), ("date_from", "<=", end_date)]
-        to_domain = [("date_to", ">=", end_date), ("date_to", "<=", end_date)]
+        to_domain = [("date_to", ">=", start_date), ("date_to", "<=", end_date)]
         domain = [
             ("calendar_id", "=", employee.resource_calendar_id.id),
             ("resource_id", "=", employee.resource_id.id),
@@ -167,6 +167,8 @@ def get_attendances(self, employees, start_date, end_date):
 
         mb_counter = 0
 
+        leave_hours_sum = 0
+
         for date in _daterange(start_date, end_date):
             # Get work hours
             min_check_date = datetime.combine(date, time.min)
@@ -198,6 +200,7 @@ def get_attendances(self, employees, start_date, end_date):
 
 
             leave_hours = sum(active_leaves_dict.values())
+            leave_hours_sum += leave_hours
 
             leave_types = " ".join([leave_code + ": " + str(round(leave_hours_per_leave, 2)) for leave_code, leave_hours_per_leave in active_leaves_dict.items() if leave_hours_per_leave > 0.0])
             _logger.warning(f"########## Date: {date}, leave_types: {leave_types}")
@@ -273,6 +276,7 @@ def get_attendances(self, employees, start_date, end_date):
         # Update summary
         summary[employee.id]["worked_hours"] = summary[employee.id]["worked_hours"] - mb_counter * 0.5
         summary[employee.id]["planned_hours"] = round(planned_hours, 2)
+        summary[employee.id]["leave_hours_sum"] = round(leave_hours_sum, 2)
         summary[employee.id]["overtime"] = round(overtime, 2)
         summary[employee.id]["overtime_calculated"] = round(summary[employee.id]["worked_hours"] - (summary[employee.id]["planned_hours"] - summary[employee.id]["leave_hours"]), 2)
         summary[employee.id]["overtime_paid_out"] = round(overtime_paid_out, 2)
@@ -307,7 +311,7 @@ def get_unallocated_leaves(self, employees, start_date, end_date):
         return unallocated_leaves
 
 
-def get_leave_allocations(self, employees):
+def get_leave_allocations(self, employees, start_date, end_date):
     """Get data on leave and allocations."""
 
     leave_codes = []
@@ -327,13 +331,31 @@ def get_leave_allocations(self, employees):
     # Iterate on users
     for employee in employees:
         # Get active allocations
-        allocation_ids = self.env["hr.leave.allocation"].search(
-            [
-                ("employee_id", "=", employee.id),
-                "|",
-                ("date_to", ">=", now),
-                ("date_from", "<=", now),
+
+        # search domain
+        domain = [
+            ('state', '=', 'validate'),
+            ('employee_id', '=', employee.id),
+        ]
+
+        if start_date.year == now.year:
+            # active allocations
+            domain += [
+                ('date_from', '<=', now),
+                ('date_to', '>=', now),
             ]
+        else:
+            # allocations from last year
+            last_year_start = date(now.year - 1, 1, 1)
+            last_year_end = date(now.year - 1, 12, 31)
+
+            domain += [
+                ('date_from', '>=', last_year_start),
+                ('date_from', '<=', last_year_end),
+            ]
+
+        allocation_ids = self.env["hr.leave.allocation"].search(
+            domain
         )
         
 
@@ -344,35 +366,35 @@ def get_leave_allocations(self, employees):
         for leave_code in leave_codes:
             
             leaves_per_type = {}
-            allocation_ids_per_type = self.env["hr.leave.allocation"].search(
-                [
-                    ("holiday_status_id.code", "=", leave_code),
-                    ("employee_id", "=", employee.id),
-                    "|",
-                    ("date_to", ">=", now),
-                    ("date_from", "<=", now),
-                ]
-            )
-            leaves_per_type["code"] = leave_code
-            leaves_per_type["display_name"] =  allocation_ids_per_type.mapped("holiday_status_id").display_name
-            leaves_per_type["number_of_days"] = (
-                sum(allocation_ids_per_type.mapped("number_of_days")) if allocation_ids_per_type else 0
-            )
-            leaves_per_type["number_of_days_display"] = (
-                sum(allocation_ids_per_type.mapped("number_of_days_display")) if allocation_ids_per_type else 0
-            )
-            leaves_per_type["number_of_hours_display"] = (
-                sum(allocation_ids_per_type.mapped("number_of_hours_display")) if allocation_ids_per_type else 0
-            )
-            leaves_per_type["leaves_taken"] = (
-                sum(allocation_ids_per_type.mapped("leaves_taken")) if allocation_ids_per_type else 0
-            )
-            leaves_per_type["remaining_leaves_days"] = (
-                sum(allocation_ids_per_type.mapped("remaining_leaves_days")) if allocation_ids_per_type else 0
-            )
-            # leave_allocations_per_type[employee.id][leave_code] = leaves_per_type
-            _logger.info("leaves_per_type %s", leaves_per_type)
-            leave_allocations_per_type_per_employee.append(leaves_per_type)
+            # domain += [
+            #     ("holiday_status_id.code", "=", leave_code),
+            # ]
+            # allocation_ids_per_type = self.env["hr.leave.allocation"].search(
+            #     domain
+            # )
+            allocation_ids_per_type = allocation_ids.filtered(lambda alloc: alloc.holiday_status_id.code == leave_code)
+            if allocation_ids_per_type:
+                leaves_per_type["code"] = leave_code
+                leaves_per_type["display_name"] =  allocation_ids_per_type.mapped("holiday_status_id").display_name
+                leaves_per_type["number_of_days"] = (
+                    sum(allocation_ids_per_type.mapped("number_of_days")) if allocation_ids_per_type else 0
+                )
+                leaves_per_type["number_of_days_display"] = (
+                    sum(allocation_ids_per_type.mapped("number_of_days_display")) if allocation_ids_per_type else 0
+                )
+                leaves_per_type["number_of_hours_display"] = (
+                    sum(allocation_ids_per_type.mapped("number_of_hours_display")) if allocation_ids_per_type else 0
+                )
+                leaves_per_type["leaves_taken"] = (
+                    sum(allocation_ids_per_type.mapped("leaves_taken")) if allocation_ids_per_type else 0
+                )
+                leaves_per_type["remaining_leaves_days"] = (
+                    sum(allocation_ids_per_type.mapped("remaining_leaves_days")) if allocation_ids_per_type else 0
+                )
+                # leave_allocations_per_type[employee.id][leave_code] = leaves_per_type
+                _logger.info("leaves_per_type %s", leaves_per_type)
+                leave_allocations_per_type_per_employee.append(leaves_per_type)
+
 
         leave_allocations_per_type[employee.id] = leave_allocations_per_type_per_employee
 
@@ -406,7 +428,7 @@ def _get_report_values(self, docids, data=None, report_name=None):
         employees = self.env["hr.employee"].browse(docids)
 
     dates, attendances, summary = get_attendances(self, employees, start_date, end_date)
-    leave_allocations, leave_allocations_per_type = get_leave_allocations(self, employees)
+    leave_allocations, leave_allocations_per_type = get_leave_allocations(self, employees, start_date, end_date)
     unallocated_leaves = get_unallocated_leaves(self, employees, start_date, end_date)
     _logger.warning(f"##### unallocated_leaves: {unallocated_leaves}")
 

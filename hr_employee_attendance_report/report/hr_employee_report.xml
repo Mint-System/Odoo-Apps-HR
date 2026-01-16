@@ -155,7 +155,7 @@
                                         Leave Hours
                                     </th>
                                     <td id="leave_hours">
-                                        <t t-out="summary[doc.id]['leave_hours']" />
+                                         <t t-out="summary[doc.id]['leave_hours_sum']" /> 
                                     </td>
                                 </tr>
                                 <tr>

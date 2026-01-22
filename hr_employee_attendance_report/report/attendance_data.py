@@ -43,6 +43,21 @@ def _get_overtime_total_up_to_previous_month(employee, start_date):
     _logger.info("total_overtime_up_to_previous_month %s", total_overtime_up_to_previous_month)
     return total_overtime_up_to_previous_month
 
+
+def _get_glz_up_to_previous_month(self, employee, start_date):
+    last_day_of_previous_month = start_date - timedelta(days=1)
+    domain = [
+        ("calendar_id", "=", employee.resource_calendar_id.id),
+        ("resource_id", "=", employee.resource_id.id),
+        ("date_to", "<=", last_day_of_previous_month.date())
+    ]
+    leave_ids = self.env["resource.calendar.leaves"].search(domain)
+    glz_leaves = sum(leave_ids.filtered(
+        lambda l: l.holiday_id.holiday_status_id.code == "GLZ"
+        ).mapped("holiday_id.number_of_hours_display"))
+    return glz_leaves
+
+
 def _get_overtime_total_up_to_this_month(employee, start_date):
     last_day_of_this_month = _get_last_day_of_month(start_date)
     _logger.info("last_day_of_this_month %s", last_day_of_this_month)
@@ -53,6 +68,20 @@ def _get_overtime_total_up_to_this_month(employee, start_date):
         total_overtime_up_to_this_month = 0
     _logger.info("total_overtime_up_to_this_month %s", total_overtime_up_to_this_month)
     return total_overtime_up_to_this_month
+
+
+def _get_glz_up_to_this_month(self, employee, start_date):
+    last_day_of_this_month = _get_last_day_of_month(start_date)
+    domain = [
+        ("calendar_id", "=", employee.resource_calendar_id.id),
+        ("resource_id", "=", employee.resource_id.id),
+        ("date_to", "<=", last_day_of_this_month.date())
+    ]
+    leave_ids = self.env["resource.calendar.leaves"].search(domain)
+    glz_leaves = sum(leave_ids.filtered(
+        lambda l: l.holiday_id.holiday_status_id.code == "GLZ"
+        ).mapped("holiday_id.number_of_hours_display"))
+    return glz_leaves
 
 def get_code(self, leave_type, company_id):
     existing_codes = set(lt.code for lt in self.env["hr.leave.type"].search([("requires_allocation", "=", "yes"), ("company_id", "=", company_id)]))
@@ -141,6 +170,9 @@ def get_attendances(self, employees, start_date, end_date):
         leave_hours = sum(leave_ids.holiday_id.mapped("number_of_hours_display"))
 
         # Update summary
+        glz_up_to_previous_month = round(_get_glz_up_to_previous_month(self, employee, start_date), 2)
+        glz_up_to_this_month = round(_get_glz_up_to_this_month(self, employee, start_date), 2)
+        glz_saldo = glz_up_to_this_month - glz_up_to_previous_month
         summary[employee.id] = {
             "fixed_work_hours": fixed_work_hours,
             "leave_hours": round(leave_hours, 2),
@@ -148,6 +180,9 @@ def get_attendances(self, employees, start_date, end_date):
             "overtime_total": round(employee.total_overtime, 2),
             "total_overtime_up_to_previous_month": round(_get_overtime_total_up_to_previous_month(employee, start_date), 2),
             "total_overtime_up_to_this_month": round(_get_overtime_total_up_to_this_month(employee, start_date), 2),
+            "glz_up_to_previous_month": glz_up_to_previous_month,
+            "glz_up_to_this_month": glz_up_to_this_month,
+            "glz_saldo": glz_saldo
         }
 
         if show_paid_out_overtime:
@@ -168,6 +203,9 @@ def get_attendances(self, employees, start_date, end_date):
         mb_counter = 0
 
         leave_hours_sum = 0
+
+        glz_hours = 0
+        glz_sum = 0
 
         for date in _daterange(start_date, end_date):
             # Get work hours
@@ -198,8 +236,15 @@ def get_attendances(self, employees, start_date, end_date):
 
                 active_leaves_dict[leave_code] += leave_hours_per_leave
 
+                if leave_code == "GLZ":
+                    glz_hours = active_leaves.filtered(
+                        lambda l: l.holiday_id.holiday_status_id.code == 'GLZ'
+                    ).holiday_id.number_of_hours_display
+                    glz_sum += glz_hours
+
 
             leave_hours = sum(active_leaves_dict.values())
+
             leave_hours_sum += leave_hours
 
             leave_types = " ".join([leave_code + ": " + str(round(leave_hours_per_leave, 2)) for leave_code, leave_hours_per_leave in active_leaves_dict.items() if leave_hours_per_leave > 0.0])
@@ -257,7 +302,7 @@ def get_attendances(self, employees, start_date, end_date):
                     "leave_types": leave_types,
                     "missing_break": mb,
                     "worked_hours": round(worked_hours - missing_breaks_hours, 2),
-                    "diff_hours": round(worked_hours - missing_breaks_hours - (work_hours - leave_hours), 2),
+                    "diff_hours": round(worked_hours - missing_breaks_hours - (work_hours - leave_hours) - glz_hours, 2),
                     "time_stamps": time_stamps_string,
                     "overtime": round(overtime_hours, 2),
                     "background_color": "lightgrey" if work_hours == 0 and fixed_work_hours else "none",
@@ -272,13 +317,12 @@ def get_attendances(self, employees, start_date, end_date):
             )
             
 
-
         # Update summary
         summary[employee.id]["worked_hours"] = summary[employee.id]["worked_hours"] - mb_counter * 0.5
         summary[employee.id]["planned_hours"] = round(planned_hours, 2)
         summary[employee.id]["leave_hours_sum"] = round(leave_hours_sum, 2)
         summary[employee.id]["overtime"] = round(overtime, 2)
-        summary[employee.id]["overtime_calculated"] = round(summary[employee.id]["worked_hours"] - (summary[employee.id]["planned_hours"] - summary[employee.id]["leave_hours"]), 2)
+        summary[employee.id]["overtime_calculated"] = round(summary[employee.id]["worked_hours"] - (summary[employee.id]["planned_hours"] - summary[employee.id]["leave_hours"]) - glz_sum, 2)
         summary[employee.id]["overtime_paid_out"] = round(overtime_paid_out, 2)
         summary[employee.id]["leaves"] = leaves_dict
         summary[employee.id]["overtime_diff"] = round(summary[employee.id]["overtime_calculated"] - summary[employee.id]["total_overtime_up_to_previous_month"], 2)
@@ -305,7 +349,7 @@ def get_unallocated_leaves(self, employees, start_date, end_date):
 
         for leave in leaves:
             code = leave.holiday_status_id.code
-            if code:
+            if code and code != "GLZ":
                 unallocated_leaves[employee.id][code] += leave.number_of_days
 
         return unallocated_leaves

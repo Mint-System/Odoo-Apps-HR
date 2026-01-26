@@ -198,6 +198,9 @@ def get_attendances(self, employees, start_date, end_date):
         overtime_and_glz_up_to_previous_month = total_overtime_up_to_previous_month - glz_up_to_previous_month
         overtime_and_glz_up_to_this_month = total_overtime_up_to_this_month - glz_up_to_this_month
         overtime_and_glz_saldo = total_overtime_saldo - glz_saldo
+        _logger.warning(
+            f"#### glz_up_to_previous_month: {glz_up_to_previous_month}, total_overtime_up_to_previous_month: {total_overtime_up_to_previous_month}, overtime_and_glz_up_to_previous_month: {overtime_and_glz_up_to_previous_month} "
+        )
 
         summary[employee.id] = {
             "fixed_work_hours": fixed_work_hours,

@@ -182,8 +182,11 @@ def get_attendances(self, employees, start_date, end_date):
         ]
         filters = expression.AND([domain, expression.OR([from_domain, to_domain])])
         leave_ids = self.env["resource.calendar.leaves"].search(filters)
+        _logger.warning(f"leave ids: {leave_ids}")
 
         leave_hours = sum(leave_ids.holiday_id.mapped("number_of_hours_display"))
+
+        _logger.warning(f"leave hours this month: {leave_hours}")
 
         # Update summary
         total_overtime_up_to_previous_month = round(_get_overtime_total_up_to_previous_month(employee, start_date), 2)
@@ -259,15 +262,26 @@ def get_attendances(self, employees, start_date, end_date):
                 else:
                     leave_hours_per_leave = number_of_hours_per_leave
 
+                _logger.warning(f"####### leave code: {leave_code}, hours: {leave_hours_per_leave}")
                 active_leaves_dict[leave_code] += leave_hours_per_leave
 
-                if leave_code == "GLZ":
-                    glz_hours = active_leaves.filtered(
-                        lambda l: l.holiday_id.holiday_status_id.code == "GLZ"
-                    ).holiday_id.number_of_hours_display
-                    glz_sum += glz_hours
+                glz_hours = active_leaves_dict["GLZ"]
 
-            leave_hours = sum(active_leaves_dict.values())
+                # if leave_code == "GLZ":
+                #     glz_hours = leave_hours_per_leave
+                # else:
+                #     active_leaves_dict[leave_code] += leave_hours_per_leave
+
+                # if leave_code == "GLZ":
+                #     glz_hours = active_leaves.filtered(
+                #         lambda l: l.holiday_id.holiday_status_id.code == "GLZ"
+                #     ).holiday_id.number_of_hours_display
+
+                glz_sum += glz_hours
+                _logger.warning(f"GLZ hours: {glz_hours}")
+
+            # leave_hours = sum(active_leaves_dict.values())
+            leave_hours = sum(value for key, value in active_leaves_dict.items() if key != "GLZ")
 
             leave_hours_sum += leave_hours
 
@@ -342,7 +356,7 @@ def get_attendances(self, employees, start_date, end_date):
                 "leave_types": leave_types,
                 "missing_break": mb,
                 "worked_hours": round(worked_hours - missing_breaks_hours, 2),
-                "diff_hours": round(worked_hours - missing_breaks_hours - (work_hours - leave_hours) - glz_hours, 2),
+                "diff_hours": round(worked_hours - missing_breaks_hours - (work_hours - leave_hours), 2),
                 "time_stamps": time_stamps_string,
                 "overtime": round(overtime_hours, 2),
                 "background_color": "lightgrey" if work_hours == 0 and fixed_work_hours else "none",
@@ -361,8 +375,8 @@ def get_attendances(self, employees, start_date, end_date):
         summary[employee.id]["overtime"] = round(overtime, 2)
         summary[employee.id]["overtime_calculated"] = round(
             summary[employee.id]["worked_hours"]
-            - (summary[employee.id]["planned_hours"] - summary[employee.id]["leave_hours"])
-            - glz_sum,
+            - (summary[employee.id]["planned_hours"] - summary[employee.id]["leave_hours_sum"]),
+            # - glz_sum,
             2,
         )
         summary[employee.id]["overtime_paid_out"] = round(overtime_paid_out, 2)

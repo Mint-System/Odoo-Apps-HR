@@ -28,14 +28,13 @@
                     t-set="fixed_work_hours"
                     t-value="summary[doc.id]['fixed_work_hours']"
                 />
-                <t
-                    t-set="show_paid_out"
-                    t-value="summary[doc.id]['show_paid_out']"
-                />
+                <t t-set="show_paid_out" t-value="summary[doc.id]['show_paid_out']" />
 
                 <h5 class="attendance-report">Attendance Report</h5>
 
-                <p><span class="light-text">Employee:</span> <span t-out="doc.name" /></p>
+                <p><span class="light-text">Employee:</span> <span
+                        t-out="doc.name"
+                    /></p>
                 <p><span class="light-text">From:</span> <span
                         t-out="dates[doc.id]['start_date']"
                         t-options="{'widget': 'date'}"
@@ -92,27 +91,55 @@
                                     <span
                                         t-out="attendance['date']"
                                         t-options="{'widget': 'date'}"
-                                    ></span>
+                                    />
                                 </td>
                                 <td id="weekday" t-if="show_weekdays">
-                                    <span t-out="attendance['weekday']" ></span>
+                                    <span t-out="attendance['weekday']" />
                                 </td>
-                                <td id="planned_hours" t-if="fixed_work_hours" style="text-align: right;">
-                                    <t t-out="attendance['planned_hours']" t-options="{'widget': 'decimal_align', 'decimals': 2}"/>
+                                <td
+                                    id="planned_hours"
+                                    t-if="fixed_work_hours"
+                                    style="text-align: right;"
+                                >
+                                    <t
+                                        t-out="attendance['planned_hours']"
+                                        t-options="{'widget': 'decimal_align', 'decimals': 2}"
+                                    />
                                 </td>
-                                <td text-align="right" id="leave_hours" t-if="fixed_work_hours" >
-                                    <t t-out="attendance['leave_hours']" t-options="{'widget': 'decimal_align', 'decimals': 2}"/>
+                                <td
+                                    text-align="right"
+                                    id="leave_hours"
+                                    t-if="fixed_work_hours"
+                                >
+                                    <t
+                                        t-out="attendance['leave_hours']"
+                                        t-options="{'widget': 'decimal_align', 'decimals': 2}"
+                                    />
                                 </td>
-                                <td id="leave_types" t-if="fixed_work_hours" style="text-align: left;">
-                                    <span t-out="attendance['leave_types']" ></span>
+                                <td
+                                    id="leave_types"
+                                    t-if="fixed_work_hours"
+                                    style="text-align: left;"
+                                >
+                                    <span t-out="attendance['leave_types']" />
                                 </td>
                                 <td id="worked_hours" style="text-align: right;">
-                                    <t t-out="attendance['worked_hours']" t-options="{'widget': 'decimal_align', 'decimals': 2}" />
+                                    <t
+                                        t-out="attendance['worked_hours']"
+                                        t-options="{'widget': 'decimal_align', 'decimals': 2}"
+                                    />
                                 </td>
                                 <td id="diff_hours" t-if="show_diff_hours">
-                                    <t t-out="attendance['diff_hours']" t-options="{'widget': 'decimal_align', 'decimals': 2}"/>
+                                    <t
+                                        t-out="attendance['diff_hours']"
+                                        t-options="{'widget': 'decimal_align', 'decimals': 2}"
+                                    />
                                 </td>
-                                <td id="time_stamps" t-if="fixed_work_hours" style="white-space:nowrap;">
+                                <td
+                                    id="time_stamps"
+                                    t-if="fixed_work_hours"
+                                    style="white-space:nowrap;"
+                                >
                                     <t t-out="attendance['time_stamps']" />
                                 </td>
                                 <td id="overtime" t-if="show_odoo_overtimes">
@@ -155,7 +182,9 @@
                                         Leave Hours
                                     </th>
                                     <td id="leave_hours">
-                                         <t t-out="summary[doc.id]['leave_hours_sum']" />
+                                         <t
+                                            t-out="summary[doc.id]['leave_hours_sum']"
+                                        />
                                     </td>
                                 </tr>
                                 <tr>
@@ -179,7 +208,9 @@
                                         +/-
                                     </th>
                                     <td id="overtime">
-                                        <t t-out="summary[doc.id]['overtime_calculated']" />
+                                        <t
+                                            t-out="summary[doc.id]['overtime_calculated']"
+                                        />
                                     </td>
                                 </tr>
                                 <tr t-if="show_paid_out">
@@ -187,7 +218,9 @@
                                         Flexitime (paid out) Hours
                                     </th>
                                     <td id="overtime_paid_out" class="text-right">
-                                        <t t-out="summary[doc.id]['overtime_paid_out']" />
+                                        <t
+                                            t-out="summary[doc.id]['overtime_paid_out']"
+                                        />
                                     </td>
                                 </tr>
                                 <tr t-if="show_paid_out">
@@ -195,7 +228,9 @@
                                         Flexitime Saldo Hours
                                     </th>
                                     <td id="overtime_without_paid_out">
-                                        <t t-out="summary[doc.id]['overtime_without_paid_out']" />
+                                        <t
+                                            t-out="summary[doc.id]['overtime_without_paid_out']"
+                                        />
                                     </td>
                                 </tr>
                                  <!-- <tr t-if="fixed_work_hours">
@@ -218,37 +253,54 @@
                         <h5>Overview</h5>
 
                         <table
-                            class="table table-sm allocations_table"
-                            name="allocations_table"
-                        >
+                                class="table table-sm allocations_table"
+                                name="allocations_table"
+                            >
 
-                             <tr><th colspan="5" class="text-center" style="text-align: center; font-size: 12px;">Leaves <span t-out="dates[doc.id]['year']"/></th></tr>
+                             <tr><th
+                                        colspan="5"
+                                        class="text-center"
+                                        style="text-align: center; font-size: 12px;"
+                                    >Leaves <span
+                                            t-out="dates[doc.id]['year']"
+                                        /></th></tr>
                                 <tr style="border-bottom: 1px solid black;">
                                     <th name="th_leave_type" class="text-start">
                                         Leave Type
                                     </th>
                                     <th name="th_allocation" class="text-end">
-                                        Allocation <span t-out="dates[doc.id]['year']"/>
+                                        Allocation <span
+                                            t-out="dates[doc.id]['year']"
+                                        />
                                     </th>
                                     <th name="th_leaves_taken" class="text-end">
-                                        Leaves Taken <span t-out="dates[doc.id]['year']"/>
+                                        Leaves Taken <span
+                                            t-out="dates[doc.id]['year']"
+                                        />
                                     </th>
                                     <th name="th_remaining_leaves" class="text-end">
-                                        Remaining <span t-out="dates[doc.id]['year']"/>
+                                        Remaining <span t-out="dates[doc.id]['year']" />
                                     </th>
                                 </tr>
-                                <t t-foreach="leave_allocations_per_type[doc.id]" t-as="allocation">
+                                <t
+                                    t-foreach="leave_allocations_per_type[doc.id]"
+                                    t-as="allocation"
+                                >
 
                                     <tr>
                                         <td id="leave_type" class="text-start">
                                             <t t-out="allocation['display_name']" />
                                         </td>
                                         <td id="allocation" class="text-end">
-                                            <t t-out="allocation['number_of_days_display']" />
+                                            <t
+                                                t-out="allocation['number_of_days_display']"
+                                            />
                                             Days
                                         </td>
                                         <td id="leaves_taken" class="text-end">
-                                            <t t-out="round(allocation['leaves_taken'], 2)" />
+                                            <t
+                                                t-out="round(allocation['leaves_taken'], 2)"
+                                            />
                                             Days
                                         </td>
                                         <td id="remaining_leaves" class="text-end">
@@ -260,33 +312,55 @@
                                     </tr>
 
                                 </t>
-                                <tr><th colspan="5" class="text-center" style="text-align: center; font-size: 10px;">Other Leaves <span t-out="dates[doc.id]['month_and_year']" style="margin-left: 3px;"/></th></tr>
+                                <tr><th
+                                        colspan="5"
+                                        class="text-center"
+                                        style="text-align: center; font-size: 10px;"
+                                    >Other Leaves <span
+                                            t-out="dates[doc.id]['month_and_year']"
+                                            style="margin-left: 3px;"
+                                        /></th></tr>
 
-                                <t t-foreach="unallocated_leaves[doc.id].items()" t-as="kv">
+                                <t
+                                    t-foreach="unallocated_leaves[doc.id].items()"
+                                    t-as="kv"
+                                >
                                     <tr>
                                         <!-- kv is a tuple: (key, value) -->
-                                        <td><t t-out="kv[0]"/></td>
-                                        <td></td>
-                                        <td class="text-end"><t t-out="kv[1]"/>
+                                        <td><t t-out="kv[0]" /></td>
+                                        <td />
+                                        <td class="text-end"><t t-out="kv[1]" />
                                         Days
                                         </td>
                                     </tr>
                                 </t>
-                                <tr><th colspan="5" class="empty-row"></th></tr>
+                                <tr><th colspan="5" class="empty-row" /></tr>
 
-                                <tr><th colspan="5" class="text-center" style="text-align: center; font-size: 12px;">Flexitime</th></tr>
+                                <tr><th
+                                        colspan="5"
+                                        class="text-center"
+                                        style="text-align: center; font-size: 12px;"
+                                    >Flexitime</th></tr>
                                 <tr>
                                     <th name="th_description" class="text-start">
 
                                     </th>
                                     <th name="th_allocation" class="text-end">
-                                        Saldo <span t-out="dates[doc.id]['end_date_of_previous_month']" t-options="{'widget': 'date'}"/>
+                                        Saldo <span
+                                            t-out="dates[doc.id]['end_date_of_previous_month']"
+                                            t-options="{'widget': 'date'}"
+                                        />
                                     </th>
                                     <th name="th_description" class="text-end">
-                                        +/- <span t-out="dates[doc.id]['month_and_year']"/>
+                                        +/- <span
+                                            t-out="dates[doc.id]['month_and_year']"
+                                        />
                                     </th>
                                     <th name="th_leave_type" class="text-end">
-                                        Saldo <span t-out="dates[doc.id]['end_date']" t-options="{'widget': 'date'}"/>
+                                        Saldo <span
+                                            t-out="dates[doc.id]['end_date']"
+                                            t-options="{'widget': 'date'}"
+                                        />
                                     </th>
 
                                 </tr>
@@ -298,15 +372,28 @@
                                        Flexitime
                                     </td>
                                     <td id="flexitime-previous" class="text-end">
-                                        <!-- <t t-out="summary[doc.id]['total_overtime_up_to_previous_month']" /> Hours -->
-                                        <t t-out="summary[doc.id]['overtime_and_glz_up_to_previous_month']" /> Hours
+                                        <!-- <t
+                                                t-out="summary[doc.id]['total_overtime_up_to_previous_month']"
+                                            /> Hours -->
+                                            <t
+                                                t-out="summary[doc.id]['overtime_and_glz_up_to_previous_month']"
+                                            /> Hours
                                     </td>
                                     <td id="flexitime-new" class="text-end">
-                                        <t t-out="summary[doc.id]['overtime_without_paid_out']" /> Hours
+                                        <!-- <t
+                                                t-out="summary[doc.id]['overtime_without_paid_out']"
+                                            /> Hours -->
+                                            <t
+                                                t-out="summary[doc.id]['overtime_and_glz_saldo']"
+                                            /> Hours
                                     </td>
                                     <td id="flexitime-this-month" class="text-end">
-                                        <!-- <t t-out="summary[doc.id]['total_overtime_up_to_this_month']" /> Hours -->
-                                        <t t-out="summary[doc.id]['overtime_and_glz_up_to_this_month']" /> Hours
+                                        <!-- <t
+                                                t-out="summary[doc.id]['total_overtime_up_to_this_month']"
+                                            /> Hours -->
+                                            <t
+                                                t-out="summary[doc.id]['overtime_and_glz_up_to_this_month']"
+                                            /> Hours
                                     </td>
                                 </tr>
 

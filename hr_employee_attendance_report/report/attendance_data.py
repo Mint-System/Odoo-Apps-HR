@@ -194,6 +194,7 @@ def get_attendances(self, employees, start_date, end_date):
         total_overtime_saldo = total_overtime_up_to_this_month - total_overtime_up_to_previous_month
         glz_up_to_previous_month = round(_get_glz_up_to_previous_month(self, employee, start_date), 2)
         glz_up_to_this_month = round(_get_glz_up_to_this_month(self, employee, start_date), 2)
+        glz_saldo = round(glz_up_to_this_month - glz_up_to_previous_month, 2)
         overtime_and_glz_up_to_previous_month = round(total_overtime_up_to_previous_month - glz_up_to_previous_month, 2)
         overtime_and_glz_up_to_this_month = round(total_overtime_up_to_this_month - glz_up_to_this_month, 2)
         overtime_and_glz_saldo = round(overtime_and_glz_up_to_this_month - overtime_and_glz_up_to_previous_month, 2)
@@ -213,8 +214,10 @@ def get_attendances(self, employees, start_date, end_date):
             "total_overtime_up_to_this_month": total_overtime_up_to_this_month,
             "glz_up_to_previous_month": glz_up_to_previous_month,
             "glz_up_to_this_month": glz_up_to_this_month,
+            "glz_saldo": glz_saldo,
             "overtime_and_glz_up_to_previous_month": overtime_and_glz_up_to_previous_month,
             "overtime_and_glz_up_to_this_month": overtime_and_glz_up_to_this_month,
+            "total_overtime_saldo": total_overtime_saldo,
             "overtime_and_glz_saldo": overtime_and_glz_saldo,
         }
 

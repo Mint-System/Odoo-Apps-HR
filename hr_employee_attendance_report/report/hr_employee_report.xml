@@ -367,9 +367,50 @@
 
                             <tbody class="flexitime_table">
 
+                            <tr>
+                                <td id="overtime" class="text-start">
+                                Overtime
+                                </td>
+                                <td id="flexitime-previous" class="text-end">
+                                    <t
+                                                t-out="summary[doc.id]['total_overtime_up_to_previous_month']"
+                                            /> Hours
+
+                                </td>
+                                <td id="flexitime-new" class="text-end">
+                                   <t
+                                                t-out="summary[doc.id]['total_overtime_saldo']"
+                                            /> Hours
+                                </td>
+                                <td id="flexitime-this-month" class="text-end">
+                                    <t
+                                                t-out="summary[doc.id]['total_overtime_up_to_this_month']"
+                                            /> Hours
+                                </td>
+                            </tr>
+                            <tr>
+                                <td id="flexitime" class="text-start">
+                                Flexitime
+                                </td>
+                                <td id="flexitime-previous" class="text-end">
+                                    <t
+                                                t-out="summary[doc.id]['glz_up_to_previous_month']"
+                                            /> Hours
+
+                                </td>
+                                <td id="flexitime-new" class="text-end">
+                                   <t t-out="summary[doc.id]['glz_saldo']" /> Hours
+                                </td>
+                                <td id="flexitime-this-month" class="text-end">
+                                    <t
+                                                t-out="summary[doc.id]['glz_up_to_this_month']"
+                                            /> Hours
+                                </td>
+                            </tr>
+
                                 <tr>
-                                    <td id="flexitime" class="text-start">
-                                       Flexitime
+                                    <td id="overtime-flexitime" class="text-start">
+                                       Flexitime and Overtime
                                     </td>
                                     <td id="flexitime-previous" class="text-end">
                                         <!-- <t

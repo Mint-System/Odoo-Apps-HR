@@ -485,7 +485,7 @@ def get_leave_allocations(self, employees, start_date, end_date):
             # allocation_ids_per_type = self.env["hr.leave.allocation"].search(
             #     domain
             # )
-            allocation_ids_per_type = allocation_ids.filtered(lambda alloc: alloc.holiday_status_id.code == leave_code)
+            allocation_ids_per_type = allocation_ids.filtered(lambda alloc: alloc.holiday_status_id.code == leave_code and alloc.number_of_days > 0)
             if allocation_ids_per_type:
                 leaves_per_type["code"] = leave_code
                 leaves_per_type["display_name"] = allocation_ids_per_type.mapped("holiday_status_id").display_name

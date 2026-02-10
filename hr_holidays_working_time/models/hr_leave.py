@@ -98,7 +98,7 @@ class HrLeave(models.Model):
         """
         Overwrite method to allow leaves on public holiday.
         """
-        return False
+        return self.env['hr.leave']
 
     # @api.model_create_multi
     # def create(self, vals_list):

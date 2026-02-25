@@ -14,6 +14,34 @@ class HrLeave(models.Model):
         string="Extra Hours Compensation",
     )
 
+    def _check_overtime_deductible(self, leaves):
+        """
+        Skip this check for leaves of type extra hours.
+        """
+        holiday_status_extra_hours_id = self.env.ref("hr_holidays_attendance.holiday_status_extra_hours")
+        for leave in leaves.filtered(lambda leave: leave.holiday_status_id == holiday_status_extra_hours_id):
+            if not leave.overtime_deductible:
+                leave.sudo().overtime_id.unlink()
+                continue
+            employee = leave.employee_id.sudo()
+            duration = leave.number_of_hours
+            if not leave.sudo().overtime_id:
+                leave.sudo().overtime_id = (
+                    self.env["hr.attendance.overtime"]
+                    .sudo()
+                    .create(
+                        {
+                            "employee_id": employee.id,
+                            "date": leave.date_from,
+                            "adjustment": True,
+                            "duration": -1 * duration,
+                        }
+                    )
+                )
+        super()._check_overtime_deductible(
+            leaves.filtered(lambda leave: leave.holiday_status_id != holiday_status_extra_hours_id)
+        )
+
     def _create_overtime_entry(self):
         """
         Create and link overtime entry.

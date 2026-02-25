@@ -7,7 +7,7 @@ Odoo modules extending the `hr` module.
 Clone this repo into the Odoo addons directory.
 
 ```bash
-git clone git@github.com:Mint-System/Odoo-Apps-hr.git ./addons/hr
+git clone git@github.com:Mint-System/Odoo-Apps-Hr.git ./addons/hr
 ```
 
 ## Available modules

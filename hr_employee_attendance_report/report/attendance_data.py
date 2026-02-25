@@ -83,8 +83,8 @@ def get_attendances(self, employees, start_date, end_date):
             max_check_date = datetime.combine(check_date, time.max)
             resource_timezone = timezone(employee.resource_calendar_id.tz)
             work_hours = employee.resource_calendar_id.get_work_hours_count(
-                min_check_date.replace(tzinfo=resource_timezone), max_check_date.replace(tzinfo=resource_timezone),
-                True)
+                min_check_date.replace(tzinfo=resource_timezone), max_check_date.replace(tzinfo=resource_timezone), True
+            )
             planned_hours += work_hours
 
             # Get leave hours for this date

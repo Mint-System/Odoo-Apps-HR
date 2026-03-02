@@ -108,6 +108,31 @@ def get_attendances(self, employees, start_date, end_date):
                 attendance_ids.filtered(lambda a: min_check_date < a.check_in < max_check_date).mapped("worked_hours")
             )
 
+            # Get time stamps for this date
+            user_tz = pytz.timezone(self.env.context.get("tz") or "UTC")
+            time_stamps = []
+
+            for attendance in attendance_ids.filtered(
+                lambda a: a.check_in.date() == date.date() and a.check_out - a.check_in > timedelta(seconds=3)
+            ):
+                time_stamps.append(
+                    {
+                        "check_in": attendance.check_in,
+                        "check_out": attendance.check_out,
+                    }
+                )
+
+            sorted_time_stamps = sorted(time_stamps, key=lambda x: x["check_in"])
+            time_stamps_string = Markup(
+                " ".join(
+                    [
+                        f"{_get_local_time(ts['check_in'], user_tz).strftime('%H:%M')}-{_get_local_time(ts['check_out'], user_tz).strftime('%H:%M')}<br>"
+                        for ts in sorted_time_stamps
+                    ]
+                )
+            )
+
+
             # Get overtime hours for this date
             overtime_hours = sum(overtime_ids.filtered(lambda o: o.date == check_date.date()).mapped("duration"))
             overtime += overtime_hours

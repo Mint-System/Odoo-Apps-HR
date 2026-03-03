@@ -1,0 +1,21 @@
+[project]
+name = "odoo-apps-hr"
+version = "18.0.20260303.1"
+dependencies = [
+    "odoo-addon-hr_attendance_delta==18.0.*",
+    "odoo-addon-hr_attendance_policy==18.0.*",
+    "odoo-addon-hr_attendance_user_acl==18.0.*",
+    "odoo-addon-hr_employee_attendance_report==18.0.*",
+    "odoo-addon-hr_employee_skill==18.0.*",
+    "odoo-addon-hr_employee_user_acl==18.0.*",
+    "odoo-addon-hr_expense_user_acl==18.0.*",
+    "odoo-addon-hr_holidays_negative_hours==18.0.*",
+    "odoo-addon-hr_holidays_type_note==18.0.*",
+    "odoo-addon-hr_holidays_user_acl==18.0.*",
+    "odoo-addon-hr_holidays_working_time==18.0.*",
+]
+classifiers=[
+    "Programming Language :: Python",
+    "Framework :: Odoo",
+    "Framework :: Odoo :: 18.0",
+]

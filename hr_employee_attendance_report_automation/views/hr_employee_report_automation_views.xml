@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="hr_employee_report_automation_view_form" model="ir.ui.view">
+        <field name="name">hr.employee.report.automation.form</field>
+        <field name="model">hr.employee.report.automation</field>
+        <field name="arch" type="xml">
+            <form string="Attendance Report Automation">
+                <header>
+                    <button
+                        name="action_generate_and_send_reports"
+                        type="object"
+                        string="Generate and Send Reports"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="action_test_run"
+                        type="object"
+                        string="Test Run"
+                        class="btn-secondary"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            name="toggle_active"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-archive"
+                        >
+                            <field
+                                name="active"
+                                widget="boolean_button"
+                                options='{"terminology": "archive"}'
+                            />
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Automation Name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id" />
+                            <field name="employee_ids" widget="many2many_tags" />
+                        </group>
+                        <group>
+                            <field name="recipient_ids" widget="many2many_tags" />
+                            <field name="mail_template_id" />
+                        </group>
+                    </group>
+                    <group string="Last Run Information">
+                        <group>
+                            <field name="last_run" />
+                            <field name="last_period_start" />
+                            <field name="last_period_end" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_employee_report_automation_view_tree" model="ir.ui.view">
+        <field name="name">hr.employee.report.automation.tree</field>
+        <field name="model">hr.employee.report.automation</field>
+        <field name="arch" type="xml">
+            <list string="Attendance Report Automation">
+                <field name="name" />
+                <field name="company_id" />
+                <field name="last_run" />
+                <field name="last_period_start" />
+                <field name="last_period_end" />
+                <field name="active" widget="boolean" />
+            </list>
+        </field>
+    </record>
+
+    <record id="hr_employee_report_automation_action" model="ir.actions.act_window">
+        <field name="name">Attendance Report Automation</field>
+        <field name="res_model">hr.employee.report.automation</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first attendance report automation
+            </p>
+            <p>
+                Configure automated monthly generation and sending of attendance reports for employees.
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="hr_employee_report_automation_menu_root"
+        name="Attendance Report Automation"
+        parent="hr.menu_config_employee"
+        sequence="100"
+    />
+
+    <menuitem
+        id="hr_employee_report_automation_menu"
+        name="Report Automation"
+        parent="hr_employee_report_automation_menu_root"
+        action="hr_employee_report_automation_action"
+        sequence="10"
+    />
+</odoo>

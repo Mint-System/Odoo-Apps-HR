@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Access rights for HR Employee Report Automation -->
+    <record id="hr_employee_report_automation_access_hr_officer" model="ir.model.access">
+        <field name="name">hr.employee.report.automation access hr officer</field>
+        <field name="model_id" ref="model_hr_employee_report_automation" />
+        <field name="group_id" ref="hr.group_hr_user" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
+
+    <record id="hr_employee_report_automation_access_hr_manager" model="ir.model.access">
+        <field name="name">hr.employee.report.automation access hr manager</field>
+        <field name="model_id" ref="model_hr_employee_report_automation" />
+        <field name="group_id" ref="hr.group_hr_manager" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
+</odoo>

@@ -1,0 +1,7 @@
+.o_data_cell.missing-break.text-danger span::after,
+.o_data_cell.missing-break.text-danger::after {
+    content: " *";
+    color: red;
+    display: inline;
+    margin-left: 2px;
+}

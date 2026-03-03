@@ -14,6 +14,16 @@
     "data": [
         "report/hr_employee_report_timestamps.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "hr_employee_attendance_report_timestamps/static/src/css/attendance.css",
+            "hr_employee_attendance_report_timestamps/static/src/js/attendance_list_reload.js",
+        ],
+        "web.report_assets_common": [
+            "hr_employee_attendance_report_timestamps/static/src/css/report_styles.css",
+            "hr_employee_attendance_report_timestamps/static/src/css/attendance.css",
+        ],
+    },
     "installable": True,
     "application": False,
     "auto_install": False,

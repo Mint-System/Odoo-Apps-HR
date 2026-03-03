@@ -157,6 +157,16 @@ msgstr "Überstunden Total"
 
 #. module: hr_employee_attendance_report
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Flexitime"
+msgstr "Gleitzeit"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
+msgid "Flexitime Total"
+msgstr "Gleitzeit Total"
+
+#. module: hr_employee_attendance_report
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report.hr_employee_template
 msgid "Planned Hours"
 msgstr "Geplante Stunden"
 

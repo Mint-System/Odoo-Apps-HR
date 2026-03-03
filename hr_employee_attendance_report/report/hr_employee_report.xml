@@ -27,17 +27,19 @@
                     t-value="summary[doc.id]['fixed_work_hours']"
                 />
 
-                <h1>Attendance Report</h1>
+                <div name="report_head">
+                    <h1>Attendance Report</h1>
 
-                <p>Employee: <span t-out="doc.name" /></p>
-                <p>From: <span
-                    t-out="dates[doc.id]['start_date']"
-                    t-options="{'widget': 'date'}"
-                /><br />
-                    Until: <span
-                    t-out="dates[doc.id]['end_date']"
-                    t-options="{'widget': 'date'}"
-                /></p>
+                    <p>Employee: <span t-out="doc.name" /></p>
+                    <p>From: <span
+                        t-out="dates[doc.id]['start_date']"
+                        t-options="{'widget': 'date'}"
+                    /><br />
+                        Until: <span
+                        t-out="dates[doc.id]['end_date']"
+                        t-options="{'widget': 'date'}"
+                    /></p>
+                </div>
 
                 <table class="table table-bordered table-sm" name="table_attendance">
                     <thead>
@@ -64,7 +66,7 @@
                             </th>
                             <th
                                 class="text-end"
-                                ame="th_overtime"
+                                name="th_overtime"
                                 t-if="fixed_work_hours"
                             >
                                 Overtime
@@ -121,7 +123,7 @@
                         >
                             <tbody>
                                 <tr t-if="fixed_work_hours">
-                                    <th class="text-end" name="th_planned_hours">
+                                    <th class="text-end" name="th_planned_hours_sum">
                                         Planned Hours
                                     </th>
                                     <td class="text-end" id="planned_hours">
@@ -129,23 +131,23 @@
                                     </td>
                                 </tr>
                                 <tr t-if="fixed_work_hours">
-                                    <th class="text-end" name="th_leave_hours">
+                                    <th class="text-end" name="th_leave_hours_sum">
                                         Leave Hours
                                     </th>
-                                    <td class="text-end" id="leave_hours">
+                                    <td class="text-end" id="leave_hours_sum">
                                         <t t-out="summary[doc.id]['leave_hours']" />
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="text-end" name="th_worked_hours">
+                                    <th class="text-end" name="th_worked_hours_sum">
                                         Worked Hours
                                     </th>
-                                    <td class="text-end" id="worked_hours">
+                                    <td class="text-end" id="worked_hours_sum">
                                         <t t-out="summary[doc.id]['worked_hours']" />
                                     </td>
                                 </tr>
                                 <tr t-if="fixed_work_hours">
-                                    <th class="text-end" name="th_overtime">
+                                    <th class="text-end" name="th_overtime_sum">
                                         Overtime
                                     </th>
                                     <td class="text-end" id="overtime">

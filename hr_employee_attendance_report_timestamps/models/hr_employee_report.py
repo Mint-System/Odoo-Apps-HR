@@ -17,8 +17,17 @@ class ReportHrEmployee(models.AbstractModel):
     def _get_report_values(self, docids, data=None):
         res = super()._get_report_values(docids, data)
 
-        res["time_stamps"] = self._get_timestamp_data(res)
-        _logger.warning(f"########### res time stamps: {res["time_stamps"]}")
+        time_stamps = self._get_timestamp_data(res)
+
+        # Merge timestamp data into attendance records
+        attendances = res.get("attendances", {})
+        for employee_id, attendance_list in attendances.items():
+            employee_time_stamps = time_stamps.get(employee_id, [])
+            for i, attendance in enumerate(attendance_list):
+                if i < len(employee_time_stamps):
+                    attendance["ts"] = employee_time_stamps[i].get("ts", "")
+                else:
+                    attendance["ts"] = ""
 
         return res
 

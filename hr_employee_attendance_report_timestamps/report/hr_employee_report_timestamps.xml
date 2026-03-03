@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Inherit the hr_employee_template and add timestamp column -->
+    <template id="hr_employee_attendance_report_timestamps.hr_employee_template_inherit" inherit_id="hr_employee_attendance_report.hr_employee_template">
+        <!-- Modify table attributes -->
+        <xpath expr="//table[@name='table_attendance']" position="attributes">
+            <attribute name="class">table table-sm attendances-table</attribute>
+            <attribute name="style">width: 100%; font-size: 7pt</attribute>
+        </xpath>
+
+        <!-- Add timestamp header column after the overtime header -->
+        <xpath expr="//th[@name='th_overtime']" position="after">
+            <th class="text-start" name="th_timestamps">
+                Timestamps
+            </th>
+        </xpath>
+
+        <!-- Add timestamp data cell after the overtime cell -->
+        <xpath expr="//td[@id='overtime']" position="after">
+            <td class="text-start" name="timestamps">
+                <t t-out="attendance.get('ts', '')" t-options="{'widget': 'html'}" />
+            </td>
+        </xpath>
+    </template>
+</odoo>

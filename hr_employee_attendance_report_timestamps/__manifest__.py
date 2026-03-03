@@ -11,7 +11,9 @@
     "version": "18.0.1.0.0",
     "license": "AGPL-3",
     "depends": ["base", "hr_employee_attendance_report"],
-    "data": [],
+    "data": [
+        "report/hr_employee_report_timestamps.xml",
+    ],
     "installable": True,
     "application": False,
     "auto_install": False,

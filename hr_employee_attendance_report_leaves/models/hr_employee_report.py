@@ -18,14 +18,14 @@ def get_code(self, leave_type, company_id):
             [("requires_allocation", "=", "yes"), ("company_id", "=", company_id)]
         )
     )
-    _logger.info("### existing_codes %s", existing_codes)
     counter = 0
     if leave_type.code:
         return leave_type.code
-    new_code = "".join(word[0 : counter + 1] for word in leave_type.name.split() if word).upper()
+    new_code = "".join(word[0 : counter + 3] for word in leave_type.name.split() if word).upper()
     while new_code in existing_codes:
         counter += 1
-        new_code = "".join(word[0 : counter + 1] for word in leave_type.name.split() if word).upper()
+        new_code = "".join(word[0 : counter + 3] for word in leave_type.name.split() if word).upper()
+    leave_type.code = new_code
     _logger.info("### new_code %s", new_code)
 
     return new_code

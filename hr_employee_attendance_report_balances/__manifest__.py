@@ -12,7 +12,7 @@
     "license": "AGPL-3",
     "depends": ["hr_employee_attendance_report"],
     "data": [
-        "report/hr_employee_report_balances.xml",
+        "report/hr_employee_report.xml",
         "data/hr_employee_data.xml"],
     "installable": True,
     "application": False,

@@ -43,7 +43,6 @@ class ReportHrEmployee(models.AbstractModel):
                 time_stamps_dict[employee_id] = []
                 for att in value:
                     date = att.get("date")
-                    _logger.warning(f"##### date: {date}")
                     dt = fields.Datetime.to_datetime(date)
                     attendance_ids = self.env["hr.attendance"].search(
                         [
@@ -53,8 +52,6 @@ class ReportHrEmployee(models.AbstractModel):
                             # ("check_out", ">=", start_date),
                         ]
                     )
-                    for attid in attendance_ids:
-                        _logger.warning(f"### check in: {attid.check_in}")
                     attendance_ids = attendance_ids.filtered(
                         lambda a: a.check_in.date() == dt.date() and a.check_out - a.check_in > timedelta(seconds=3)
                     )

@@ -62,6 +62,34 @@
                     </tr>
                 </tbody>
             </table>
+
+            <!-- Holidays Table -->
+
+            <table
+                class="table table-sm holidays_table"
+                name="holidays_table"
+            >
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Allocation</th>
+                        <th>Already Used</th>
+                        <th>Planned (Future)</th>
+                        <th>Remaining</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="holidays_allocations[doc.id]" t-as="allocation">
+                        <tr>
+                            <td><t t-esc="allocation['description']"/></td>
+                            <td><t t-esc="allocation['allocation']"/></td>
+                            <td><t t-esc="allocation['used']"/></td>
+                            <td><t t-esc="allocation['planned']"/></td>
+                            <td><t t-esc="allocation['remaining']"/></td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
         </xpath>
     </template>
 </odoo>

@@ -1,8 +1,8 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
-    "name": "Hr Employee Attendance Report Leaves",
+    "name": "Hr Employee Attendance Report Balances",
     "summary": """
-        Adds leave informations to report.
+        Adds balances to attendance report.
     """,
     "author": "Mint System GmbH",
     "website": "https://www.mint-system.ch",
@@ -10,13 +10,13 @@
     "development_status": "Production/Stable",
     "version": "18.0.1.0.0",
     "license": "AGPL-3",
-    "depends": ["base", "hr_employee_attendance_report"],
+    "depends": ["hr_employee_attendance_report"],
     "data": [
-        "report/hr_employee_report_leaves.xml",
-        "views/hr_leave_type.xml",
-    ],
+        "report/hr_employee_report_balances.xml",
+        "data/hr_employee_data.xml"],
     "installable": True,
     "application": False,
     "auto_install": False,
     "images": ["images/screen.png"],
+    
 }

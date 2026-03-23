@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<odoo>
+	<data noupdate="1">
+		<!-- Cron job -->
+        <record model="ir.cron" id="hr_employee_overtime_cron">
+		    <field name="name">Update Employee Overtime Totals (Last 2 Months)</field>
+		    <field name="model_id" ref="hr.model_hr_employee"/>
+		    <field name="state">code</field>
+		    <field name="code">model._cron_update_overtime_last_two_months()</field>
+		    <field name="interval_number">1</field>
+		    <field name="interval_type">months</field>
+		    <field name="nextcall" eval="(
+		        datetime.now().replace(day=1, hour=2, minute=0, second=0) + relativedelta(months=1)
+		    ).strftime('%Y-%m-%d %H:%M:%S')"/>
+		</record>
+	</data>
+</odoo>

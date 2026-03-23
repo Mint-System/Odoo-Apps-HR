@@ -12,21 +12,26 @@ def _get_local_time(date, tz):
     return pytz.utc.localize(date).astimezone(tz)
 
 def get_code(self, leave_type, company_id):
-    existing_codes = set(
-        lt.code
-        for lt in self.env["hr.leave.type"].search(
-            [("requires_allocation", "=", "yes"), ("company_id", "=", company_id)]
-        )
-    )
-    counter = 0
     if leave_type.code:
         return leave_type.code
+    existing_codes = {
+        lt.code.strip()
+        for lt in self.env["hr.leave.type"].search(
+            [
+                "|",
+                ("company_id", "=", company_id),
+                ("company_id", "=", False)
+            ]
+        )
+        if lt.code and lt.code.strip()
+    }
+    counter = 0
+    
     new_code = "".join(word[0 : counter + 3] for word in leave_type.name.split() if word).upper()
     while new_code in existing_codes:
         counter += 1
         new_code = "".join(word[0 : counter + 3] for word in leave_type.name.split() if word).upper()
     leave_type.code = new_code
-    _logger.info("### new_code %s", new_code)
 
     return new_code
 
@@ -54,11 +59,8 @@ class ReportHrEmployee(models.AbstractModel):
     def _get_leaves_data(self, res):
         leaves_dict = {}
         user_tz = pytz.timezone(self.env.context.get("tz") or "UTC")
-        _logger.warning(f"res: {res}")
         all_attendances = res.get("attendances")
-        _logger.warning(f"all attendances: {all_attendances}")
         dates = res.get("dates")
-        _logger.warning(f"dates: {dates}")
         if all_attendances and dates:
             for key, value in all_attendances.items():
                 employee_id = key
@@ -72,16 +74,18 @@ class ReportHrEmployee(models.AbstractModel):
         
                 leave_types_dict = {}
                 leave_ids = self.env["resource.calendar.leaves"].search(domain)
-                for leave_type in self.env["hr.leave.type"].search([("company_id", "=", employee.company_id.id)]):
+                for leave_type in self.env["hr.leave.type"].search([
+                    "|",
+                    ("company_id", "=", employee.company_id.id),
+                    ("company_id", "=", False),
+                ]):
+                # for leave_type in self.env["hr.leave.type"].search([("company_id", "=", employee.company_id.id)]):
                     code = get_code(self, leave_type, employee.company_id.id)
                     display_name = leave_type.display_name
                     leave_types_dict[code] = 0.0
 
-
-                _logger.warning(f"value : {value}")
                 for att in value:
                     date = att.get("date")
-                    _logger.warning(f"##### date: {date}")
                     dt = fields.Datetime.to_datetime(date)
                     min_check_date = datetime.combine(dt, time.min)
                     max_check_date = datetime.combine(dt, time.max)
@@ -106,7 +110,6 @@ class ReportHrEmployee(models.AbstractModel):
                         else:
                             leave_hours_per_leave = number_of_hours_per_leave
 
-                        _logger.warning(f"####### leave code: {leave_code}, hours: {leave_hours_per_leave}")
                         active_leaves_dict[leave_code] += leave_hours_per_leave
 
                     leave_types = " ".join(

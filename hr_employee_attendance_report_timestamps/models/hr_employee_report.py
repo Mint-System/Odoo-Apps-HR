@@ -34,17 +34,13 @@ class ReportHrEmployee(models.AbstractModel):
     def _get_timestamp_data(self, res):
         time_stamps_dict = {}
         user_tz = pytz.timezone(self.env.context.get("tz") or "UTC")
-        _logger.warning(f"res: {res}")
         time_stamps = {}
         all_attendances = res.get("attendances")
-        _logger.warning(f"all attendances: {all_attendances}")
         dates = res.get("dates")
-        _logger.warning(f"dates: {dates}")
         if all_attendances and dates:
             for key, value in all_attendances.items():
                 employee_id = key
                 time_stamps_dict[employee_id] = []
-                _logger.warning(f"value : {value}")
                 for att in value:
                     date = att.get("date")
                     _logger.warning(f"##### date: {date}")
@@ -62,7 +58,6 @@ class ReportHrEmployee(models.AbstractModel):
                     attendance_ids = attendance_ids.filtered(
                         lambda a: a.check_in.date() == dt.date() and a.check_out - a.check_in > timedelta(seconds=3)
                     )
-                    _logger.warning(f"attendance ids: {attendance_ids}")
 
                     time_stamps = []
 
@@ -82,7 +77,6 @@ class ReportHrEmployee(models.AbstractModel):
                             ]
                         )
                     )
-                    _logger.warning(f"time stamps: {time_stamps_string}")
                     ts_data_dict = {
                         "date": date,
                         "ts": time_stamps_string

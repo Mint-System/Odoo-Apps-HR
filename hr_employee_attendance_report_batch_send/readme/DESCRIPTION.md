@@ -1,0 +1,1 @@
+In the HR view, with a selection of employees, have the action in the topbar to send the attendance report to each employee.

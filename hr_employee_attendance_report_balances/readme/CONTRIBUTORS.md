@@ -1,1 +1,1 @@
-* $GIT_USER_NAME <$GIT_USER_EMAIL>
+* Ulrich Kilian <uk@sdcience-and-more.de>

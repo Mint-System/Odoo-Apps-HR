@@ -1,1 +1,1 @@
-$MODULE_SUMMARY
+Adds balances to attendance report.

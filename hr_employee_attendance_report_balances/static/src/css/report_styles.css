@@ -1,0 +1,96 @@
+.page h3 {
+    font-size: 10px;
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.balance-table {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    width: 100%;
+    border-collapse: collapse;
+    word-wrap: break-word;
+}
+
+.balance-table th, .balance-table td {
+    border: 1px solid lightgray;
+    padding: 3px;
+    word-break: break-all;
+}
+
+.balance-table th {
+    font-size: 14px;
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+.attendances-table {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    width: 100%;
+    border-collapse: collapse;
+    word-wrap: break-word;
+}
+
+.attendances-table th, .attendances-table td {
+    border: 1px solid lightgray;
+    padding: 3px;
+    word-break: break-all;
+}
+
+.attendances-header {
+    font-size: 10px;
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+.attendances_table th:not(:first-child),
+.attendances_table td:not(:first-child) {
+    text-align: right;
+}
+
+.attendances-table thead {
+    display: table-header-group;
+}
+
+.attendances-table tfoot {
+    display: table-row-group;
+}
+
+.attendances-table tr {
+    page-break-before: always;
+    page-break-after: always;
+    page-break-inside: avoid;
+}
+
+.light-text {
+    color: gray;
+}
+
+.summary_table, .summary_table_v2 th {
+    text-align: left;
+}
+.summary_table, .summary_table_v2 td {
+    text-align: right;
+}
+.summary_table, .summary_table_v2 {
+    font-size: 10px;
+}
+
+.allocations_table {
+    font-size: 10px;
+}
+
+#diff_hours {
+    white-space: nowrap;
+}
+
+.allocations {
+    margin-top: 50px;
+}
+
+.empty-row {
+    height: 15px;
+    border: none !important;
+}

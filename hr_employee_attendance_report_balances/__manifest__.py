@@ -14,6 +14,17 @@
     "data": [
         "report/hr_employee_report.xml",
         "data/hr_employee_data.xml"],
+    'assets': {
+        'web.assets_backend': [
+            'hr_employee_attendance_report_balances/static/src/css/report_styles.css',
+        ],
+        'web.report_assets_common': [
+            'hr_employee_attendance_report_balances/static/src/css/report_styles.css',
+        ],
+        'web.report_assets_pdf': [
+            'hr_employee_attendance_report_balances/static/src/css/report_styles.css',
+        ],
+    },
     "installable": True,
     "application": False,
     "auto_install": False,

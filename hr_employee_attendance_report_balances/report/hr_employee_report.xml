@@ -4,92 +4,131 @@
 
         <!-- Add overtime table before attendances table -->
         <xpath expr="//table[@name='table_attendance']" position="before">
-            <table
-                    class="table table-sm overtime_balance_table"
-                    name="overtime_balance_table"
-                >
-                <tbody>
-                    <tr>
-                        <th id="planned" class="text-start">
-                        planned [h]
-                        </th>
-                        <th id="worked" class="text-start">
-                        worked [h]
-                        </th>
-                        <th id="overtime_balance" class="text-start">
-                        Flexitime Month [h]
-                        </th>
-                        <th id="overtime_two_months_ago" class="text-start">
-                        Flexitime Previous Month [h]
-                        </th>
-                        <th id="overtime_last_month" class="text-start">
-                        Flexitime [h]
-                        </th>
-                    </tr>
+            <div class="allocations" name="allocations">
+                        <h5>Overview of working hours</h5>
+                <table
+                        class="table table-sm table-bordered balance-table"
+                        name="overtime-balance-table"
+                    >
+                    <thead class="table-light">
+                        <tr>
+                            <th id="planned" class="text-start">
+                            planned [h]
+                            </th>
+                            <th id="worked" class="text-start">
+                            worked [h]
+                            </th>
+                            <th id="overtime_balance" class="text-start">
+                            Flexitime Month [h]
+                            </th>
+                            <th id="overtime_two_months_ago" class="text-start">
+                            Flexitime Previous Month [h]
+                            </th>
+                            <th id="overtime_last_month" class="text-start">
+                            Flexitime [h]
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="planned_value" class="text-start">
+                                <t
+                                    t-out="summary[doc.id]['planned_hours']"
+                                /> 
 
-                    <tr>
-                        <td id="planned_value" class="text-start">
-                            <t
-                                t-out="summary[doc.id]['planned_hours']"
-                            /> 
+                            </td>
+                            <td id="worked_value" class="text-start">
+                                <t
+                                    t-out="summary[doc.id]['worked_hours']"
+                                /> 
 
-                        </td>
-                        <td id="worked_value" class="text-start">
-                            <t
-                                t-out="summary[doc.id]['worked_hours']"
-                            /> 
+                            </td>
+                            <td id="overtime_balance_value" class="text-start">
+                                <t
+                                    t-out="summary[doc.id]['overtime_balance']"
+                                /> 
 
-                        </td>
-                        <td id="overtime_balance_value" class="text-start">
-                            <t
-                                t-out="summary[doc.id]['overtime_balance']"
-                            /> 
+                            </td>
+                            <td id="overtime_two_months_ago_value" class="text-start">
+                                <t
+                                    t-out="summary[doc.id]['overtime_two_months_ago']"
+                                /> 
 
-                        </td>
-                        <td id="overtime_two_months_ago_value" class="text-start">
-                            <t
-                                t-out="summary[doc.id]['overtime_two_months_ago']"
-                            /> 
+                            </td>
+                             <td id="overtime_last_month_value" class="text-start">
+                                <t
+                                    t-out="summary[doc.id]['overtime_last_month']"
+                                /> 
 
-                        </td>
-                         <td id="overtime_last_month_value" class="text-start">
-                            <t
-                                t-out="summary[doc.id]['overtime_last_month']"
-                            /> 
+                            </td>
 
-                        </td>
-
-                    </tr>
-                </tbody>
-            </table>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <!-- Holidays Table -->
+            <div class="allocations" name="holidays">
+                        <h5>Overview of Holidays Year</h5>
 
-            <table
-                class="table table-sm holidays_table"
-                name="holidays_table"
-            >
-                <thead>
-                    <tr>
-                        <th>Description</th>
-                        <th>Allocation</th>
-                        <th>Already Used</th>
-                        <th>Planned (Future)</th>
-                        <th>Remaining</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <t t-foreach="holidays_allocations[doc.id]" t-as="allocation">
+                <table
+                    class="table table-sm balance-table"
+                    name="holidays_table"
+                >
+                    <thead>
                         <tr>
-                            <td><t t-esc="allocation['description']"/></td>
-                            <td><t t-esc="allocation['allocation']"/></td>
-                            <td><t t-esc="allocation['used']"/></td>
-                            <td><t t-esc="allocation['planned']"/></td>
-                            <td><t t-esc="allocation['remaining']"/></td>
+                            <th>Description</th>
+                            <th>Allocation [d]</th>
+                            <th>Already Used [d]</th>
+                            <th>Planned (Future) [d]</th>
+                            <th>Remaining [d]</th>
                         </tr>
-                    </t>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="holidays_allocations[doc.id]" t-as="allocation">
+                            <tr>
+                                <td><t t-esc="allocation['description']"/></td>
+                                <td><t t-esc="allocation['allocation']"/></td>
+                                <td><t t-esc="allocation['used']"/></td>
+                                <td><t t-esc="allocation['planned']"/></td>
+                                <td><t t-esc="allocation['remaining']"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <!-- Leaves Table -->
+            <div class="allocations" name="leaves">
+                        <h5>Overview of Leaves</h5>
+
+                <table
+                    class="table table-sm balance-table"
+                    name="non_holidays_table"
+                >
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Leave Type</th>
+                            <th>Allocation [d]</th>
+                            <th>Already Used [d]</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="non_holiday_leaves[doc.id]" t-as="leave">
+                            <tr>
+                                <td><t t-esc="leave['description']"/></td>
+                                <td><t t-esc="leave['leave_type']"/></td>
+                                <td><t t-esc="leave['allocation']"/></td>
+                                <td><t t-esc="leave['used']"/></td>
+                                <td><t t-esc="leave['date']"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
         </xpath>
     </template>
 </odoo>

@@ -108,6 +108,49 @@ def get_holidays_allocations(self, employees):
 
     return holiday_allocations
 
+def get_non_holiday_leaves(self, employees):
+    """Return all leaves code not starting with 'FER' """
+
+    non_holiday_leaves = {}
+    now = fields.Datetime.now()
+    for employee in employees:
+        leaves = self.env['hr.leave'].search([
+            ('employee_id', '=', employee.id),
+            ('state', '=', 'validate'),  # Only approved leaves
+        ])
+
+        result = []
+        for leave in leaves:
+            leave_type = leave.holiday_status_id
+            if leave_type.code and leave_type.code.startswith('FER'):
+                continue 
+
+             # Find the allocation that granted this leave
+            allocation = self.env['hr.leave.allocation'].search([
+                ('employee_id', '=', leave.employee_id.id),
+                ('holiday_status_id', '=', leave.holiday_status_id.id),
+                ('state', '=', 'validate'),
+                ('number_of_days', '>', 0),
+            ], limit=1)
+
+            allocation_days = allocation.number_of_days if allocation else '-'
+
+            date = leave.date_from.strftime('%d.%m.%Y') or ""
+            if leave.date_from and leave.date_to and (leave.date_from.date() != leave.date_to.date()):
+                date += f"-{leave.date_to.strftime('%d.%m.%Y')}"
+
+            result.append({
+                'description': leave.name,
+                'leave_type': leave_type.name,
+                'allocation': allocation_days,
+                'used': leave.number_of_days,
+                'date': date,
+            })
+        non_holiday_leaves[employee.id] = result
+
+    return non_holiday_leaves
+
+
 
 def get_leave_allocations(self, employees, start_date, end_date):
     """Get data on leave and allocations."""
@@ -229,6 +272,9 @@ class ReportHrEmployee(models.AbstractModel):
         #  add allocations to report values
         holidays_allocations = get_holidays_allocations(self, employees)
         res["holidays_allocations"] = holidays_allocations
+
+        non_holiday_leaves = get_non_holiday_leaves(self, employees)
+        res["non_holiday_leaves"] = non_holiday_leaves
 
         # overtime_balances = self._get_leaves_data(res)
 

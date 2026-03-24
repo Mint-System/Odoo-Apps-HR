@@ -10,9 +10,10 @@
     "development_status": "Production/Stable",
     "version": "18.0.1.0.0",
     "license": "AGPL-3",
-    "depends": ["hr_employee_attendance_report"],
+    "depends": ["hr_employee_attendance_report", "mail"],
     "data": [
-        "data/server_action.xml"],
+        "data/server_action.xml",
+        "data/mail_template_data.xml"],
     "installable": True,
     "application": False,
     "auto_install": False,

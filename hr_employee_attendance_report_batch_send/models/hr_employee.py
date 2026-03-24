@@ -1,6 +1,6 @@
 import logging
 
-from odoo import models, fields
+from odoo import api, models, fields
 from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 import base64
@@ -10,6 +10,12 @@ _logger = logging.getLogger(__name__)
 
 class HREmployee(models.Model):
     _inherit = "hr.employee"
+
+    @api.model
+    def _get_email_template(self):
+        return self.env.ref(
+            'hr_employee_attendance_report_batch_send.email_template_attendance_report', raise_if_not_found=True
+        )
 
     def action_send_attendance_report_email(self):
         today = date.today()
@@ -46,9 +52,12 @@ class HREmployee(models.Model):
                 'mimetype': 'application/pdf',
             })
 
-            self.env['mail.mail'].create({
-                'subject': f'Attendance Report {date_from:%Y-%m}',
-                'body_html': '<p>Please find your attendance report attached.</p>',
-                'email_to': emp.work_email,
-                'attachment_ids': [(6, 0, [attachment.id])],
-            }).send()
+            mail_template = self._get_email_template()
+
+            if mail_template:
+                mail_template.with_context(
+                    date_from=str(date_from),
+                    date_until=str(date_until),
+                ).send_mail(emp.id, email_values={
+                    'attachment_ids': [(6, 0, [attachment.id])]
+                }, force_send=True, email_layout_xmlid='mail.mail_notification_light')

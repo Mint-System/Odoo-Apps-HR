@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-24 14:28+0000\n"
-"PO-Revision-Date: 2026-03-24 14:28+0000\n"
+"POT-Creation-Date: 2026-03-25 07:24+0000\n"
+"PO-Revision-Date: 2026-03-25 07:24+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -44,8 +44,8 @@ msgstr ""
 "                    <tbody>\n"
 "                        <tr><td valign=\"top\" style=\"text-align: left; font-size: 14px;\">\n"
 "                        Guten Tag <t t-esc=\"object.name\"/>,<br/><br/>\n"
-"                        anbei findest du deinen Anwesenheitsbericht für den Zeitraum<br/>\n"
-"                        <t t-esc=\"ctx.get('date_from')\"/> bis <t t-esc=\"ctx.get('date_until')\"/>\n"
+"                        anbei findest du deinen Anwesenheitsbericht für<br/>\n"
+"                        <t t-esc=\"ctx.get('date_from')\"/> to <t t-esc=\"ctx.get('date_until')\"/>\n"
 "                        <br/><br/>\n"
 "                        Herzliche Grüsse,<br/>\n"
 "                        Deine Personalabteilung\n"
@@ -60,11 +60,11 @@ msgid "Attendance Report Email"
 msgstr "Anwesenheitsbericht E-Mail"
 
 #. module: hr_employee_attendance_report_batch_send
-#: model:ir.model,name:hr_employee_attendance_report_batch_send.model_hr_employee
-msgid "Employee"
-msgstr "Mitarbeiter"
-
-#. module: hr_employee_attendance_report_batch_send
 #: model:ir.actions.server,name:hr_employee_attendance_report_batch_send.action_send_attendance_report
 msgid "Send Attendance Report"
 msgstr "Anwesenheitsbericht versenden"
+
+#. module: hr_employee_attendance_report_batch_send
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_batch_send.select_period
+msgid "Send by Email"
+msgstr "Per E-Mail senden"

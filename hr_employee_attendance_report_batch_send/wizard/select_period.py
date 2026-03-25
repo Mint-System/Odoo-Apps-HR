@@ -19,10 +19,6 @@ class HREmployeeAttendanceReportSelectPeriod(models.TransientModel):
     def action_send_attendance_report_email(self):
         self.ensure_one()
 
-        # today = date.today()
-        # date_from = today + relativedelta(months=-1, day=1)
-        # date_until = today + relativedelta(day=1) - timedelta(days=1)
-
         employees = self.env['hr.employee'].browse(
             self.env.context.get('active_ids', [])
         )
@@ -61,12 +57,28 @@ class HREmployeeAttendanceReportSelectPeriod(models.TransientModel):
                     attachment_ids=[attachment.id]
                 )
 
-            mail_template = self._get_email_template()
+            template = self._get_email_template()
 
-            if mail_template:
-                mail_template.with_context(
+            if template:
+                template = template.with_context(
                     date_from=str(self.date_from),
                     date_until=str(self.date_until),
-                ).send_mail(emp.id, email_values={
-                    'attachment_ids': [(6, 0, [attachment.id])]
-                }, force_send=True, email_layout_xmlid='mail.mail_notification_light')
+                )
+                values = {
+                    'subject': template._render_field('subject', [emp.id])[emp.id],
+                    'body_html': template._render_field('body_html', [emp.id])[emp.id],
+                    'email_from': template._render_field('email_from', [emp.id])[emp.id],
+                    'email_to': template._render_field('email_to', [emp.id])[emp.id] or emp.work_email,
+                    'attachment_ids': [(4, attachment.id)],
+                }
+
+                mail = self.env['mail.mail'].create(values).send()
+
+            if attachment:
+                body = "Attendance report generated"
+            if mail:
+                body += " and sent by email"
+            emp.message_post(
+                body=body,
+                attachment_ids=[attachment.id]
+            )

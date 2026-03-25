@@ -5,11 +5,11 @@
         <field name="state">code</field>
         <field name="code">
 wizard = env['hr_employee_attendance_report.select_period'].with_context(
-active_ids=records.ids,
-active_model='hr.employee'
+    active_ids=records.ids,
+    active_model='hr.employee'
 ).create({
-'date_from': (datetime.date.today() + dateutil.relativedelta.relativedelta(months=-1, day=1)),
-'date_until': (datetime.date.today() + dateutil.relativedelta.relativedelta(day=1) - datetime.timedelta(days=1)),
+    'date_from': (datetime.date.today() + dateutil.relativedelta.relativedelta(months=-1, day=1)),
+    'date_until': (datetime.date.today() + dateutil.relativedelta.relativedelta(day=1) - datetime.timedelta(days=1)),
 })
 wizard.action_send_attendance_report_email()
         </field>
@@ -17,4 +17,23 @@ wizard.action_send_attendance_report_email()
         <field name="binding_model_id" ref="hr.model_hr_employee"/>
         <field name="binding_type">action</field>
     </record>
+
+
+    <record id="action_send_attendance_last_month_report" model="ir.actions.server">
+        <field name="name">Send Attendance Report</field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="state">code</field>
+        <field name="code">
+wizard = env['hr_employee_attendance_report.select_period'].with_context(
+    active_ids=records.ids,
+    active_model='hr.employee'
+).create({
+    'date_from': (datetime.date.today() + dateutil.relativedelta.relativedelta(months=-1, day=1)),
+    'date_until': (datetime.date.today() + dateutil.relativedelta.relativedelta(day=1) - datetime.timedelta(days=1)),
+})
+wizard.action_send_attendance_report_email()
+        </field>
+        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_type">report</field>
+</record>
 </odoo>

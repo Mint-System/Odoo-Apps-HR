@@ -13,7 +13,8 @@
     "depends": ["hr_employee_attendance_report", "mail"],
     "data": [
         "data/server_action.xml",
-        "data/mail_template_data.xml"],
+        "data/mail_template_data.xml",
+        "wizard/select_period.xml"],
     "installable": True,
     "application": False,
     "auto_install": False,

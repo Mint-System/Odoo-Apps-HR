@@ -51,11 +51,6 @@ class HREmployeeAttendanceReportSelectPeriod(models.TransientModel):
                 'res_id': emp.id,  
             })
 
-            if attachment:
-                emp.message_post(
-                    body="Attendance report generated and sent by email.",
-                    attachment_ids=[attachment.id]
-                )
 
             template = self._get_email_template()
 

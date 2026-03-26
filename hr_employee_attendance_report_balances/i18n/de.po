@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-24 06:51+0000\n"
-"PO-Revision-Date: 2026-03-24 06:51+0000\n"
+"POT-Creation-Date: 2026-03-26 09:11+0000\n"
+"PO-Revision-Date: 2026-03-26 09:11+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -58,22 +58,12 @@ msgstr "Gleitzeit Vormonat [h]"
 #. module: hr_employee_attendance_report_balances
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
 msgid "Flexitime [h]"
-msgstr "Gleitzeitsaldo aktuell [h]"
-
-#. module: hr_employee_attendance_report_balances
-#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
-msgid "Overview of Holidays Year"
-msgstr "Übersicht Ferien Jahr"
+msgstr "Gleitzeit [h]"
 
 #. module: hr_employee_attendance_report_balances
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
 msgid "Leave Type"
 msgstr "Abwesenheitsart"
-
-#. module: hr_employee_attendance_report_balances
-#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
-msgid "Overview of Leaves"
-msgstr "Übersicht Abwesenheiten"
 
 #. module: hr_employee_attendance_report_balances
 #: model:ir.model.fields,field_description:hr_employee_attendance_report_balances.field_hr_employee__overtime_last_month
@@ -84,6 +74,21 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_employee_attendance_report_balances.field_hr_employee__overtime_two_months_ago
 msgid "Overtime Two Months Ago"
 msgstr ""
+
+#. module: hr_employee_attendance_report_balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "Overview of Holidays Year"
+msgstr "Übersicht Ferien Jahr"
+
+#. module: hr_employee_attendance_report_balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "Overview of Leaves"
+msgstr "Übersicht Abwesenheiten"
+
+#. module: hr_employee_attendance_report_balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "Overview of working hours"
+msgstr "Übersicht Arbeitszeiten"
 
 #. module: hr_employee_attendance_report_balances
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
@@ -112,11 +117,6 @@ msgstr ""
 
 #. module: hr_employee_attendance_report_balances
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
-msgid "Overview of working hours"
-msgstr "Übersicht Arbeitszeiten"
-
-#. module: hr_employee_attendance_report_balances
-#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
 msgid "planned [h]"
 msgstr "Soll Zeit [h]"
 
@@ -125,7 +125,8 @@ msgstr "Soll Zeit [h]"
 msgid "worked [h]"
 msgstr "Ist Zeit [h]"
 
+
 #. module: hr_employee_attendance_report_balances
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
-msgid "Sick day"
-msgstr "Krankheit"
+msgid "as of"
+msgstr "Stand:"

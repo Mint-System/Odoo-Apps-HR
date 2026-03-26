@@ -8,6 +8,10 @@ from odoo import api, models, fields
 
 _logger = logging.getLogger(__name__)
 
+def get_months_pretty(dt):
+    current = dt.strftime("%B %Y")
+    prev = (dt.replace(day=1) - timedelta(days=1)).strftime("%B %Y")
+    return current, prev
 
 def get_code(self, leave_type, company_id):
     if leave_type.code:
@@ -275,6 +279,10 @@ class ReportHrEmployee(models.AbstractModel):
 
         non_holiday_leaves = get_non_holiday_leaves(self, employees)
         res["non_holiday_leaves"] = non_holiday_leaves
+        res["date_as_of"] = now.strftime('%d.%m.%Y')
+        current_month, previous_month = get_months_pretty(start_date)
+        res["current_month"] = current_month
+        res["previous_month"] = previous_month
 
         # overtime_balances = self._get_leaves_data(res)
 

@@ -19,10 +19,10 @@
                             worked [h]
                             </th>
                             <th id="overtime_balance" class="text-start">
-                            Flexitime Month [h]
+                            Flexitime <t t-esc="current_month"/> [h]
                             </th>
                             <th id="overtime_two_months_ago" class="text-start">
-                            Flexitime Previous Month [h]
+                            Flexitime <t t-esc="previous_month"/> [h]
                             </th>
                             <th id="overtime_last_month" class="text-start">
                             Flexitime [h]
@@ -69,7 +69,7 @@
 
             <!-- Holidays Table -->
             <div class="allocations" name="holidays">
-                        <h5>Overview of Holidays Year</h5>
+                        <h5>Overview of Holidays Year (as of <t t-esc="date_as_of"/>)</h5>
 
                 <table
                     class="table table-sm balance-table"
@@ -101,7 +101,7 @@
 
             <!-- Leaves Table -->
             <div class="allocations" name="leaves">
-                        <h5>Overview of Leaves</h5>
+                        <h5>Overview of Leaves (as of <t t-esc="date_as_of"/>)</h5> 
 
                 <table
                     class="table table-sm balance-table"

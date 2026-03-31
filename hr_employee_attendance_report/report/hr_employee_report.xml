@@ -41,7 +41,9 @@
                     /></p>
                 </div>
 
-                <table class="table table-bordered table-sm" name="table_attendance">
+                <div class="attendance-wrapper">
+
+                     <table class="table table-bordered table-sm attendances-table" name="table_attendance">
                     <thead>
                         <tr>
                             <th class="text-start" name="th_date">
@@ -78,7 +80,7 @@
                             <tr
                                 t-attf-style="background-color: #{attendance['background_color']};"
                             >
-                                <td class="text-estartnd" id="date">
+                                <td class="text-start" id="date">
                                     <t
                                         t-out="attendance['date']"
                                         t-options="{'widget': 'date'}"
@@ -112,6 +114,7 @@
                         </t>
                     </tbody>
                 </table>
+                </div>
 
                 <div id="summary" class="clearfix" name="summary">
                     <div

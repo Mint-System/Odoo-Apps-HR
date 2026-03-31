@@ -15,6 +15,17 @@
         "report/hr_employee_report.xml",
         "views/hr_leave_type.xml",
     ],
+    'assets': {
+        'web.assets_backend': [
+            'hr_employee_attendance_report_leaves/static/src/css/report_styles.css',
+        ],
+        'web.report_assets_common': [
+            'hr_employee_attendance_report_leaves/static/src/css/report_styles.css',
+        ],
+        'web.report_assets_pdf': [
+            'hr_employee_attendance_report_leaves/static/src/css/report_styles.css',
+        ],
+    },
     "installable": True,
     "application": False,
     "auto_install": False,

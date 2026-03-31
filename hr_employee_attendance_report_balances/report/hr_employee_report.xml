@@ -3,7 +3,7 @@
     <template id="hr_employee_attendance_report_balances.hr_employee_template" inherit_id="hr_employee_attendance_report.hr_employee_template">
 
         <!-- Add overtime table before attendances table -->
-        <xpath expr="//table[@name='table_attendance']" position="before">
+        <xpath expr="//div[@class='attendance-wrapper']" position="before">
             <div class="allocations" name="allocations">
                         <h5>Overview of working hours</h5>
                 <table
@@ -129,6 +129,11 @@
                     </tbody>
                 </table>
             </div>
+            
         </xpath>
+        <xpath expr="//table[@name='table_attendance']" position="before">
+            <h5>Time Tracking Month</h5> 
+        </xpath>
+
     </template>
 </odoo>

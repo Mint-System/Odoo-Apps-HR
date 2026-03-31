@@ -1,13 +1,20 @@
 .page h3 {
-    font-size: 10px;
+    font-size: 10pt;
     font-weight: bold;
     margin-top: 5px;
     margin-bottom: 5px;
 }
 
+h5 {
+    font-size: 11pt;
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
 .balance-table {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
+    font-size: 10pt;
     width: 100%;
     border-collapse: collapse;
     word-wrap: break-word;
@@ -20,30 +27,31 @@
 }
 
 .balance-table th {
-    font-size: 14px;
+    font-size: 10pt;
     background-color: #f0f0f0;
     font-weight: bold;
 }
 
 .attendances-table {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 10px;
+    font-size: 10pt;
     width: 100%;
     border-collapse: collapse;
     word-wrap: break-word;
 }
 
 .attendances-table th, .attendances-table td {
+    font-size: 10pt;
     border: 1px solid lightgray;
     padding: 3px;
     word-break: break-all;
 }
 
-.attendances-header {
+./*attendances-header {
     font-size: 10px;
     background-color: #f0f0f0;
     font-weight: bold;
-}
+}*/
 
 .attendances_table th:not(:first-child),
 .attendances_table td:not(:first-child) {
@@ -86,7 +94,7 @@
     white-space: nowrap;
 }
 
-.allocations {
+.allocations, .attendance-wrapper {
     margin-top: 50px;
 }
 

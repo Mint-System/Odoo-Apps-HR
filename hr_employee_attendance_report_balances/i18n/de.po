@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-26 09:11+0000\n"
-"PO-Revision-Date: 2026-03-26 09:11+0000\n"
+"POT-Creation-Date: 2026-03-31 18:47+0000\n"
+"PO-Revision-Date: 2026-03-31 18:47+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -77,13 +77,18 @@ msgstr ""
 
 #. module: hr_employee_attendance_report_balances
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
-msgid "Overview of Holidays Year"
-msgstr "Übersicht Ferien Jahr"
+msgid "Overview of Holidays Year (as of"
+msgstr "Übersicht Ferien Jahr (Stichtag: "
 
 #. module: hr_employee_attendance_report_balances
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
-msgid "Overview of Leaves"
-msgstr "Übersicht Abwesenheiten"
+msgid "Overview of Leaves (as of"
+msgstr "Übersicht Abwesenheiten (Stichtag: "
+
+#. module: hr_employee_attendance_report_balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "Time Tracking Month"
+msgstr "Zeiterfassung Monat"
 
 #. module: hr_employee_attendance_report_balances
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
@@ -124,9 +129,3 @@ msgstr "Soll Zeit [h]"
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
 msgid "worked [h]"
 msgstr "Ist Zeit [h]"
-
-
-#. module: hr_employee_attendance_report_balances
-#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
-msgid "as of"
-msgstr "Stand:"

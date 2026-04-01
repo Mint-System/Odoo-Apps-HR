@@ -129,3 +129,124 @@ msgstr "Soll Zeit [h]"
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
 msgid "worked [h]"
 msgstr "Ist Zeit [h]"
+
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "January"
+msgstr "Januar"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "February"
+msgstr "Februar"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "March"
+msgstr "März"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "April"
+msgstr "April"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "May"
+msgstr "Mai"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "June"
+msgstr "Juni"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "July"
+msgstr "Juli"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "August"
+msgstr "August"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "September"
+msgstr "September"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "October"
+msgstr "Oktober"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "November"
+msgstr "November"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "December"
+msgstr "Dezember"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "Jan"
+msgstr "Jan"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "Feb"
+msgstr "Feb"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "Mar"
+msgstr "Mär"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "Apr"
+msgstr "Apr"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "May"
+msgstr "Mai"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "Jun"
+msgstr "Jun"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "Jul"
+msgstr "Jul"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "Aug"
+msgstr "Aug"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "Sep"
+msgstr "Sep"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "Oct"
+msgstr "Okt"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "Nov"
+msgstr "Nov"
+
+#. module: hr_employee_attendance_report.balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "Dec"
+msgstr "Dez"

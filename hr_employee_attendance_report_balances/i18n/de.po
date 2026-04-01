@@ -62,6 +62,11 @@ msgstr "Gleitzeit [h]"
 
 #. module: hr_employee_attendance_report_balances
 #: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
+msgid "Flexitime"
+msgstr "Gleitzeit"
+
+#. module: hr_employee_attendance_report_balances
+#: model_terms:ir.ui.view,arch_db:hr_employee_attendance_report_balances.hr_employee_template
 msgid "Leave Type"
 msgstr "Abwesenheitsart"
 

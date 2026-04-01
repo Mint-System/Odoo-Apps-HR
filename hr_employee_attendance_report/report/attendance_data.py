@@ -6,6 +6,7 @@ from pytz import timezone
 
 from odoo import fields
 from odoo.osv import expression
+from odoo.tools import format_date
 
 _logger = logging.getLogger(__name__)
 
@@ -14,6 +15,26 @@ def _daterange(start_date, end_date):
     """Return list of dates."""
     for n in range(int((end_date - start_date).days)):
         yield start_date + timedelta(n)
+
+def _get_date_label(self, start_date, end_date):
+    date_label = ""
+    real_end = end_date - timedelta(days=1)
+  
+    is_full_month = (
+        start_date.day == 1 and
+        real_end.day == (real_end + relativedelta(day=31)).day and
+        start_date.month == real_end.month and
+        start_date.year == real_end.year
+    )
+
+    if is_full_month:
+        date_label = format_date(self.env, start_date, date_format="MMMM")
+    else:
+        date_label = "{} - {}".format(
+            format_date(self.env, start_date),
+            format_date(self.env, real_end),
+        )
+    return date_label
 
 
 def get_attendances(self, employees, start_date, end_date):
@@ -183,6 +204,8 @@ def _get_report_values(self, docids, data=None, report_name=None):
     dates, attendances, summary = get_attendances(self, employees, start_date, end_date)
     leave_allocations = get_leave_allocations(self, employees)
 
+    date_label = _get_date_label(self, start_date, end_date)
+
     return {
         "doc_ids": docids,
         "doc_model": "hr.employee",
@@ -191,4 +214,6 @@ def _get_report_values(self, docids, data=None, report_name=None):
         "attendances": attendances,
         "summary": summary,
         "leave_allocations": leave_allocations,
+        "format_date": format_date,
+        "date_label": date_label,
     }

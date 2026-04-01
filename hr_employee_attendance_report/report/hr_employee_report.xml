@@ -170,7 +170,7 @@
                     </div>
                 </div>
 
-                <div id="leave)_allocations" class="clearfix" name="leave_allocations">
+                <div id="leave_allocations" class="clearfix" name="leave_allocations">
                     <t t-if="fixed_work_hours">
                         <h2>Leave Allocations</h2>
 

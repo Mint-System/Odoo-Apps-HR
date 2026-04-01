@@ -135,5 +135,10 @@
             <h5>Time Tracking Month</h5> 
         </xpath>
 
+        <!-- delete leaves allocations table of standard report -->
+
+        <xpath expr="//div[@name='leave_allocations']" position="replace"/>
+         
+
     </template>
 </odoo>

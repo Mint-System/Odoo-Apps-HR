@@ -28,7 +28,7 @@ def _get_date_label(self, start_date, end_date):
     )
 
     if is_full_month:
-        date_label = format_date(self.env, start_date, date_format="MMMM")
+        date_label = format_date(self.env, start_date, date_format="MMMM yyyy")
     else:
         date_label = "{} - {}".format(
             format_date(self.env, start_date),

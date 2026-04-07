@@ -138,6 +138,10 @@
         <!-- delete leaves allocations table of standard report -->
 
         <xpath expr="//div[@name='leave_allocations']" position="replace"/>
+
+        <!-- delete summary table of standard report -->
+
+        <xpath expr="//div[@name='summary']" position="replace"/>
          
 
     </template>

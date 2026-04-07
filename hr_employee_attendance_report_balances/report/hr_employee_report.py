@@ -5,13 +5,9 @@ from dateutil.relativedelta import relativedelta
 from datetime import date, datetime, time, timedelta
 
 from odoo import api, models, fields
+from odoo.tools import format_date
 
 _logger = logging.getLogger(__name__)
-
-def get_months_pretty(dt):
-    current = dt.strftime("%B %Y")
-    prev = (dt.replace(day=1) - timedelta(days=1)).strftime("%B %Y")
-    return current, prev
 
 def get_code(self, leave_type, company_id):
     if leave_type.code:
@@ -246,6 +242,13 @@ def get_leave_allocations(self, employees, start_date, end_date):
 class ReportHrEmployee(models.AbstractModel):
     _inherit = "report.hr_employee_attendance_report.hr_employee"
 
+    def get_months_pretty(self, dt):
+        # current = dt.strftime("%B %Y")
+        # prev = (dt.replace(day=1) - timedelta(days=1)).strftime("%B %Y")
+        current = format_date(self.env, dt, date_format="MMMM yyyy")
+        prev = format_date(self.env, dt.replace(day=1) - timedelta(days=1), date_format="MMMM yyyy")
+        return current, prev
+
     @api.model
     def _get_report_values(self, docids, data=None):
         res = super()._get_report_values(docids, data)
@@ -280,7 +283,7 @@ class ReportHrEmployee(models.AbstractModel):
         non_holiday_leaves = get_non_holiday_leaves(self, employees)
         res["non_holiday_leaves"] = non_holiday_leaves
         res["date_as_of"] = now.strftime('%d.%m.%Y')
-        current_month, previous_month = get_months_pretty(start_date)
+        current_month, previous_month = self.get_months_pretty(start_date)
         res["current_month"] = current_month
         res["previous_month"] = previous_month
 

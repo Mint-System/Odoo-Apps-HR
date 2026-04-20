@@ -23,8 +23,8 @@ class HREmployeeAttendanceReportSelectPeriod(models.TransientModel):
         default=lambda *a: str(date.today() + relativedelta(day=1) - timedelta(days=1)),
     )
     show_weekdays = fields.Boolean(string="Show Weekdays", default=False)
-    show_diff_hours = fields.Boolean(string="Show +/- Hours", default=True)
-    show_odoo_overtimes = fields.Boolean(string="Show Odoo Overtimes", default=False)
+    show_diff_hours = fields.Boolean(string="Show +/- Hours", default=False)
+    show_odoo_overtimes = fields.Boolean(string="Show Odoo Overtimes", default=True)
 
     def print_report(self, download_only=False):
         self.ensure_one()

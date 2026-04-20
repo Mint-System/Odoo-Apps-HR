@@ -555,7 +555,7 @@ def _get_report_values(self, docids, data=None, report_name=None):
         "leave_allocations_per_type": leave_allocations_per_type,
         "unallocated_leaves": unallocated_leaves,
         "show_weekdays": data.get("show_weekdays", True),
-        "show_diff_hours": data.get("show_diff_hours", True),
-        "show_odoo_overtimes": data.get("show_odoo_overtimes", False),
+        "show_diff_hours": data.get("show_diff_hours", False),
+        "show_odoo_overtimes": data.get("show_odoo_overtimes", True),
         "show_allocation": show_allocation,
     }

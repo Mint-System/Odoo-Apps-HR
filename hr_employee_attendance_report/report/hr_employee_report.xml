@@ -77,7 +77,7 @@
                                 Time Stamps
                             </th>
                             <th name="th_overtime" t-if="show_odoo_overtimes">
-                                h +/-
+                                h +/- (Ueb)
                             </th>
                         </tr>
                     </thead>
@@ -209,7 +209,11 @@
                                     </th>
                                     <td id="overtime">
                                         <t
-                                            t-out="summary[doc.id]['overtime_calculated']"
+                                            t-out="summary[doc.id]['overtime_calculated']" t-if="show_diff_hours"
+                                        />
+                                        <t t-if="show_odoo_overtimes and show_diff_hours">/</t>
+                                        <t
+                                            t-out="summary[doc.id]['overtime']" t-if="show_odoo_overtimes"
                                         />
                                     </td>
                                 </tr>

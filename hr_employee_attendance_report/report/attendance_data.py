@@ -191,7 +191,7 @@ def get_attendances(self, employees, start_date, end_date):
         # Update summary
         total_overtime_up_to_previous_month = round(_get_overtime_total_up_to_previous_month(employee, start_date), 2)
         total_overtime_up_to_this_month = round(_get_overtime_total_up_to_this_month(employee, start_date), 2)
-        total_overtime_saldo = total_overtime_up_to_this_month - total_overtime_up_to_previous_month
+        total_overtime_saldo = round(total_overtime_up_to_this_month - total_overtime_up_to_previous_month, 2)
         glz_up_to_previous_month = round(_get_glz_up_to_previous_month(self, employee, start_date), 2)
         glz_up_to_this_month = round(_get_glz_up_to_this_month(self, employee, start_date), 2)
         glz_saldo = round(glz_up_to_this_month - glz_up_to_previous_month, 2)

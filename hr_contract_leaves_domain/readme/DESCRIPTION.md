@@ -1,0 +1,1 @@
+Adds domain to include all time_types of leaves for attendances calculation

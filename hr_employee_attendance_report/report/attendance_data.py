@@ -365,7 +365,7 @@ def get_attendances(self, employees, start_date, end_date):
                 "worked_hours": round(worked_hours - missing_breaks_hours, 2),
                 "diff_hours": round(worked_hours - missing_breaks_hours - (work_hours - leave_hours), 2),
                 "time_stamps": time_stamps_string,
-                "overtime": round(overtime_hours, 2),
+                "overtime": round(overtime_hours - missing_breaks_hours, 2),
                 "background_color": "lightgrey" if work_hours == 0 and fixed_work_hours else "none",
             }
             if show_paid_out_overtime:

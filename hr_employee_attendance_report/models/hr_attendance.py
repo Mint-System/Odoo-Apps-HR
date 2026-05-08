@@ -94,9 +94,6 @@ class HrAttendance(models.Model):
 
 
 
-
-
-
     def calculate_missing_break(self):
         leave_missing_break = self.env["hr.leave.type"].search([("code", "=", "MB"), ("company_id", "=", self.env.company.id)])
         if not leave_missing_break:

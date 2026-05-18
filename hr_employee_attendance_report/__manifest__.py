@@ -15,6 +15,8 @@
         "security/ir.model.access.csv",
         "wizard/select_period.xml",
         "views/hr_attendance_views.xml",
+        "views/hr_missing_break_views.xml",
+        "data/server_action.xml"
     ],
     "installable": True,
     "application": False,

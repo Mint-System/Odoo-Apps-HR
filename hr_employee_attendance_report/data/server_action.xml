@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Server action callable from the Employee list -->
+        <record id="action_deduct_missing_break_employees" model="ir.actions.server">
+            <field name="name">Fehlende Pause von Überstunden abziehen</field>
+            <field name="model_id" ref="hr.model_hr_employee"/>
+            <field name="binding_model_id" ref="hr.model_hr_employee"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+# Find all pending (not yet deducted) missing breaks for selected employees
+missing_breaks = env['hr.missing.break'].search([
+    ('employee_id', 'in', records.ids),
+    ('deducted', '=', False),
+])
+if missing_breaks:
+    action = missing_breaks.with_context(active_model='hr.employee').action_deduct_missing_break()
+else:
+    action = {
+        'type': 'ir.actions.client',
+        'tag': 'display_notification',
+        'params': {
+            'title': 'Nothing to Deduct',
+            'message': 'No pending missing breaks found for the selected employees.',
+            'type': 'warning',
+            'sticky': False,
+        },
+    }
+            </field>
+        </record>
+
+    </data>
+</odoo>

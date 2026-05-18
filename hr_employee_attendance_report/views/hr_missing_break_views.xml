@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <record id="view_hr_missing_break_tree" model="ir.ui.view">
+            <field name="name">hr.missing.break.tree</field>
+            <field name="model">hr.missing.break</field>
+            <field name="arch" type="xml">
+                <tree string="Missing Breaks"
+                      decoration-success="deducted == True"
+                      decoration-warning="deducted == False">
+                    <field name="employee_id"/>
+                    <field name="working_day"/>
+                    <field name="deducted"/>
+                    <field name="deducted_on" optional="show"/>
+                    <button name="action_deduct_missing_break"
+                            string="Deduct Break"
+                            type="object"
+                            icon="fa-minus-circle"
+                            attrs="{'invisible': [('deducted', '=', True)]}"
+                            confirm="Deduct 30 min of overtime for this missing break?"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_missing_break_form" model="ir.ui.view">
+            <field name="name">hr.missing.break.form</field>
+            <field name="model">hr.missing.break</field>
+            <field name="arch" type="xml">
+                <form string="Missing Break">
+                    <header>
+                        <button name="action_deduct_missing_break"
+                                string="Deduct Break from Overtime"
+                                type="object"
+                                class="btn-primary"
+                                attrs="{'invisible': [('deducted', '=', True)]}"/>
+                        <field name="deducted" widget="statusbar"
+                               statusbar_visible="0,1"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="working_day"/>
+                            <field name="deducted" readonly="1"/>
+                            <field name="deducted_on" readonly="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_hr_missing_break" model="ir.actions.act_window">
+            <field name="name">Missing Breaks</field>
+            <field name="res_model">hr.missing.break</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_hr_missing_break"
+                  name="Missing Breaks"
+                  parent="hr_attendance.menu_hr_attendance_root"
+                  action="action_hr_missing_break"
+                  sequence="20"/>
+
+    </data>
+</odoo>

@@ -13,12 +13,6 @@
                     <field name="working_day"/>
                     <field name="deducted"/>
                     <field name="deducted_on" optional="show"/>
-                    <button name="action_deduct_missing_break"
-                            string="Deduct Break"
-                            type="object"
-                            icon="fa-minus-circle"
-                            attrs="{'invisible': [('deducted', '=', True)]}"
-                            confirm="Deduct 30 min of overtime for this missing break?"/>
                 </tree>
             </field>
         </record>
@@ -28,15 +22,6 @@
             <field name="model">hr.missing.break</field>
             <field name="arch" type="xml">
                 <form string="Missing Break">
-                    <header>
-                        <button name="action_deduct_missing_break"
-                                string="Deduct Break from Overtime"
-                                type="object"
-                                class="btn-primary"
-                                attrs="{'invisible': [('deducted', '=', True)]}"/>
-                        <field name="deducted" widget="statusbar"
-                               statusbar_visible="0,1"/>
-                    </header>
                     <sheet>
                         <group>
                             <field name="employee_id"/>

@@ -6,6 +6,8 @@ from odoo import fields, models, api
 
 _logger = logging.getLogger(__name__)
 
+BREAK_DURATION_HOURS = 0.5
+
 
 class HrAttendance(models.Model):
     _inherit = "hr.attendance"
@@ -57,25 +59,28 @@ class HrAttendance(models.Model):
         ], limit=1)
 
         if existing_break:
+            self.deduct_or_add_missing_break(mbreak=existing_break, action='add')
             existing_break.unlink()
+
             self.has_missing_break = False
             return {
                 "type": "ir.actions.client",
                 "tag": "display_notification",
                 "params": {
-                    "title": "Missing break removed",
-                    "message": f"The missing break for {employee.name} was removed.",
+                    "title": "Missing break removed, overtime added",
+                    "message": f"The missing break for {employee.name} was removed and overtime added.",
                     "type": "success",
                     "sticky": False,
                 },
             }
 
         if check_out - check_in > timedelta(hours=7):
-            self.env["hr.missing.break"].create({"employee_id": employee.id, "working_day": missing_break_date})
+            new_break = self.env["hr.missing.break"].create({"employee_id": employee.id, "working_day": missing_break_date})
+            self.deduct_or_add_missing_break(mbreak=new_break, action='deduct')
             self.has_missing_break = True
-            not_title = "Missing break added"
+            not_title = "Missing break added, overtime deducted"
             not_type = "success"
-            not_message = f"A missing break for {employee.name} was added."
+            not_message = f"A missing break for {employee.name} was added and overtime deducted."
         else:
             not_title = "No Missing Break added"
             not_type = "warning"
@@ -145,3 +150,53 @@ class HrAttendance(models.Model):
                     "sticky": False,
                 },
         }
+
+    def deduct_or_add_missing_break(self, mbreak, action):
+        OvertimeModel = self.env['hr.attendance.overtime']
+        AttendanceModel = self.env['hr.attendance']
+
+        if not mbreak:
+            return False
+
+        employee = mbreak.employee_id
+        # Normalise to a date for comparison (working_day is Datetime)
+        day_date = fields.Date.context_today(
+            self, timestamp=mbreak.working_day
+        )
+        overtime = OvertimeModel.search([
+                ('employee_id', '=', employee.id),
+                ('date', '=', day_date),
+            ], limit=1)
+
+        # Find the overtime record for this employee / day
+        # hr.attendance.overtime stores one record per employee per day.
+        if action == "add" and overtime: 
+            # Adjust existing overtime (can go negative — intentional)
+            new_duration = overtime.duration + BREAK_DURATION_HOURS
+            overtime.write({'duration': new_duration, 'adjustment': True})
+            mbreak.write({
+                'deducted': False,
+                'deducted_on': fields.Datetime.now(),
+            })
+            return "added"
+                
+        if action == "deduct" and not mbreak.deducted:
+            if overtime:
+                new_duration = overtime.duration - BREAK_DURATION_HOURS
+                overtime.write({'duration': new_duration, 'adjustment': True})
+            else:
+                OvertimeModel.create({
+                    'employee_id': employee.id,
+                    'date': day_date,
+                    'duration': -BREAK_DURATION_HOURS,
+                    'adjustment': True,   # marks it as a manual adjustment
+                })
+
+            # Mark as deducted — idempotency guard
+            mbreak.write({
+                'deducted': True,
+                'deducted_on': fields.Datetime.now(),
+            })
+ 
+            return "deducted"
+        

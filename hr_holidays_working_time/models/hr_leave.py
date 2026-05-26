@@ -57,18 +57,24 @@ class HrLeave(models.Model):
             "domain": [("id", "in", self.attendance_ids.ids)],
         }
 
-    @api.depends("holiday_status_id", "request_date_from", "request_date_to")
+    @api.depends("holiday_status_id", "request_date_from", "request_date_to", "employee_id")
     def _compute_calendar_id(self):
         """
         If leave type calendar is set and leave hours is not greather than max hours,
         return that calendar otherwhise return employee calendar.
         """
         for rec in self:
+            if not rec.request_date_from or not rec.request_date_to:
+                rec.calendar_id = rec.employee_id.resource_calendar_id
+                continue
+
             start_date = datetime.combine(rec.request_date_from, datetime.min.time())
             end_date = datetime.combine(rec.request_date_to, datetime.max.time())
 
             if rec.holiday_status_id.calendar_id:
-                calendar_hours = rec.holiday_status_id.calendar_id.get_work_hours_count(start_date, end_date)
+                calendar_hours = rec.holiday_status_id.calendar_id.get_work_hours_count(
+                    start_date, end_date, compute_leaves=False,
+                )
                 if rec.holiday_status_id.calendar_max_hours == 0 or (
                     calendar_hours <= rec.holiday_status_id.calendar_max_hours
                 ):
@@ -89,10 +95,30 @@ class HrLeave(models.Model):
                 ("calendar_id", "=", self.calendar_id.id),
                 ("dayofweek", "=", dayofweek),
                 ("day_period", "=", day_period),
+                ("display_type", "=", False),
             ],
             limit=1,
         )
         return work_hour_id.hour_from
+
+    def get_work_hour_to(self, date):
+        """
+        Get the end hour of the last work period from resource calendar for a given date.
+        Returns the hour_to of the last attendance line (afternoon if exists, otherwise morning).
+        """
+        self.ensure_one()
+        dayofweek = date.weekday()
+        work_hour_id = self.env["resource.calendar.attendance"].search(
+            [
+                ("calendar_id", "=", self.calendar_id.id),
+                ("dayofweek", "=", dayofweek),
+                ("day_period", "!=", "lunch"),
+                ("display_type", "=", False),
+            ],
+            order="hour_to desc",
+            limit=1,
+        )
+        return work_hour_id.hour_to
 
     def _get_leaves_on_public_holiday(self):
         """
@@ -138,13 +164,14 @@ class HrLeave(models.Model):
             if not self.request_unit_half and not self.request_unit_hours:
                 # Create an attendance for each day.
                 while start_date <= end_date:
-                    work_hours = self.calendar_id.get_work_hours_count(start_date, start_date + timedelta(days=1))
+                    work_hours = self.calendar_id.get_work_hours_count(
+                        start_date, start_date + timedelta(days=1), compute_leaves=False,
+                    )
 
                     if work_hours > 0:
-                        # Get start and end time in hours
+                        # Get start and end time from calendar lines
                         hour_from = self.get_work_hour(start_date, "morning")
-                        # Add 1 hour offset to compensate lunch break deduction on attendance records
-                        hour_to = hour_from + work_hours + 1
+                        hour_to = self.get_work_hour_to(start_date)
 
                         # _logger.warning([work_hours, hour_from, hour_to])
 
@@ -173,7 +200,7 @@ class HrLeave(models.Model):
                 }
 
                 # Get work hours
-                work_hours = self.calendar_id.get_work_hours_count(start_date, end_date)
+                work_hours = self.calendar_id.get_work_hours_count(start_date, end_date, compute_leaves=False)
 
                 # Convert from user tz to utc
                 date_from = user_tz.localize(start_date).astimezone(pytz.utc).replace(tzinfo=None)
@@ -203,7 +230,12 @@ class HrLeave(models.Model):
                     "leave_id": self.id,
                 }
 
-            # _logger.warning(attendance_vals)
+            if not attendance_vals:
+                _logger.warning(
+                    "No attendance values generated for leave %s (employee: %s)",
+                    self.display_name, self.employee_id.name,
+                )
+                return
             self.env["hr.attendance"].sudo().create(attendance_vals)
 
     def unlink(self):
@@ -220,8 +252,14 @@ class HrLeave(models.Model):
 
     def action_approve(self, check_state=True):
         res = super().action_approve(check_state)
-        if not self.attendance_ids:
-            self.create_attendances()
+        for leave in self.filtered(lambda l: l.record_as_attendance and not l.attendance_ids):
+            leave.create_attendances()
+        return res
+
+    def action_validate(self, check_state=True):
+        res = super().action_validate(check_state)
+        for leave in self.filtered(lambda l: l.record_as_attendance and not l.attendance_ids):
+            leave.create_attendances()
         return res
 
     def action_refuse(self):

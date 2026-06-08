@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <!-- <record id="view_holidays_status_filter" model="ir.ui.view">
         <field name="name">hr.leave.type.filter</field>
         <field name="model">hr.leave.type</field>
@@ -25,7 +24,6 @@
         </field>
     </record>
 
-
     <record id="view_holiday_status_normal_tree" model="ir.ui.view">
         <field name="name">hr.leave.type.normal.list</field>
         <field name="model">hr.leave.type</field>
@@ -36,7 +34,6 @@
             </xpath>
         </field>
     </record>
-
 
     <!-- <record id="hr_holiday_status_view_kanban" model="ir.ui.view">
         <field name="name">hr.leave.type.kanban</field>
@@ -50,5 +47,4 @@
             </xpath>
         </field>
     </record> -->
-
 </odoo>

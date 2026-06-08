@@ -1,7 +1,7 @@
 <odoo>
     <record id="action_send_attendance_report" model="ir.actions.server">
         <field name="name">Send Attendance Report</field>
-        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="model_id" ref="hr.model_hr_employee" />
         <field name="state">code</field>
         <field name="code">
 wizard = env['hr_employee_attendance_report.select_period'].with_context(
@@ -14,14 +14,13 @@ wizard = env['hr_employee_attendance_report.select_period'].with_context(
 wizard.action_send_attendance_report_email()
         </field>
 
-        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_model_id" ref="hr.model_hr_employee" />
         <field name="binding_type">action</field>
     </record>
 
-
     <record id="action_send_attendance_last_month_report" model="ir.actions.server">
         <field name="name">Send Attendance Report</field>
-        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="model_id" ref="hr.model_hr_employee" />
         <field name="state">code</field>
         <field name="code">
 wizard = env['hr_employee_attendance_report.select_period'].with_context(
@@ -33,7 +32,7 @@ wizard = env['hr_employee_attendance_report.select_period'].with_context(
 })
 wizard.action_send_attendance_report_email()
         </field>
-        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_model_id" ref="hr.model_hr_employee" />
         <field name="binding_type">report</field>
-</record>
+    </record>
 </odoo>

@@ -42,78 +42,80 @@
                 </div>
 
                 <div class="attendance-wrapper">
-
-                     <table class="table table-bordered table-sm attendances-table" name="table_attendance">
-                    <thead>
-                        <tr>
-                            <th class="text-start" name="th_date">
+                    <table
+                        class="table table-bordered table-sm attendances-table"
+                        name="table_attendance"
+                    >
+                        <thead>
+                            <tr>
+                                <th class="text-start" name="th_date">
                                 Date
                             </th>
-                            <th
-                                class="text-end"
-                                name="th_planned_hours"
-                                t-if="fixed_work_hours"
-                            >
+                                <th
+                                    class="text-end"
+                                    name="th_planned_hours"
+                                    t-if="fixed_work_hours"
+                                >
                                 Planned Hours
                             </th>
-                            <th
-                                class="text-end"
-                                name="th_leave_hours"
-                                t-if="fixed_work_hours"
-                            >
+                                <th
+                                    class="text-end"
+                                    name="th_leave_hours"
+                                    t-if="fixed_work_hours"
+                                >
                                 Leave Hours
                             </th>
-                            <th class="text-end" name="th_worked_hours">
+                                <th class="text-end" name="th_worked_hours">
                                 Worked Hours
                             </th>
-                            <th
-                                class="text-end"
-                                name="th_overtime"
-                                t-if="fixed_work_hours"
-                            >
+                                <th
+                                    class="text-end"
+                                    name="th_overtime"
+                                    t-if="fixed_work_hours"
+                                >
                                 Overtime
                             </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <t t-foreach="attendances[doc.id]" t-as="attendance">
-                            <tr
-                                t-attf-style="background-color: #{attendance['background_color']};"
-                            >
-                                <td class="text-start" id="date">
-                                    <t
-                                        t-out="attendance['date']"
-                                        t-options="{'widget': 'date'}"
-                                    />
-                                </td>
-                                <td
-                                    class="text-end"
-                                    id="planned_hours"
-                                    t-if="fixed_work_hours"
-                                >
-                                    <t t-out="attendance['planned_hours']" />
-                                </td>
-                                <td
-                                    class="text-end"
-                                    id="leave_hours"
-                                    t-if="fixed_work_hours"
-                                >
-                                    <t t-out="attendance['leave_hours']" />
-                                </td>
-                                <td class="text-end" id="worked_hours">
-                                    <t t-out="attendance['worked_hours']" />
-                                </td>
-                                <td
-                                    class="text-end"
-                                    id="overtime"
-                                    t-if="fixed_work_hours"
-                                >
-                                    <t t-out="attendance['overtime']" />
-                                </td>
                             </tr>
-                        </t>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="attendances[doc.id]" t-as="attendance">
+                                <tr
+                                    t-attf-style="background-color: #{attendance['background_color']};"
+                                >
+                                    <td class="text-start" id="date">
+                                        <t
+                                            t-out="attendance['date']"
+                                            t-options="{'widget': 'date'}"
+                                        />
+                                    </td>
+                                    <td
+                                        class="text-end"
+                                        id="planned_hours"
+                                        t-if="fixed_work_hours"
+                                    >
+                                        <t t-out="attendance['planned_hours']" />
+                                    </td>
+                                    <td
+                                        class="text-end"
+                                        id="leave_hours"
+                                        t-if="fixed_work_hours"
+                                    >
+                                        <t t-out="attendance['leave_hours']" />
+                                    </td>
+                                    <td class="text-end" id="worked_hours">
+                                        <t t-out="attendance['worked_hours']" />
+                                    </td>
+                                    <td
+                                        class="text-end"
+                                        id="overtime"
+                                        t-if="fixed_work_hours"
+                                    >
+                                        <t t-out="attendance['overtime']" />
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
                 </div>
 
                 <div id="summary" class="clearfix" name="summary">
@@ -195,19 +197,26 @@
                                 </tr>
                             </thead>
                             <tbody class="leaves_table">
-                                <t t-foreach="leave_allocations[doc.id]" t-as="allocation">
+                                <t
+                                    t-foreach="leave_allocations[doc.id]"
+                                    t-as="allocation"
+                                >
                                     <tr>
                                         <td id="description" class="text-start">
                                             <t t-out="allocation.name" />
                                         </td>
                                         <td id="leave_type" class="text-start">
-                                            <t t-out="allocation.holiday_status_id.name" />
+                                            <t
+                                                t-out="allocation.holiday_status_id.name"
+                                            />
                                         </td>
                                         <td id="allocation" class="text-end">
                                             <t t-out="allocation.duration_display" />
                                         </td>
                                         <td id="leaves_taken" class="text-end">
-                                            <t t-out="round(allocation.leaves_taken, 2)" />
+                                            <t
+                                                t-out="round(allocation.leaves_taken, 2)"
+                                            />
                                         </td>
                                     </tr>
                                 </t>

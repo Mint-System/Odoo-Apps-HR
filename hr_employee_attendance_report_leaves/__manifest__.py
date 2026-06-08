@@ -5,7 +5,7 @@
         Adds leave informations to report.
     """,
     "author": "Mint System GmbH",
-    "website": "https://www.mint-system.ch",
+    "website": "https://www.mint-system.ch/",
     "category": "Repository",
     "development_status": "Production/Stable",
     "version": "18.0.1.0.0",
@@ -15,15 +15,15 @@
         "report/hr_employee_report.xml",
         "views/hr_leave_type.xml",
     ],
-    'assets': {
-        'web.assets_backend': [
-            'hr_employee_attendance_report_leaves/static/src/css/report_styles.css',
+    "assets": {
+        "web.assets_backend": [
+            "hr_employee_attendance_report_leaves/static/src/css/report_styles.css",
         ],
-        'web.report_assets_common': [
-            'hr_employee_attendance_report_leaves/static/src/css/report_styles.css',
+        "web.report_assets_common": [
+            "hr_employee_attendance_report_leaves/static/src/css/report_styles.css",
         ],
-        'web.report_assets_pdf': [
-            'hr_employee_attendance_report_leaves/static/src/css/report_styles.css',
+        "web.report_assets_pdf": [
+            "hr_employee_attendance_report_leaves/static/src/css/report_styles.css",
         ],
     },
     "installable": True,

@@ -1,32 +1,28 @@
 import logging
-import pytz
 from collections import defaultdict
-from markupsafe import Markup
-from datetime import date, datetime, time, timedelta
+from datetime import datetime, time
 
-from odoo import api, models, fields
+import pytz
+
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
+
 def _get_local_time(date, tz):
     return pytz.utc.localize(date).astimezone(tz)
+
 
 def get_code(self, leave_type, company_id):
     if leave_type.code:
         return leave_type.code
     existing_codes = {
         lt.code.strip()
-        for lt in self.env["hr.leave.type"].search(
-            [
-                "|",
-                ("company_id", "=", company_id),
-                ("company_id", "=", False)
-            ]
-        )
+        for lt in self.env["hr.leave.type"].search(["|", ("company_id", "=", company_id), ("company_id", "=", False)])
         if lt.code and lt.code.strip()
     }
     counter = 0
-    
+
     new_code = "".join(word[0 : counter + 3] for word in leave_type.name.split() if word).upper()
     while new_code in existing_codes:
         counter += 1
@@ -34,6 +30,7 @@ def get_code(self, leave_type, company_id):
     leave_type.code = new_code
 
     return new_code
+
 
 class ReportHrEmployee(models.AbstractModel):
     _inherit = "report.hr_employee_attendance_report.hr_employee"
@@ -64,22 +61,24 @@ class ReportHrEmployee(models.AbstractModel):
         if all_attendances and dates:
             for key, value in all_attendances.items():
                 employee_id = key
-                employee = self.env['hr.employee'].browse(employee_id)
+                employee = self.env["hr.employee"].browse(employee_id)
                 leaves_dict[employee_id] = []
                 company_hours_per_day = employee.company_id.resource_calendar_id.hours_per_day
                 domain = [
                     ("calendar_id", "=", employee.resource_calendar_id.id),
                     ("resource_id", "=", employee.resource_id.id),
                 ]
-        
+
                 leave_types_dict = {}
                 leave_ids = self.env["resource.calendar.leaves"].search(domain)
-                for leave_type in self.env["hr.leave.type"].search([
-                    "|",
-                    ("company_id", "=", employee.company_id.id),
-                    ("company_id", "=", False),
-                ]):
-                # for leave_type in self.env["hr.leave.type"].search([("company_id", "=", employee.company_id.id)]):
+                for leave_type in self.env["hr.leave.type"].search(
+                    [
+                        "|",
+                        ("company_id", "=", employee.company_id.id),
+                        ("company_id", "=", False),
+                    ]
+                ):
+                    # for leave_type in self.env["hr.leave.type"].search([("company_id", "=", employee.company_id.id)]):
                     code = get_code(self, leave_type, employee.company_id.id)
                     display_name = leave_type.display_name
                     leave_types_dict[code] = 0.0
@@ -89,7 +88,9 @@ class ReportHrEmployee(models.AbstractModel):
                     dt = fields.Datetime.to_datetime(date)
                     min_check_date = datetime.combine(dt, time.min)
                     max_check_date = datetime.combine(dt, time.max)
-                    work_hours = employee.resource_calendar_id.get_work_hours_count(min_check_date, max_check_date, True)
+                    work_hours = employee.resource_calendar_id.get_work_hours_count(
+                        min_check_date, max_check_date, True
+                    )
 
                     active_leaves = leave_ids.filtered(
                         lambda l: l.date_from < dt < l.date_to
@@ -98,7 +99,6 @@ class ReportHrEmployee(models.AbstractModel):
                     )
 
                     active_leaves_dict = defaultdict(float)
-
 
                     for leave_code in leave_types_dict.keys():
                         leave_hours_per_leave = 0.0
@@ -119,13 +119,8 @@ class ReportHrEmployee(models.AbstractModel):
                             if leave_hours_per_leave > 0.0
                         ]
                     )
-                    
-                    leave_data_dict = {
-                        "date": date,
-                        "lt": leave_types
-                    }
+
+                    leave_data_dict = {"date": date, "lt": leave_types}
                     leaves_dict[employee_id].append(leave_data_dict)
 
         return leaves_dict
-
-

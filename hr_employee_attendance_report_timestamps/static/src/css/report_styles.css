@@ -13,7 +13,8 @@
     word-wrap: break-word;
 }
 
-.attendances-table th, .attendances-table td {
+.attendances-table th,
+.attendances-table td {
     border: 1px solid lightgray;
     padding: 3px;
     word-break: break-all;
@@ -48,13 +49,16 @@
     color: gray;
 }
 
-.summary_table, .summary_table_v2 th {
+.summary_table,
+.summary_table_v2 th {
     text-align: left;
 }
-.summary_table, .summary_table_v2 td {
+.summary_table,
+.summary_table_v2 td {
     text-align: right;
 }
-.summary_table, .summary_table_v2 {
+.summary_table,
+.summary_table_v2 {
     font-size: 10px;
 }
 

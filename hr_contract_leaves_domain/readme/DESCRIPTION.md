@@ -1,1 +1,1 @@
-$MODULE_SUMMARY
+Changes the method "_get_expected_attendances" in hr_contract/models/hr_employee.py to only take intervals with time_type 'leave' and 'attendance'.

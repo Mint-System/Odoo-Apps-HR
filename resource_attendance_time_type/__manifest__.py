@@ -2,7 +2,7 @@
 {
     "name": "Resource Attendance Time Type",
     "summary": """
-        Adds the option 'attendance' to the field resource.calendar.leave:time_type and adds the column 'time_type' to the list view of public holidays.
+        Adds the option to change the time_type in public holidays and adds 'attendance' as additonal type.
     """,
     "author": "Mint System GmbH",
     "website": "https://www.mint-system.ch/",

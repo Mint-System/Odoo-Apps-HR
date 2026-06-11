@@ -1,0 +1,1 @@
+Adds the option 'attendance' to the field resource.calendar.leave:time_type and adds the column 'time_type' to the list view of public holidays.

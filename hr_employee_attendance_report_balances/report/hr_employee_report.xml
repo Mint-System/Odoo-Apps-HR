@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template id="hr_employee_attendance_report_balances.hr_employee_template" inherit_id="hr_employee_attendance_report.hr_employee_template">
-
+    <template
+        id="hr_employee_attendance_report_balances.hr_employee_template"
+        inherit_id="hr_employee_attendance_report.hr_employee_template"
+    >
         <!-- Add overtime table before attendances table -->
         <xpath expr="//div[@class='attendance-wrapper']" position="before">
             <div class="allocations" name="allocations">
-                        <h5>Overview of working hours</h5>
+                <h5>Overview of working hours</h5>
                 <table
-                        class="table table-sm table-bordered balance-table"
-                        name="overtime-balance-table"
-                    >
+                    class="table table-sm table-bordered balance-table"
+                    name="overtime-balance-table"
+                >
                     <thead class="table-light">
                         <tr>
                             <th id="planned" class="text-start">
@@ -19,10 +21,10 @@
                             worked [h]
                             </th>
                             <th id="overtime_balance" class="text-start">
-                            Flexitime <t t-esc="current_month"/> [h]
+                            Flexitime <t t-esc="current_month" /> [h]
                             </th>
                             <th id="overtime_two_months_ago" class="text-start">
-                            Flexitime <t t-esc="previous_month"/> [h]
+                            Flexitime <t t-esc="previous_month" /> [h]
                             </th>
                             <th id="overtime_last_month" class="text-start">
                             Flexitime [h]
@@ -32,36 +34,20 @@
                     <tbody>
                         <tr>
                             <td id="planned_value" class="text-start">
-                                <t
-                                    t-out="summary[doc.id]['planned_hours']"
-                                /> 
-
+                                <t t-out="summary[doc.id]['planned_hours']" />
                             </td>
                             <td id="worked_value" class="text-start">
-                                <t
-                                    t-out="summary[doc.id]['worked_hours']"
-                                /> 
-
+                                <t t-out="summary[doc.id]['worked_hours']" />
                             </td>
                             <td id="overtime_balance_value" class="text-start">
-                                <t
-                                    t-out="summary[doc.id]['overtime_balance']"
-                                /> 
-
+                                <t t-out="summary[doc.id]['overtime_balance']" />
                             </td>
                             <td id="overtime_two_months_ago_value" class="text-start">
-                                <t
-                                    t-out="summary[doc.id]['overtime_two_months_ago']"
-                                /> 
-
+                                <t t-out="summary[doc.id]['overtime_two_months_ago']" />
                             </td>
-                             <td id="overtime_last_month_value" class="text-start">
-                                <t
-                                    t-out="summary[doc.id]['overtime_last_month']"
-                                /> 
-
+                            <td id="overtime_last_month_value" class="text-start">
+                                <t t-out="summary[doc.id]['overtime_last_month']" />
                             </td>
-
                         </tr>
                     </tbody>
                 </table>
@@ -69,12 +55,9 @@
 
             <!-- Holidays Table -->
             <div class="allocations" name="holidays">
-                        <h5>Overview of Holidays Year (as of <t t-esc="date_as_of"/>)</h5>
+                <h5>Overview of Holidays Year (as of <t t-esc="date_as_of" />)</h5>
 
-                <table
-                    class="table table-sm balance-table"
-                    name="holidays_table"
-                >
+                <table class="table table-sm balance-table" name="holidays_table">
                     <thead>
                         <tr>
                             <th>Description</th>
@@ -87,26 +70,32 @@
                     <tbody>
                         <t t-foreach="holidays_allocations[doc.id]" t-as="allocation">
                             <tr>
-                                <td><t t-esc="allocation['description']"/></td>
-                                <td><t t-esc="allocation['allocation']"/></td>
-                                <td><t t-esc="allocation['used']"/></td>
-                                <td><t t-esc="allocation['planned']"/></td>
-                                <td><t t-esc="allocation['remaining']"/></td>
+                                <td>
+                                    <t t-esc="allocation['description']" />
+                                </td>
+                                <td>
+                                    <t t-esc="allocation['allocation']" />
+                                </td>
+                                <td>
+                                    <t t-esc="allocation['used']" />
+                                </td>
+                                <td>
+                                    <t t-esc="allocation['planned']" />
+                                </td>
+                                <td>
+                                    <t t-esc="allocation['remaining']" />
+                                </td>
                             </tr>
                         </t>
                     </tbody>
                 </table>
             </div>
 
-
             <!-- Leaves Table -->
             <div class="allocations" name="leaves">
-                        <h5>Overview of Leaves (as of <t t-esc="date_as_of"/>)</h5> 
+                <h5>Overview of Leaves (as of <t t-esc="date_as_of" />)</h5>
 
-                <table
-                    class="table table-sm balance-table"
-                    name="non_holidays_table"
-                >
+                <table class="table table-sm balance-table" name="non_holidays_table">
                     <thead>
                         <tr>
                             <th>Description</th>
@@ -119,30 +108,37 @@
                     <tbody>
                         <t t-foreach="non_holiday_leaves[doc.id]" t-as="leave">
                             <tr>
-                                <td><t t-esc="leave['description']"/></td>
-                                <td><t t-esc="leave['leave_type']"/></td>
-                                <td><t t-esc="leave['allocation']"/></td>
-                                <td><t t-esc="leave['used']"/></td>
-                                <td><t t-esc="leave['date']"/></td>
+                                <td>
+                                    <t t-esc="leave['description']" />
+                                </td>
+                                <td>
+                                    <t t-esc="leave['leave_type']" />
+                                </td>
+                                <td>
+                                    <t t-esc="leave['allocation']" />
+                                </td>
+                                <td>
+                                    <t t-esc="leave['used']" />
+                                </td>
+                                <td>
+                                    <t t-esc="leave['date']" />
+                                </td>
                             </tr>
                         </t>
                     </tbody>
                 </table>
             </div>
-            
         </xpath>
         <xpath expr="//table[@name='table_attendance']" position="before">
-            <h5>Time Tracking Month</h5> 
+            <h5>Time Tracking Month</h5>
         </xpath>
 
         <!-- delete leaves allocations table of standard report -->
 
-        <xpath expr="//div[@name='leave_allocations']" position="replace"/>
+        <xpath expr="//div[@name='leave_allocations']" position="replace" />
 
         <!-- delete summary table of standard report -->
 
-        <xpath expr="//div[@name='summary']" position="replace"/>
-         
-
+        <xpath expr="//div[@name='summary']" position="replace" />
     </template>
 </odoo>

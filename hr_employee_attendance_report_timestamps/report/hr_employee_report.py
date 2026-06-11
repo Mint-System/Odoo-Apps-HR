@@ -1,14 +1,17 @@
 import logging
+from datetime import timedelta
+
 import pytz
 from markupsafe import Markup
-from datetime import date, datetime, time, timedelta
 
-from odoo import api, models, fields
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
+
 def _get_local_time(date, tz):
     return pytz.utc.localize(date).astimezone(tz)
+
 
 class ReportHrEmployee(models.AbstractModel):
     _inherit = "report.hr_employee_attendance_report.hr_employee"
@@ -74,12 +77,7 @@ class ReportHrEmployee(models.AbstractModel):
                             ]
                         )
                     )
-                    ts_data_dict = {
-                        "date": date,
-                        "ts": time_stamps_string
-                    }
+                    ts_data_dict = {"date": date, "ts": time_stamps_string}
                     time_stamps_dict[employee_id].append(ts_data_dict)
 
         return time_stamps_dict
-
-

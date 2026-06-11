@@ -73,7 +73,9 @@ class HrLeave(models.Model):
 
             if rec.holiday_status_id.calendar_id:
                 calendar_hours = rec.holiday_status_id.calendar_id.get_work_hours_count(
-                    start_date, end_date, compute_leaves=False,
+                    start_date,
+                    end_date,
+                    compute_leaves=False,
                 )
                 if rec.holiday_status_id.calendar_max_hours == 0 or (
                     calendar_hours <= rec.holiday_status_id.calendar_max_hours
@@ -165,7 +167,9 @@ class HrLeave(models.Model):
                 # Create an attendance for each day.
                 while start_date <= end_date:
                     work_hours = self.calendar_id.get_work_hours_count(
-                        start_date, start_date + timedelta(days=1), compute_leaves=False,
+                        start_date,
+                        start_date + timedelta(days=1),
+                        compute_leaves=False,
                     )
 
                     if work_hours > 0:
@@ -233,7 +237,8 @@ class HrLeave(models.Model):
             if not attendance_vals:
                 _logger.warning(
                     "No attendance values generated for leave %s (employee: %s)",
-                    self.display_name, self.employee_id.name,
+                    self.display_name,
+                    self.employee_id.name,
                 )
                 return
             self.env["hr.attendance"].sudo().create(attendance_vals)

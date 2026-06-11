@@ -1,0 +1,6 @@
+- Add a public holiday
+- The time_type can be changed to three types in the time_type column
+
+- Add a public holiday by the name of "1h before holiday" with a duration of one hour
+- Change the time_type to other
+- Create an Absence (eg holiday) with time allocation half-day or hours on the day of the "1h before holiday". The calculated time off should be 1 day.

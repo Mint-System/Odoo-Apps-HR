@@ -1,9 +1,9 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import logging
-from datetime import date, datetime, time, timedelta
+from datetime import timedelta
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -12,16 +12,13 @@ class HrEmployee(models.Model):
     _inherit = "hr.employee"
 
     overtime_last_month = fields.Float(
-        string="Overtime Last Month",
-        help="Total overtime hours for the previous full month",
-        readonly=True,
-        store=True
+        string="Overtime Last Month", help="Total overtime hours for the previous full month", readonly=True, store=True
     )
     overtime_two_months_ago = fields.Float(
         string="Overtime Two Months Ago",
         help="Total overtime hours for the month before last",
         readonly=True,
-        store=True
+        store=True,
     )
 
     @api.model
@@ -41,28 +38,35 @@ class HrEmployee(models.Model):
         for employee in employees:
             # Calculate last month total (full previous month)
             last_month_total = sum(
-                self.env['hr.attendance.overtime'].search([
-                    ('employee_id', '=', employee.id),
-                    ('date', '>=', first_day_of_previous_month),
-                    ('date', '<=', last_day_of_previous_month)
-                ]).mapped('duration')
+                self.env["hr.attendance.overtime"]
+                .search(
+                    [
+                        ("employee_id", "=", employee.id),
+                        ("date", ">=", first_day_of_previous_month),
+                        ("date", "<=", last_day_of_previous_month),
+                    ]
+                )
+                .mapped("duration")
             )
 
             # Calculate two months ago total (full month before previous month)
             two_months_ago_total = sum(
-                self.env['hr.attendance.overtime'].search([
-                    ('employee_id', '=', employee.id),
-                    ('date', '>=', first_day_of_two_months_ago),
-                    ('date', '<=', last_day_of_two_months_ago)
-                ]).mapped('duration')
+                self.env["hr.attendance.overtime"]
+                .search(
+                    [
+                        ("employee_id", "=", employee.id),
+                        ("date", ">=", first_day_of_two_months_ago),
+                        ("date", "<=", last_day_of_two_months_ago),
+                    ]
+                )
+                .mapped("duration")
             )
 
-            employee.write({
-                'overtime_last_month': last_month_total,
-                'overtime_two_months_ago': two_months_ago_total,
-            })
+            employee.write(
+                {
+                    "overtime_last_month": last_month_total,
+                    "overtime_two_months_ago": two_months_ago_total,
+                }
+            )
 
         return True
-
-
-    

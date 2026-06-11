@@ -1,30 +1,25 @@
 import logging
-import pytz
-from collections import defaultdict
-from dateutil.relativedelta import relativedelta
-from datetime import date, datetime, time, timedelta
+from datetime import date, datetime, timedelta
 
-from odoo import api, models, fields
+import pytz
+from dateutil.relativedelta import relativedelta
+
+from odoo import api, fields, models
 from odoo.tools import format_date
 
 _logger = logging.getLogger(__name__)
+
 
 def get_code(self, leave_type, company_id):
     if leave_type.code:
         return leave_type.code
     existing_codes = {
         lt.code.strip()
-        for lt in self.env["hr.leave.type"].search(
-            [
-                "|",
-                ("company_id", "=", company_id),
-                ("company_id", "=", False)
-            ]
-        )
+        for lt in self.env["hr.leave.type"].search(["|", ("company_id", "=", company_id), ("company_id", "=", False)])
         if lt.code and lt.code.strip()
     }
     counter = 0
-    
+
     new_code = "".join(word[0 : counter + 3] for word in leave_type.name.split() if word).upper()
     while new_code in existing_codes:
         counter += 1
@@ -33,22 +28,25 @@ def get_code(self, leave_type, company_id):
 
     return new_code
 
+
 def _get_local_time(date, tz):
     return pytz.utc.localize(date).astimezone(tz)
+
 
 def _get_last_day_of_month(any_day):
     next_month = any_day.replace(day=28) + timedelta(days=4)
     return next_month - timedelta(days=next_month.day)
+
 
 def _get_overtime_totals(employee, start_date):
     today = fields.Date.today()
     one_month_earlier = today - relativedelta(months=1)
 
     # check if stored values can be taken
-    if  one_month_earlier == start_date:
+    if one_month_earlier == start_date:
         overtime_last_month = employee.overtime_last_month or 0
         overtime_two_months_ago = employee.overtime_two_months_ago or 0
-    else:# or caluclate
+    else:  # or caluclate
         last_day_of_previous_month = start_date - timedelta(days=1)
         last_day_of_this_month = _get_last_day_of_month(start_date)
         overtime_two_months_ago = sum(
@@ -65,25 +63,30 @@ def _get_overtime_totals(employee, start_date):
 
     return overtime_last_month, overtime_two_months_ago
 
+
 def get_holidays_allocations(self, employees):
     """Return FER leave allocations with calculated fields"""
     holiday_allocations = {}
     now = fields.Datetime.now()
     for employee in employees:
-        allocations = self.env['hr.leave.allocation'].search([
-            ('employee_id', '=', employee.id),
-            ('holiday_status_id.code', 'like', 'FER%'),
-            ('state', '=', 'validate'),
-        ])
+        allocations = self.env["hr.leave.allocation"].search(
+            [
+                ("employee_id", "=", employee.id),
+                ("holiday_status_id.code", "like", "FER%"),
+                ("state", "=", "validate"),
+            ]
+        )
 
         result = []
         for alloc in allocations:
             # Get approved leaves from this allocation
-            leaves = self.env['hr.leave'].search([
-                ('holiday_status_id', '=', alloc.holiday_status_id.id),
-                ('employee_id', '=', employee.id),
-                ('state', '=', 'validate'),
-            ])
+            leaves = self.env["hr.leave"].search(
+                [
+                    ("holiday_status_id", "=", alloc.holiday_status_id.id),
+                    ("employee_id", "=", employee.id),
+                    ("state", "=", "validate"),
+                ]
+            )
 
             # Taken leaves (past or present)
             used_leaves = leaves.filtered(lambda l: l.date_to <= now)
@@ -92,64 +95,73 @@ def get_holidays_allocations(self, employees):
             planned_leaves = leaves.filtered(lambda l: l.date_from > now)
 
             # Calculate totals
-            used_days = sum(used_leaves.mapped('number_of_days'))
-            planned_days = sum(planned_leaves.mapped('number_of_days'))
+            used_days = sum(used_leaves.mapped("number_of_days"))
+            planned_days = sum(planned_leaves.mapped("number_of_days"))
             remaining_allocation = alloc.number_of_days - used_days - planned_days
 
             if remaining_allocation > 0:
-                result.append({
-                    'description': alloc.holiday_status_id.name,
-                    'allocation': alloc.number_of_days,
-                    'used': used_days,
-                    'planned': planned_days,
-                    'remaining': remaining_allocation,
-                })
+                result.append(
+                    {
+                        "description": alloc.holiday_status_id.name,
+                        "allocation": alloc.number_of_days,
+                        "used": used_days,
+                        "planned": planned_days,
+                        "remaining": remaining_allocation,
+                    }
+                )
         holiday_allocations[employee.id] = result
 
     return holiday_allocations
 
+
 def get_non_holiday_leaves(self, employees):
-    """Return all leaves code not starting with 'FER' """
+    """Return all leaves code not starting with 'FER'"""
 
     non_holiday_leaves = {}
     now = fields.Datetime.now()
     for employee in employees:
-        leaves = self.env['hr.leave'].search([
-            ('employee_id', '=', employee.id),
-            ('state', '=', 'validate'),  # Only approved leaves
-        ])
+        leaves = self.env["hr.leave"].search(
+            [
+                ("employee_id", "=", employee.id),
+                ("state", "=", "validate"),  # Only approved leaves
+            ]
+        )
 
         result = []
         for leave in leaves:
             leave_type = leave.holiday_status_id
-            if leave_type.code and leave_type.code.startswith('FER'):
-                continue 
+            if leave_type.code and leave_type.code.startswith("FER"):
+                continue
 
-             # Find the allocation that granted this leave
-            allocation = self.env['hr.leave.allocation'].search([
-                ('employee_id', '=', leave.employee_id.id),
-                ('holiday_status_id', '=', leave.holiday_status_id.id),
-                ('state', '=', 'validate'),
-                ('number_of_days', '>', 0),
-            ], limit=1)
+            # Find the allocation that granted this leave
+            allocation = self.env["hr.leave.allocation"].search(
+                [
+                    ("employee_id", "=", leave.employee_id.id),
+                    ("holiday_status_id", "=", leave.holiday_status_id.id),
+                    ("state", "=", "validate"),
+                    ("number_of_days", ">", 0),
+                ],
+                limit=1,
+            )
 
-            allocation_days = allocation.number_of_days if allocation else '-'
+            allocation_days = allocation.number_of_days if allocation else "-"
 
-            date = leave.date_from.strftime('%d.%m.%Y') or ""
+            date = leave.date_from.strftime("%d.%m.%Y") or ""
             if leave.date_from and leave.date_to and (leave.date_from.date() != leave.date_to.date()):
                 date += f"-{leave.date_to.strftime('%d.%m.%Y')}"
 
-            result.append({
-                'description': leave.name,
-                'leave_type': leave_type.name,
-                'allocation': allocation_days,
-                'used': leave.number_of_days,
-                'date': date,
-            })
+            result.append(
+                {
+                    "description": leave.name,
+                    "leave_type": leave_type.name,
+                    "allocation": allocation_days,
+                    "used": leave.number_of_days,
+                    "date": date,
+                }
+            )
         non_holiday_leaves[employee.id] = result
 
     return non_holiday_leaves
-
 
 
 def get_leave_allocations(self, employees, start_date, end_date):
@@ -210,7 +222,9 @@ def get_leave_allocations(self, employees, start_date, end_date):
             # allocation_ids_per_type = self.env["hr.leave.allocation"].search(
             #     domain
             # )
-            allocation_ids_per_type = allocation_ids.filtered(lambda alloc: alloc.holiday_status_id.code == leave_code and alloc.number_of_days > 0)
+            allocation_ids_per_type = allocation_ids.filtered(
+                lambda alloc: alloc.holiday_status_id.code == leave_code and alloc.number_of_days > 0
+            )
             if allocation_ids_per_type:
                 leaves_per_type["code"] = leave_code
                 leaves_per_type["display_name"] = allocation_ids_per_type.mapped("holiday_status_id").display_name
@@ -236,7 +250,6 @@ def get_leave_allocations(self, employees, start_date, end_date):
         leave_allocations_per_type[employee.id] = leave_allocations_per_type_per_employee
 
     return leave_allocations, leave_allocations_per_type
-
 
 
 class ReportHrEmployee(models.AbstractModel):
@@ -275,14 +288,13 @@ class ReportHrEmployee(models.AbstractModel):
         else:
             employees = self.env["hr.employee"].browse(docids)
 
-
         #  add allocations to report values
         holidays_allocations = get_holidays_allocations(self, employees)
         res["holidays_allocations"] = holidays_allocations
 
         non_holiday_leaves = get_non_holiday_leaves(self, employees)
         res["non_holiday_leaves"] = non_holiday_leaves
-        res["date_as_of"] = now.strftime('%d.%m.%Y')
+        res["date_as_of"] = now.strftime("%d.%m.%Y")
         current_month, previous_month = self.get_months_pretty(start_date)
         res["current_month"] = current_month
         res["previous_month"] = previous_month
@@ -293,7 +305,7 @@ class ReportHrEmployee(models.AbstractModel):
         summary = res.get("summary", {})
         dates = res.get("dates", {})
         for employee_id, date_vals in dates.items():
-            employee = self.env['hr.employee'].browse(employee_id)
+            employee = self.env["hr.employee"].browse(employee_id)
             start_date = date_vals.get("start_date")
             if not start_date:
                 continue
@@ -302,13 +314,8 @@ class ReportHrEmployee(models.AbstractModel):
 
             summary.setdefault(employee_id, {})["overtime_last_month"] = round(overtime_last_month, 2)
             summary.setdefault(employee_id, {})["overtime_two_months_ago"] = round(overtime_two_months_ago, 2)
-            summary.setdefault(employee_id, {})["overtime_balance"] = round(overtime_last_month - overtime_two_months_ago, 2)
+            summary.setdefault(employee_id, {})["overtime_balance"] = round(
+                overtime_last_month - overtime_two_months_ago, 2
+            )
 
         return res
-
-
-    
-
-    
-
-

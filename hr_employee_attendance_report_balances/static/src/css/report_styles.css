@@ -20,7 +20,8 @@ h5 {
     word-wrap: break-word;
 }
 
-.balance-table th, .balance-table td {
+.balance-table th,
+.balance-table td {
     border: 1px solid lightgray;
     padding: 3px;
     word-break: break-all;
@@ -40,7 +41,8 @@ h5 {
     word-wrap: break-word;
 }
 
-.attendances-table th, .attendances-table td {
+.attendances-table th,
+.attendances-table td {
     font-size: 10pt;
     border: 1px solid lightgray;
     padding: 3px;
@@ -76,13 +78,16 @@ h5 {
     color: gray;
 }
 
-.summary_table, .summary_table_v2 th {
+.summary_table,
+.summary_table_v2 th {
     text-align: left;
 }
-.summary_table, .summary_table_v2 td {
+.summary_table,
+.summary_table_v2 td {
     text-align: right;
 }
-.summary_table, .summary_table_v2 {
+.summary_table,
+.summary_table_v2 {
     font-size: 10px;
 }
 
@@ -94,7 +99,8 @@ h5 {
     white-space: nowrap;
 }
 
-.allocations, .attendance-wrapper {
+.allocations,
+.attendance-wrapper {
     margin-top: 50px;
 }
 

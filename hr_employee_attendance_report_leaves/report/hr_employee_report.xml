@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!-- Inherit the hr_employee_template and add timestamp column -->
-    <template id="hr_employee_attendance_report_leaves.hr_employee_template_inherit" inherit_id="hr_employee_attendance_report.hr_employee_template">
-
+    <template
+        id="hr_employee_attendance_report_leaves.hr_employee_template_inherit"
+        inherit_id="hr_employee_attendance_report.hr_employee_template"
+    >
         <!-- Add leave types header column after the leaves hours header -->
         <xpath expr="//th[@name='th_leave_hours']" position="after">
-             <th name="th_leave_types" t-if="fixed_work_hours">
+            <th name="th_leave_types" t-if="fixed_work_hours">
                 Leave Types
             </th>
         </xpath>
 
         <!-- Add leave types data cell after the leave_hours cell -->
         <xpath expr="//td[@id='leave_hours']" position="after">
-            <td
-                id="leave_types"
-                t-if="fixed_work_hours"
-                style="text-align: left;"
-            >
+            <td id="leave_types" t-if="fixed_work_hours" style="text-align: left;">
                 <span t-out="attendance['leave_types']" />
             </td>
         </xpath>

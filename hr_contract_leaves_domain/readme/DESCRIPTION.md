@@ -1,0 +1,1 @@
+Adds time_type to expected hours calculation in hr_contract.

@@ -11,9 +11,7 @@ class HolidaysType(models.Model):
             return super().name_get()
 
         return [
-            (record.id, f"{record.code} - {record.name}")
-            if record.code
-            else (record.id, f"{record.name}")
+            (record.id, f"{record.code} - {record.name}") if record.code else (record.id, f"{record.name}")
             for record in self
         ]
 

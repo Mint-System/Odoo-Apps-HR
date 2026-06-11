@@ -13,7 +13,8 @@
     word-wrap: break-word;
 }
 
-.attendances-table th, .balance-table td {
+.attendances-table th,
+.balance-table td {
     border: 1px solid lightgray;
     padding: 3px;
     word-break: break-all;
@@ -24,8 +25,6 @@
     background-color: #f0f0f0;
     font-weight: bold;
 }
-
-
 
 .attendances_table th:not(:first-child),
 .attendances_table td:not(:first-child) {
@@ -46,11 +45,9 @@
     page-break-inside: avoid;
 }
 
-
 #diff_hours {
     white-space: nowrap;
 }
-
 
 .empty-row {
     height: 15px;

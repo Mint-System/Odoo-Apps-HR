@@ -3,3 +3,4 @@
 - Add a public holiday by the name of "1h before holiday" with a duration of one hour
 - Change the time_type to other
 - Create an Absence (eg holiday) with time allocation half-day or hours on the day of the "1h before holiday". The calculated time off should be 1 day.
+- Create an attendance on the same day as the "1h before holiday". The expected time (worked + overtime) should be one hour less than on another day.

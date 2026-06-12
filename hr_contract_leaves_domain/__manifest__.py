@@ -2,7 +2,7 @@
 {
     "name": "Hr Contract Leaves Domain",
     "summary": """
-        Adds domain to include all time_types of leaves for attendances calculation
+        Adds time_type to expected hours calculation in hr_contract.
     """,
     "author": "Mint System GmbH",
     "website": "https://www.mint-system.ch",
@@ -10,8 +10,8 @@
     "development_status": "Production/Stable",
     "version": "17.0.1.0.0",
     "license": "AGPL-3",
-    "depends": ["hr_contract"],
-    "data": ["security/security.xml"],
+    "depends": ["hr_contract", "resource_attendance_time_type"],
+    "data": [],
     "installable": True,
     "application": False,
     "auto_install": False,

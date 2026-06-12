@@ -1,0 +1,1 @@
+Adds the option to change the time_type in public holidays and adds 'attendance' as additonal type.

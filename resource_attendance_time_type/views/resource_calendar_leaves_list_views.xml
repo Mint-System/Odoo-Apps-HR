@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="resource_calendar_leaves_list" model="ir.ui.view">
+        <field name="name">resource_attendance_time_type.resource_calendar_leaves</field>
+        <field name="model">resource.calendar.leaves</field>
+        <field name="inherit_id" ref="resource.resource_calendar_leave_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//list[1]/field[@name='name']" position="after">
+                <field name="time_type" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

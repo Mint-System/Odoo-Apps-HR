@@ -5,9 +5,10 @@
         <field name="model">resource.calendar.leaves</field>
         <field name="inherit_id" ref="resource.resource_calendar_leave_tree" />
         <field name="arch" type="xml">
-            <xpath expr="//list[1]/field[@name='name']" position="after">
+            <xpath expr="//field[@name='name']" position="after">
                 <field name="time_type" optional="show"/>
             </xpath>
         </field>
     </record>
 </odoo>
+

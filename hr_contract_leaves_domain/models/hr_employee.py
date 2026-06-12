@@ -30,6 +30,6 @@ class Employee(models.Model):
                                     tz=employee_tz,
                                     resources=self.resource_id,
                                     compute_leaves=True,
-                                    domain=[])[self.resource_id.id]
+                                    domain=[('time_type', 'in', ['leave', 'attendance'])])[self.resource_id.id]
             duration_data = duration_data | contract_intervals
         return duration_data

@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@id='to_pay_ch']" position="after">
                 <div class="center" id="manual_entry">
-                    <td class="text-end"><span t-esc="o.payslip_manual_note"/></td>
+                    <td class="text-end"><span style="white-space: pre-line;" t-esc="o.payslip_manual_note"/></td>
                 </div>
             </xpath>
         </field>

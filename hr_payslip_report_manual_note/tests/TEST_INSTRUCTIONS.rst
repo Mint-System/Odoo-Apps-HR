@@ -1,0 +1,6 @@
+- Create an active contract for an employee.
+- Create a payslip for this employee.
+- In the field 'Note' add text.
+- Calculate the payslip.
+- Print the payslip.
+- Under the latest row, the text that was added to the 'Note' field is shown.

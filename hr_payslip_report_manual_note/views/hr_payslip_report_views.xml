@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="l10n_ch_elm_report_payslip" model="ir.ui.view">
+        <field name="name">hr_payslip_report_manual_note.l10n_ch_elm_report_payslip</field>
+        <field name="inherit_id" ref="l10n_ch_hr_payroll_elm_transmission.l10n_ch_elm_report_payslip"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='to_pay_ch']" position="after">
+                <div class="center" id="manual_entry">
+                    <td class="text-end"><span t-esc="o.payslip_manual_note"/></td>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

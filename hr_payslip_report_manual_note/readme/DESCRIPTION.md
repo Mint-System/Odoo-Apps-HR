@@ -1,0 +1,1 @@
+Adds a text Field to the payslip that appears at the bottom of the swiss payslip.

@@ -21,6 +21,12 @@
 
     <template id="hr_employee_template">
         <t t-call="web.internal_layout">
+            <style>
+                table.attendances-table td,
+                table.attendances-table th {
+                    font-size: 12px !important;
+                }
+            </style>
             <div class="page">
                 <t
                     t-set="fixed_work_hours"
@@ -123,7 +129,7 @@
                         t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto"
                     >
                         <table
-                            class="table table-bordered table-sm"
+                            class="table table-bordered table-sm o_report_table_summary"
                             name="table_summary"
                         >
                             <tbody>

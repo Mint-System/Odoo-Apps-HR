@@ -67,7 +67,9 @@ class HolidaysAllocation(models.Model):
             allocation.remaining_leaves_current_hours = (
                 allocation.number_of_hours_display - past_leave_hours - active_leave_hours
             )
-            _logger.warning(f"#### for {allocation.employee_id.name}: allocation.number_of_days: {allocation.number_of_days}, past_leave_days: {past_leave_days}, active_leave_days: {active_leave_days}")
+            _logger.warning(
+                f"#### for {allocation.employee_id.name}: allocation.number_of_days: {allocation.number_of_days}, past_leave_days: {past_leave_days}, active_leave_days: {active_leave_days}"
+            )
             allocation.remaining_leaves_current_days = allocation.number_of_days - past_leave_days - active_leave_days
 
     def _compute_remaining_leaves_display(self):

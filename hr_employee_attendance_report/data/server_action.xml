@@ -5,8 +5,8 @@
         <!-- Server action callable from the Employee list -->
         <record id="action_deduct_missing_break_employees" model="ir.actions.server">
             <field name="name">Fehlende Pause von Überstunden abziehen</field>
-            <field name="model_id" ref="hr.model_hr_employee"/>
-            <field name="binding_model_id" ref="hr.model_hr_employee"/>
+            <field name="model_id" ref="hr.model_hr_employee" />
+            <field name="binding_model_id" ref="hr.model_hr_employee" />
             <field name="binding_view_types">list</field>
             <field name="state">code</field>
             <field name="code">

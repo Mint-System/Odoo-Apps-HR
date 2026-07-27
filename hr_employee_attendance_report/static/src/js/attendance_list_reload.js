@@ -1,7 +1,7 @@
 /** @odoo-module **/
 
-import { ListController } from "@web/views/list/list_controller";
-import { registry } from "@web/core/registry";
+import {ListController} from "@web/views/list/list_controller";
+import {registry} from "@web/core/registry";
 
 class AttendanceListController extends ListController {
     async doAction(actionRequest) {

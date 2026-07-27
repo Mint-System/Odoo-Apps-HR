@@ -1,23 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <record id="employee_fleet_calendar_view" model="ir.ui.view">
-        <field name="name">hr_vehicle_request_calendar.employee_fleet_calendar_view</field>
+        <field
+            name="name"
+        >hr_vehicle_request_calendar.employee_fleet_calendar_view</field>
         <field name="model">employee.fleet</field>
         <field name="type">calendar</field>
         <field name="arch" type="xml">
-            <calendar date_start="date_from" date_stop="date_to" string="Vehicle Requests"
-                mode="month" quick_add="False" color="vehicle_id" event_open_popup="True"></calendar>
+            <calendar
+                date_start="date_from"
+                date_stop="date_to"
+                string="Vehicle Requests"
+                mode="month"
+                quick_add="False"
+                color="vehicle_id"
+                event_open_popup="True"
+            />
         </field>
     </record>
 
     <record id="fleet_reserved_calendar_view" model="ir.ui.view">
-        <field name="name">hr_vehicle_request_calendar.fleet_reserved_calendar_view</field>
+        <field
+            name="name"
+        >hr_vehicle_request_calendar.fleet_reserved_calendar_view</field>
         <field name="model">fleet.reserved</field>
         <field name="type">calendar</field>
         <field name="arch" type="xml">
-            <calendar string="Vehicle Reservations" date_start="date_from" date_stop="date_to"
-                mode="month" quick_add="False" color="vehicle_id" event_open_popup="True"></calendar>
+            <calendar
+                string="Vehicle Reservations"
+                date_start="date_from"
+                date_stop="date_to"
+                mode="month"
+                quick_add="False"
+                color="vehicle_id"
+                event_open_popup="True"
+            />
         </field>
     </record>
 
@@ -28,12 +46,17 @@
     </record>
 
     <record id="hr_vehicle_request.action_employee_fleet" model="ir.actions.act_window">
-        <field name="view_mode">tree,form,calendar</field>
+        <field name="view_mode">list,form,calendar</field>
     </record>
 
-    <menuitem id="fleet_reserved_sub_menu" name="Vehicle Reservations"
-        parent="hr_vehicle_request.employee_fleet_menu" sequence="1" groups="fleet.fleet_group_user"
-        action="action_fleet_reserved" />
+    <menuitem
+        id="fleet_reserved_sub_menu"
+        name="Vehicle Reservations"
+        parent="hr_vehicle_request.employee_fleet_menu"
+        sequence="1"
+        groups="fleet.fleet_group_user"
+        action="action_fleet_reserved"
+    />
 
     <record id="employee_fleet_form_view" model="ir.ui.view">
         <field name="name">hr_vehicle_request_calendar.employee_fleet_form_view</field>
@@ -42,7 +65,7 @@
         <field name="arch" type="xml">
 
             <xpath expr="//field[@name='date_to']" position="after">
-                <field name="meeting_id" attrs="{'invisible': [('meeting_id', '=', False)]}" />
+                <field name="meeting_id" />
             </xpath>
 
         </field>

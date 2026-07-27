@@ -1,23 +1,21 @@
-# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import api, fields, models
-from odoo import tools
+from odoo import api, fields, models, tools
 
 
 class HRAttendanceLeaveReport(models.Model):
     _name = "hr.attendance.leave.report"
     _description = "Attendance and Leave Report"
     _auto = False
-    _rec_name = 'date'
-    _order = 'date desc'
+    _rec_name = "date"
+    _order = "date desc"
 
-    employee_id = fields.Many2one('hr.employee', 'Employee', readonly=True)
-    department_id = fields.Many2one('hr.department', 'Department', readonly=True)
-    company_id = fields.Many2one('res.company', 'Company', readonly=True)
-    date = fields.Date('Date', readonly=True)
-    worked_hours = fields.Float('Worked Hours', readonly=True)
-    attendance_count = fields.Integer('Attendance Records', readonly=True)
+    employee_id = fields.Many2one("hr.employee", "Employee", readonly=True)
+    department_id = fields.Many2one("hr.department", "Department", readonly=True)
+    company_id = fields.Many2one("res.company", "Company", readonly=True)
+    date = fields.Date("Date", readonly=True)
+    worked_hours = fields.Float("Worked Hours", readonly=True)
+    attendance_count = fields.Integer("Attendance Records", readonly=True)
     leave_hours_vacation = fields.Float("Vacation Hours", readonly=True)
     leave_hours_sick = fields.Float("Sick Leave Hours", readonly=True)
     total_leave_hours = fields.Float("Total Leave Hours", readonly=True)
@@ -49,15 +47,15 @@ class HRAttendanceLeaveReport(models.Model):
                 gen_series.check_date as date,
                 0 as worked_hours,
                 0 as attendance_count,
-                CASE WHEN hlt.code = 'FER' THEN 
-                    (hl.number_of_days * 8.0 / (DATE_PART('day', hl.request_date_to::timestamp - hl.request_date_from::timestamp) + 1)) 
+                CASE WHEN hlt.code = 'FER' THEN
+                    (hl.number_of_days * 8.0 / (DATE_PART('day', hl.request_date_to::timestamp - hl.request_date_from::timestamp) + 1))
                     ELSE 0 END as leave_hours_vacation,
-                CASE WHEN hlt.code = 'KRA' THEN 
-                    (hl.number_of_days * 8.0 / (DATE_PART('day', hl.request_date_to::timestamp - hl.request_date_from::timestamp) + 1)) 
+                CASE WHEN hlt.code = 'KRA' THEN
+                    (hl.number_of_days * 8.0 / (DATE_PART('day', hl.request_date_to::timestamp - hl.request_date_from::timestamp) + 1))
                     ELSE 0 END as leave_hours_sick,
                 (hl.number_of_days * 8.0 / (DATE_PART('day', hl.request_date_to::timestamp - hl.request_date_from::timestamp) + 1)) as total_leave_hours
             FROM (
-                SELECT 
+                SELECT
                     hl.*,
                     generate_series(hl.request_date_from::date, hl.request_date_to::date, '1 day'::interval)::date as check_date
                 FROM hr_leave hl

@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 	<record id="ir_cron_compute_planned_hours" model="ir.cron">
 	    <field name="name">Compute Planned Hours (Yesterday)</field>
-	    <field name="model_id" ref="model_hr_employee_planned_hours"/>
+	    <field name="model_id" ref="model_hr_employee_planned_hours" />
 	    <field name="state">code</field>
 	    <field name="code">model.compute_planned_hours()
 		</field>

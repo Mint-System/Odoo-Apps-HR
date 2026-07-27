@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!-- Pivot view for attendance and leave report -->
     <record id="hr_attendance_leave_report_pivot_view" model="ir.ui.view">
@@ -6,13 +6,13 @@
         <field name="model">hr.attendance.leave.report</field>
         <field name="arch" type="xml">
             <pivot string="Attendance &amp; Leaves" sample="1">
-                <field name="date" type="col"/>
-                <field name="employee_id" type="row"/>
-                <field name="worked_hours" type="measure"/>
-                <field name="leave_hours_vacation" type="measure"/>
-                <field name="leave_hours_sick" type="measure"/>
-                <field name="total_leave_hours" type="measure"/>
-                <field name="attendance_count" type="measure"/>
+                <field name="date" type="col" />
+                <field name="employee_id" type="row" />
+                <field name="worked_hours" type="measure" />
+                <field name="leave_hours_vacation" type="measure" />
+                <field name="leave_hours_sick" type="measure" />
+                <field name="total_leave_hours" type="measure" />
+                <field name="attendance_count" type="measure" />
             </pivot>
         </field>
     </record>
@@ -23,10 +23,10 @@
         <field name="model">hr.attendance.leave.report</field>
         <field name="arch" type="xml">
             <graph string="Attendance &amp; Leaves">
-                <field name="date"/>
-                <field name="worked_hours" type="measure"/>
-                <field name="leave_hours_vacation" type="measure"/>
-                <field name="leave_hours_sick" type="measure"/>
+                <field name="date" />
+                <field name="worked_hours" type="measure" />
+                <field name="leave_hours_vacation" type="measure" />
+                <field name="leave_hours_sick" type="measure" />
             </graph>
         </field>
     </record>

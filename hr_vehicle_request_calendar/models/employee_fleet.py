@@ -28,9 +28,7 @@ class EmployeeFleet(models.Model):
         self.state = "confirm"
 
         # Generate meeting
-        self.meeting_id = self.env["calendar.event"].create(
-            self._prepare_meeting_values()
-        )
+        self.meeting_id = self.env["calendar.event"].create(self._prepare_meeting_values())
 
         # Get ics file and create attachment
         ics_file = self.meeting_id._get_ics_file().get(self.meeting_id.id)

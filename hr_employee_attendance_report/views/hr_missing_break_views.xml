@@ -6,13 +6,15 @@
             <field name="name">hr.missing.break.tree</field>
             <field name="model">hr.missing.break</field>
             <field name="arch" type="xml">
-                <tree string="Missing Breaks"
-                      decoration-success="deducted == True"
-                      decoration-warning="deducted == False">
-                    <field name="employee_id"/>
-                    <field name="working_day"/>
-                    <field name="deducted"/>
-                    <field name="deducted_on" optional="show"/>
+                <tree
+                    string="Missing Breaks"
+                    decoration-success="deducted == True"
+                    decoration-warning="deducted == False"
+                >
+                    <field name="employee_id" />
+                    <field name="working_day" />
+                    <field name="deducted" />
+                    <field name="deducted_on" optional="show" />
                 </tree>
             </field>
         </record>
@@ -24,10 +26,10 @@
                 <form string="Missing Break">
                     <sheet>
                         <group>
-                            <field name="employee_id"/>
-                            <field name="working_day"/>
-                            <field name="deducted" readonly="1"/>
-                            <field name="deducted_on" readonly="1"/>
+                            <field name="employee_id" />
+                            <field name="working_day" />
+                            <field name="deducted" readonly="1" />
+                            <field name="deducted_on" readonly="1" />
                         </group>
                     </sheet>
                 </form>
@@ -40,11 +42,13 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem id="menu_hr_missing_break"
-                  name="Missing Breaks"
-                  parent="hr_attendance.menu_hr_attendance_root"
-                  action="action_hr_missing_break"
-                  sequence="20"/>
+        <menuitem
+            id="menu_hr_missing_break"
+            name="Missing Breaks"
+            parent="hr_attendance.menu_hr_attendance_root"
+            action="action_hr_missing_break"
+            sequence="20"
+        />
 
     </data>
 </odoo>

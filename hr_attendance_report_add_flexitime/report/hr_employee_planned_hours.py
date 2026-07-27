@@ -1,21 +1,19 @@
-# -*- coding: utf-8 -*-
+from datetime import date, datetime, time
+
 from odoo import api, fields, models
-from datetime import datetime, time, date
+
 
 class HREmployeePlannedHours(models.Model):
     _name = "hr.employee.planned.hours"
     _description = "Planned Work Hours per Employee per Day"
     _order = "date desc, employee_id"
-    _auto=True
+    _auto = True
 
-    employee_id = fields.Many2one('hr.employee', required=True, index=True)
+    employee_id = fields.Many2one("hr.employee", required=True, index=True)
     date = fields.Date(required=True, index=True)
     planned_hours = fields.Float("Planned Hours", digits=(16, 2))
 
-    _sql_constraints = [
-        ('unique_employee_date', 'unique(employee_id, date)', 'Only one record per employee and date!')
-    ]
-
+    _sql_constraints = [("unique_employee_date", "unique(employee_id, date)", "Only one record per employee and date!")]
 
     @api.model
     def _to_date(self, val):
@@ -29,7 +27,6 @@ class HREmployeePlannedHours(models.Model):
             return val
         raise ValueError(f"Invalid date format: {val!r}")
 
-    
     @api.model
     def compute_planned_hours(self, date_from=None, date_to=None):
         """Rebuild table of planned hours between given dates (or all if none)."""
@@ -38,8 +35,8 @@ class HREmployeePlannedHours(models.Model):
 
         yesterday = fields.Date.to_string(fields.Date.subtract(fields.Date.today(), days=1))
 
-        Employee = self.env['hr.employee']
-        self.env.cr.execute("DELETE FROM hr_employee_planned_hours") 
+        Employee = self.env["hr.employee"]
+        self.env.cr.execute("DELETE FROM hr_employee_planned_hours")
 
         employees = Employee.search([])
         for employee in employees:
@@ -57,9 +54,11 @@ class HREmployeePlannedHours(models.Model):
                 max_dt = datetime.combine(current, time.max)
                 planned = calendar.get_work_hours_count(min_dt, max_dt, True)
                 if planned:
-                    self.create({
-                        'employee_id': employee.id,
-                        'date': current,
-                        'planned_hours': planned,
-                    })
+                    self.create(
+                        {
+                            "employee_id": employee.id,
+                            "date": current,
+                            "planned_hours": planned,
+                        }
+                    )
                 current = fields.Date.add(current, days=1)

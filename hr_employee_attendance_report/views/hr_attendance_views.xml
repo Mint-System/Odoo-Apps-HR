@@ -3,15 +3,15 @@
 	<record id="view_attendance_tree" model="ir.ui.view">
 	    <field name="name">hr.attendance.view.attendance.tree</field>
 	    <field name="model">hr.attendance</field>
-	    <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+	    <field name="inherit_id" ref="hr_attendance.view_attendance_tree" />
 	    <field name="arch" type="xml">
 	      <xpath expr="//field[@name='check_out']" position="before">
 		     <field name="has_missing_break" invisible="1" />
-		  </xpath> 
+		  </xpath>
 	       <xpath expr="//field[@name='check_out']" position="attributes">
 		     <attribute name="decoration-danger">has_missing_break</attribute>
-		     <attribute name="class" add="missing-break"/>
-		  </xpath>  
+		     <attribute name="class" add="missing-break" />
+		  </xpath>
 	    </field>
 	</record>
 </odoo>

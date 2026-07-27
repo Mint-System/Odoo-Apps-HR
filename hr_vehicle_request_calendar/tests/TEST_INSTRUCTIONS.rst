@@ -1,0 +1,5 @@
+- Go to Employee > Vehicle Request > Vehicle Request
+- Create new vehicle request
+- Send request
+- Confirm request
+- When confirming the vehicle request, an appointment is created in the calendar and a message is sent with the appointment as an attachment

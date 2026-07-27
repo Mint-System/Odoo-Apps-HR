@@ -1,12 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    
-    <menuitem 
+
+    <menuitem
         id="menu_hr_attendance_leave_report"
         name="Attendance &amp; Leave Analysis"
         parent="hr_attendance.menu_hr_attendance_root"
         action="action_hr_attendance_leave_report"
         sequence="30"
-        groups="hr_attendance.group_hr_attendance_user"/> 
+        groups="hr_attendance.group_hr_attendance_user"
+    />
 
-</odoo> 
+</odoo>

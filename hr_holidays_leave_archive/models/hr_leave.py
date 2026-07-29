@@ -8,9 +8,10 @@ _logger = logging.getLogger(__name__)
 class HolidaysRequest(models.Model):
     _inherit = "hr.leave"
 
-    active = fields.Boolean(default=True)
+    active = fields.Boolean(default=True, readonly=False)
+
 
     def toggle_active(self):
-        res = super().toggle_active()
-        # self.state = 'cancel'
-        return res
+        """Allow native archive/unarchive by injecting the bypass context."""
+        return super(HolidaysRequest, self.with_context(from_cancel_wizard=True)).toggle_active()
+

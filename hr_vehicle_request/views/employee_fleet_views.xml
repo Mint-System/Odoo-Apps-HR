@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="sequence_employee_fleet" model="ir.sequence">
         <field name="name">Vehicle Request Code</field>
@@ -12,7 +12,7 @@
         <field name="model">fleet.vehicle</field>
         <field name="inherit_id" ref="fleet.fleet_vehicle_view_form" />
         <field name="arch" type="xml">
-            
+
         </field>
     </record> -->
 
@@ -22,18 +22,53 @@
         <field name="arch" type="xml">
             <form string="Employee Fleet Request">
                 <header>
-                    <button name="send" string="Send Request" type="object" class="oe_highlight"
-                        states="draft" />
-                    <button name="approve" string="Approve" type="object" class="oe_highlight"
-                        states="waiting" groups="hr.group_hr_manager,hr.group_hr_user" />
-                    <button name="reject" string="Reject" type="object" states="waiting"
-                        groups="hr.group_hr_manager,hr.group_hr_user" />
-                    <button name="cancel" string="Cancel" type="object" states="draft,waiting" />
-                    <button name="draft" string="Draft" type="object" states="reject,cancel" />
-                    <button name="returned" string="Return" type="object" class="oe_highlight"
-                        states="confirm" groups="hr.group_hr_manager,fleet.fleet_group_user" />
-                    <field name="state" widget="statusbar"
-                        statusbar_visible="draft,waiting,confirm,return" />
+                    <button
+                        name="send"
+                        string="Send Request"
+                        type="object"
+                        class="oe_highlight"
+                        states="draft"
+                    />
+                    <button
+                        name="approve"
+                        string="Approve"
+                        type="object"
+                        class="oe_highlight"
+                        states="waiting"
+                        groups="hr.group_hr_manager,hr.group_hr_user"
+                    />
+                    <button
+                        name="reject"
+                        string="Reject"
+                        type="object"
+                        states="waiting"
+                        groups="hr.group_hr_manager,hr.group_hr_user"
+                    />
+                    <button
+                        name="cancel"
+                        string="Cancel"
+                        type="object"
+                        states="draft,waiting"
+                    />
+                    <button
+                        name="draft"
+                        string="Draft"
+                        type="object"
+                        states="reject,cancel"
+                    />
+                    <button
+                        name="returned"
+                        string="Return"
+                        type="object"
+                        class="oe_highlight"
+                        states="confirm"
+                        groups="hr.group_hr_manager,fleet.fleet_group_user"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,waiting,confirm,return"
+                    />
                 </header>
                 <sheet>
                     <h1>
@@ -44,14 +79,19 @@
                             <field name="employee" options="{'no_create': True}" />
                             <field name="date_from" />
                             <field name="date_to" />
-                            <field name="returned_date"
-                                attrs="{'invisible': [('state','!=','return')]}" />
+                            <field
+                                name="returned_date"
+                                attrs="{'invisible': [('state','!=','return')]}"
+                            />
                         </group>
                         <group>
                             <field name="req_date" />
                             <field name="available_vehicle_ids" invisible="1" />
-                            <field name="vehicle_id" domain="[('id','in', available_vehicle_ids)]"
-                                options="{'no_create': True}" />
+                            <field
+                                name="vehicle_id"
+                                domain="[('id','in', available_vehicle_ids)]"
+                                options="{'no_create': True}"
+                            />
                             <field name="purpose" />
                         </group>
                     </group>
@@ -68,8 +108,11 @@
         <field name="name">hr_vehicle_request.employee_fleet_tree_view</field>
         <field name="model">employee.fleet</field>
         <field name="arch" type="xml">
-            <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'"
-                decoration-success="state == 'confirm'">
+            <tree
+                decoration-info="state == 'draft'"
+                decoration-muted="state == 'cancel'"
+                decoration-success="state == 'confirm'"
+            >
                 <field name="name" />
                 <field name="employee" />
                 <field name="vehicle_id" />
@@ -93,11 +136,24 @@
                 <field name="state" />
                 <separator />
                 <group expand="0" string="Group By">
-                    <filter string="Status" name="state" domain="[]" context="{'group_by':'state'}" />
-                    <filter string="Employee" name="employee" domain="[]"
-                        context="{'group_by':'employee'}" />
-                    <filter string="Vehicle" name="vehicle" domain="[]"
-                        context="{'group_by':'vehicle_id'}" />
+                    <filter
+                        string="Status"
+                        name="state"
+                        domain="[]"
+                        context="{'group_by':'state'}"
+                    />
+                    <filter
+                        string="Employee"
+                        name="employee"
+                        domain="[]"
+                        context="{'group_by':'employee'}"
+                    />
+                    <filter
+                        string="Vehicle"
+                        name="vehicle"
+                        domain="[]"
+                        context="{'group_by':'vehicle_id'}"
+                    />
                 </group>
                 <searchpanel>
                     <field name="state" />
@@ -112,13 +168,26 @@
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="employee_fleet_search_view" />
         <field name="help" type="html">
-            <p class="oe_view_nocontent_create">Click to create a New Vehicle Request.</p>
+            <p
+                class="oe_view_nocontent_create"
+            >Click to create a New Vehicle Request.</p>
         </field>
     </record>
 
-    <menuitem id="employee_fleet_menu" name="Vehicle Request" parent="hr.menu_hr_root" sequence="4"
-        groups="fleet.fleet_group_user" />
-    <menuitem id="employee_fleet_sub_menu" name="Vehicle Request" parent="employee_fleet_menu"
-        sequence="1" groups="fleet.fleet_group_user" action="action_employee_fleet" />
+    <menuitem
+        id="employee_fleet_menu"
+        name="Vehicle Request"
+        parent="hr.menu_hr_root"
+        sequence="4"
+        groups="fleet.fleet_group_user"
+    />
+    <menuitem
+        id="employee_fleet_sub_menu"
+        name="Vehicle Request"
+        parent="employee_fleet_menu"
+        sequence="1"
+        groups="fleet.fleet_group_user"
+        action="action_employee_fleet"
+    />
 
 </odoo>

@@ -1,0 +1,5 @@
+- Go to "Employees"
+- Edit employee "Abigail Peterson"
+- Add shortname "ape" and save
+- Search on employees for shortname "ape"
+- Confirm that employee "Abigail Peterson" is found

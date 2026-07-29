@@ -1,0 +1,7 @@
+- Go to Website > Site > Content > Jobs
+- Open job position "trainee"
+- Click on "Apply now"
+- Fill out and submit the web form with values for firstname and lastname
+- Go to Recruitment and open "Trainee" card
+- Edit the application
+- Confirm firstname and lastname from web form

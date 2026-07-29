@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="view_hr_holidays_filter_active" model="ir.ui.view">
+        <field name="name">view_hr_holidays_filter_active</field>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.view_hr_holidays_filter" />
+        <field name="arch" type="xml">
+            <filter name="validated" position="after">
+                <filter
+                    string="Archived"
+                    name="active"
+                    domain="[('active', '=', False)]"
+                />
+            </filter>
+        </field>
+    </record>
+
+    <!-- Form view: expose active field (even invisible triggers archive logic) -->
+    <record id="hr_leave_view_form" model="ir.ui.view">
+        <field name="name">hr.leave.form.archive</field>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_form"/>
+        <field name="arch" type="xml">
+            <field name="employee_id" position="after">
+                <field name="active" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Tree view -->
+    <record id="hr_leave_view_tree" model="ir.ui.view">
+        <field name="name">hr.leave.tree.archive</field>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="after">
+                <field name="active" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
+
+
+
+

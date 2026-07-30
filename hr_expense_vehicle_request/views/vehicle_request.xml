@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="employee_fleet_form_view" model="ir.ui.view">
+    <field name="name">hr_expense_vehicle_request.employee_fleet_form_view</field>
+    <field name="model">employee.fleet</field>
+    <field name="inherit_id" ref="hr_vehicle_request.employee_fleet_form_view" />
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='trip']" position="after">
+        <field name="expense_id" attrs="{'invisible': [('expense_id', '=', False)]}" />
+      </xpath>
+    </field>
+  </record>
+
+</odoo>

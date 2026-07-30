@@ -4,9 +4,9 @@
         Create expenses from retourned vehicle requests.
     """,
     "author": "Mint System GmbH",
-    "website": "https://www.mint-system.ch",
+    "website": "https://www.mint-system.ch/",
     "category": "Human Resources",
-    "version": "14.0.3.0.0",
+    "version": "16.0.1.0.0",
     "license": "AGPL-3",
     "depends": ["hr_expense", "fleet_hr_vehicle_request"],
     "data": [

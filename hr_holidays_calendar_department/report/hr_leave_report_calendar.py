@@ -6,10 +6,10 @@ class LeaveReportCalendar(models.Model):
 
     holiday_status_id = fields.Many2one("hr.leave.type", string="Leave Type", readonly=True)
 
-
     def init(self):
-        tools.drop_view_if_exists(self._cr, 'hr_leave_report_calendar')
-        self._cr.execute("""CREATE OR REPLACE VIEW hr_leave_report_calendar AS
+        tools.drop_view_if_exists(self._cr, "hr_leave_report_calendar")
+        self._cr.execute(
+            """CREATE OR REPLACE VIEW hr_leave_report_calendar AS
         (SELECT
             hl.id AS id,
             CONCAT(em.name, ': ', hl.duration_display) AS name,
@@ -44,4 +44,5 @@ class LeaveReportCalendar(models.Model):
             hl.state IN ('confirm', 'validate', 'validate1')
             AND hl.active IS TRUE
         );
-        """)
+        """
+        )

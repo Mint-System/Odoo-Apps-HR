@@ -4,11 +4,14 @@
     <record id="hr_leave_report_calendar_view_search" model="ir.ui.view">
         <field name="name">hr.leave.report.calendar.search.</field>
         <field name="model">hr.leave.report.calendar</field>
-        <field name="inherit_id" ref="hr_holidays.hr_leave_report_calendar_view_search"/>
+        <field
+            name="inherit_id"
+            ref="hr_holidays.hr_leave_report_calendar_view_search"
+        />
         <field name="arch" type="xml">
             <search position="inside">
-                <separator/>
-                <filter string="Start Date" name="start_date" date="start_datetime"/>
+                <separator />
+                <filter string="Start Date" name="start_date" date="start_datetime" />
             </search>
         </field>
     </record>

@@ -1,13 +1,13 @@
 Calendar Entries:
 
-- Go to Time Off > Overview 
+- Go to Time Off > Overview
 - Activate Calendar View
 - Edit Calendar entry
 - Confirm that department and leave type is shown
 
-Filtering: 
+Filtering:
 
-- Go to Time Off > Overview 
+- Go to Time Off > Overview
 - Activate Calendar View
 - Confirm that filters contain "Start Date" filter
 

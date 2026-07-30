@@ -22,3 +22,14 @@ class HolidaysAllocation(models.Model):
             )
             leaves.toggle_active()
             super(HolidaysAllocation, allocation).toggle_active()
+
+
+    
+    
+    def write(self, values):
+        """ Bypass "You cannot archive an allocation which is in confirm or validate state."
+            The original write() skips that check when context contains 'toggle_active'.
+        """
+        if "active" in values and not self.env.context.get("toggle_active"):
+            return super(HolidaysAllocation, self.with_context(toggle_active=True)).write(values)
+        return super(HolidaysAllocation, self).write(values)

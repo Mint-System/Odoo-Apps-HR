@@ -15,3 +15,5 @@ class HolidaysRequest(models.Model):
         """Allow native archive/unarchive by injecting the bypass context."""
         return super(HolidaysRequest, self.with_context(from_cancel_wizard=True)).toggle_active()
 
+    
+

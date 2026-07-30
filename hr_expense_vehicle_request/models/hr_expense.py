@@ -35,3 +35,31 @@ class HrExpense(models.Model):
             res.write({"user_id": self.request_ids[0].vehicle_id.manager_id.id})
 
         return res
+
+
+    # def _get_default_expense_sheet_values(self):
+    #     values = super()._get_default_expense_sheet_values()
+    #     if self.request_ids and self.request_ids[0].vehicle_id.manager_id:
+    #         value = {
+    #             "user_id": self.request_ids[0].vehicle_id.manager_id.id
+    #         }
+    #         values.append(value)
+    #     return values
+
+
+    def _get_default_expense_sheet_values(self):
+        """Generate expense sheet values including the vehicle manager."""
+        values = super()._get_default_expense_sheet_values()
+
+        # Safe navigation: [:1] avoids IndexError if request_ids is empty
+        request = self.request_ids[:1]
+        vehicle_manager = request.vehicle_id.manager_id
+        if vehicle_manager and 'user_id' in self.env['hr.expense.sheet']._fields:
+            for vals in values:
+                vals['user_id'] = vehicle_manager.id
+
+        _logger.warning(f"####### values: {values}")
+
+        return values
+
+

@@ -11,7 +11,7 @@ class HrExpenseSheet(models.Model):
             sheet.address_id = sheet.employee_id.sudo().address_home_id
             sheet.department_id = sheet.employee_id.department_id
 
-            # Only assign user_id if nobody has set it yet.
-            # This preserves your vehicle manager passed from _get_default_expense_sheet_values.
+            # Only assign user_id if not set
+            # This preserves vehicle manager passed from _get_default_expense_sheet_values
             if not sheet.user_id:
                 sheet.user_id = sheet.employee_id.expense_manager_id or sheet.employee_id.parent_id.user_id

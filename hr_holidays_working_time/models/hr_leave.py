@@ -103,24 +103,34 @@ class HrLeave(models.Model):
         )
         return work_hour_id.hour_from
 
-    def get_work_hour_to(self, date):
+    def _get_work_intervals(self, date_from, date_to):
         """
-        Get the end hour of the last work period from resource calendar for a given date.
-        Returns the hour_to of the last attendance line (afternoon if exists, otherwise morning).
+        Get the work periods of the calendar between two naive datetimes.
+
+        The intervals are taken from the resource calendar itself, so they
+        contain neither lunch breaks nor the gap between the work periods of a
+        day. Their durations therefore add up to the working time of that day,
+        which is what has to be credited as attendance.
+
+        Returns a list of (check_in, check_out, calendar attendance) tuples,
+        with the datetimes as naive UTC, ready to be stored on an attendance.
         """
         self.ensure_one()
-        dayofweek = date.weekday()
-        work_hour_id = self.env["resource.calendar.attendance"].search(
-            [
-                ("calendar_id", "=", self.calendar_id.id),
-                ("dayofweek", "=", dayofweek),
-                ("day_period", "!=", "lunch"),
-                ("display_type", "=", False),
-            ],
-            order="hour_to desc",
-            limit=1,
-        )
-        return work_hour_id.hour_to
+        user_tz = pytz.timezone(self.tz)
+        resource = self.employee_id.resource_id
+        intervals = self.calendar_id._attendance_intervals_batch(
+            user_tz.localize(date_from),
+            user_tz.localize(date_to),
+            resources=resource,
+        )[resource.id]
+        return [
+            (
+                start.astimezone(pytz.utc).replace(tzinfo=None),
+                stop.astimezone(pytz.utc).replace(tzinfo=None),
+                attendance,
+            )
+            for start, stop, attendance in intervals
+        ]
 
     def _get_leaves_on_public_holiday(self):
         """
@@ -164,60 +174,32 @@ class HrLeave(models.Model):
             attendance_vals = []
 
             if not self.request_unit_half and not self.request_unit_hours:
-                # Create an attendance for each day.
-                while start_date <= end_date:
-                    work_hours = self.calendar_id.get_work_hours_count(
-                        start_date,
-                        start_date + timedelta(days=1),
-                        compute_leaves=False,
+                # Create an attendance for each work period of the calendar,
+                # so a day with a lunch break results in two attendances.
+                for check_in, check_out, _attendance in self._get_work_intervals(start_date, end_date):
+                    attendance_vals.append(
+                        {
+                            "employee_id": self.employee_id.id,
+                            "check_in": check_in,
+                            "check_out": check_out,
+                            "leave_id": self.id,
+                        }
                     )
 
-                    if work_hours > 0:
-                        # Get start and end time from calendar lines
-                        hour_from = self.get_work_hour(start_date, "morning")
-                        hour_to = self.get_work_hour_to(start_date)
-
-                        # _logger.warning([work_hours, hour_from, hour_to])
-
-                        # Convert from user tz to utc
-                        date_from = user_tz.localize(start_date).astimezone(pytz.utc).replace(tzinfo=None)
-
-                        # The checkin time is defined by the calendar
-                        # The checkout time is checkin plus average hours from calendar
-                        check_in = date_from + timedelta(hours=hour_from)
-                        check_out = date_from + timedelta(hours=hour_to)
-                        attendance_vals.append(
-                            {
-                                "employee_id": self.employee_id.id,
-                                "check_in": check_in,
-                                "check_out": check_out,
-                                "leave_id": self.id,
-                            }
-                        )
-
-                    start_date += timedelta(days=1)
-
             elif self.request_unit_half:
-                attendance_vals = {
-                    "employee_id": self.employee_id.id,
-                    "leave_id": self.id,
-                }
-
-                # Get work hours
-                work_hours = self.calendar_id.get_work_hours_count(start_date, end_date, compute_leaves=False)
-
-                # Convert from user tz to utc
-                date_from = user_tz.localize(start_date).astimezone(pytz.utc).replace(tzinfo=None)
-
-                hour_from = 0
-                if self.request_date_from_period == "am":
-                    hour_from = self.get_work_hour(self.request_date_from, "morning")
-                elif self.request_date_from_period == "pm":
-                    hour_from = self.get_work_hour(self.request_date_from, "afternoon")
-
-                hour_to = hour_from + work_hours / 2
-                attendance_vals["check_in"] = date_from + timedelta(hours=hour_from)
-                attendance_vals["check_out"] = date_from + timedelta(hours=hour_to)
+                # Only keep the work periods of the requested half day.
+                day_period = "morning" if self.request_date_from_period == "am" else "afternoon"
+                for check_in, check_out, attendance in self._get_work_intervals(start_date, end_date):
+                    if attendance.day_period != day_period:
+                        continue
+                    attendance_vals.append(
+                        {
+                            "employee_id": self.employee_id.id,
+                            "check_in": check_in,
+                            "check_out": check_out,
+                            "leave_id": self.id,
+                        }
+                    )
 
             elif self.request_unit_hours:
                 # Convert from user tz to utc
@@ -227,12 +209,14 @@ class HrLeave(models.Model):
                 check_out = check_in + timedelta(hours=self.request_time_hour_to)
                 check_in = check_in + timedelta(hours=self.request_time_hour_from)
 
-                attendance_vals = {
-                    "employee_id": self.employee_id.id,
-                    "check_in": check_in,
-                    "check_out": check_out,
-                    "leave_id": self.id,
-                }
+                attendance_vals.append(
+                    {
+                        "employee_id": self.employee_id.id,
+                        "check_in": check_in,
+                        "check_out": check_out,
+                        "leave_id": self.id,
+                    }
+                )
 
             if not attendance_vals:
                 _logger.warning(
@@ -247,8 +231,8 @@ class HrLeave(models.Model):
         self.sudo().attendance_ids.unlink()
         return super().unlink()
 
-    def action_draft(self):
-        res = super().action_draft()
+    def action_reset_confirm(self):
+        res = super().action_reset_confirm()
         self.sudo().attendance_ids.unlink()
         return res
 
@@ -272,7 +256,7 @@ class HrLeave(models.Model):
         self.sudo().attendance_ids.unlink()
         return res
 
-    def action_cancel_leave(self):
-        res = super().action_cancel_leave()
+    def _force_cancel(self, *args, **kwargs):
+        res = super()._force_cancel(*args, **kwargs)
         self.sudo().attendance_ids.unlink()
         return res

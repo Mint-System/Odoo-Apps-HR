@@ -10,10 +10,6 @@ class HolidaysRequest(models.Model):
 
     active = fields.Boolean(default=True, readonly=False)
 
-
     def toggle_active(self):
         """Allow native archive/unarchive by injecting the bypass context."""
         return super(HolidaysRequest, self.with_context(from_cancel_wizard=True)).toggle_active()
-
-    
-

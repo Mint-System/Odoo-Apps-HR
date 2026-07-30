@@ -1,0 +1,19 @@
+{
+    "name": "HR Holidays Calendar Department",
+    "summary": """
+        Adds department field and filters to report.
+    """,
+    "author": "Mint System GmbH",
+    "website": "https://www.mint-system.ch/",
+    "category": "Human Resources",
+    "version": "16.0.1.0.0",
+    "license": "AGPL-3",
+    "depends": ["hr_holidays"],
+    "data": [
+        "report/hr_leave_report_calendar.xml",
+        "views/hr_leave_report_calendar.xml",
+    ],
+    "installable": True,
+    "application": False,
+    "images": ["images/screen.png"],
+}

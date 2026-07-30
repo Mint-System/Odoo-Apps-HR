@@ -1,4 +1,3 @@
-import base64
 import logging
 
 from odoo import _, models
@@ -18,7 +17,6 @@ class HolidaysRequest(models.Model):
             res[i][0]["res_model_id"] = self.env["ir.model"]._get(self._name).id
         return res
 
-
     # remove messaging from approve
     def action_approve(self):
         if any(holiday.state != "confirm" for holiday in self):
@@ -37,7 +35,6 @@ class HolidaysRequest(models.Model):
 
         return True
 
-    
     # add messaging to validate action
     def action_validate(self):
         res = super().action_validate()

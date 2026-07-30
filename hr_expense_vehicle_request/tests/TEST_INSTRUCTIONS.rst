@@ -14,4 +14,3 @@ Expense Sheet:
 - Go to expense linked to private vehicle request
 - Click button "Create Report"
 - Confirm that Expense Report contains vehicle manager as "Manager"
-

@@ -1,10 +1,10 @@
-from odoo import models, api
+from odoo import api, models
 
 
 class HrExpenseSheet(models.Model):
-    _inherit = 'hr.expense.sheet'
+    _inherit = "hr.expense.sheet"
 
-    @api.depends('employee_id', 'employee_id.department_id')
+    @api.depends("employee_id", "employee_id.department_id")
     def _compute_from_employee_id(self):
         for sheet in self:
             # Always keep these two in sync with the employee

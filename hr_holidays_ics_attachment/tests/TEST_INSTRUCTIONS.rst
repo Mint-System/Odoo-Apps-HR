@@ -1,0 +1,4 @@
+- Go to My Time Off > My Time Off
+- Create new time off
+- Approve and validate time off
+- Confirm that message and ics attachment was created in chatter

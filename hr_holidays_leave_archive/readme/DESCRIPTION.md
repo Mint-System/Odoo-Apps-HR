@@ -1,0 +1,1 @@
+Enables archiving of time off / hr leave entries.

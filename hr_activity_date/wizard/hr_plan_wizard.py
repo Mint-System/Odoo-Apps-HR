@@ -11,7 +11,6 @@ from odoo.exceptions import UserError
 class HrPlanWizard(models.TransientModel):
     _inherit = "hr.plan.wizard"
 
-
     def _get_plan_activity_schedule_values(self, activity_type, employee, responsible, date_deadline):
         """Hook to insert values"""
         return {
@@ -35,12 +34,8 @@ class HrPlanWizard(models.TransientModel):
             for activity_type in self._get_activities_to_schedule():
                 responsible = activity_type.get_responsible_id(employee)["responsible"]
 
-                if self.env["hr.employee"].with_user(responsible).check_access_rights(
-                    "read", raise_exception=False
-                ):
-                    date_deadline = self.env["mail.activity"]._calculate_date_deadline(
-                        activity_type.activity_type_id
-                    )
+                if self.env["hr.employee"].with_user(responsible).check_access_rights("read", raise_exception=False):
+                    date_deadline = self.env["mail.activity"]._calculate_date_deadline(activity_type.activity_type_id)
 
                     # Overwrite date deadline with contract date
                     if activity_type.activity_date_input == "start" and contract_id.date_start:
@@ -50,9 +45,7 @@ class HrPlanWizard(models.TransientModel):
 
                     # Apply offset
                     if activity_type.activity_date_offset_days != 0:
-                        date_deadline = date_deadline + timedelta(
-                            days=activity_type.activity_date_offset_days
-                        )
+                        date_deadline = date_deadline + timedelta(days=activity_type.activity_date_offset_days)
 
                     # Hook for custom values (note, etc.)
                     schedule_values = self._get_plan_activity_schedule_values(

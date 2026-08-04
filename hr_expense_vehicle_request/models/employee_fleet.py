@@ -4,7 +4,7 @@ from odoo import _, fields, models
 class EmployeeFleet(models.Model):
     _inherit = "employee.fleet"
 
-    expense_id = fields.Many2one("hr.expense", tracked=True, readonly=True, ondelete="restrict", copy=False)
+    expense_id = fields.Many2one("hr.expense", tracking=True, readonly=True, ondelete="restrict", copy=False)
 
     def returned(self):
         res = super().returned()

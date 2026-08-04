@@ -8,7 +8,7 @@ class FleetReservedTime(models.Model):
     employee = fields.Many2one("hr.employee", required=True)
     date_from = fields.Datetime(string="Reserved Date From", required=True)
     date_to = fields.Datetime(string="Reserved Date To", required=True)
-    vehicle_id = fields.Many2one("fleet.vehicle", required=True)
+    vehicle_id = fields.Many2one("fleet.vehicle", required=True, ondelete="cascade")
 
     def name_get(self):
         res = []

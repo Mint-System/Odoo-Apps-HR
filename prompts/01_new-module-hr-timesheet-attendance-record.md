@@ -38,7 +38,7 @@ Link the two models account.analytic.line and hr.attendance together with these 
 - account.analytic.line:attendance_id (many2one)
 - hr.attendance:timesheet_ids (one2many)
 
-Change the field hr.attendance:check_out to an computed field which depends on "timesheet_ids.unit_amount". In the compute method, set the value of check_out to "check_in + sum(timesheet_ids.mapped("unit_amount")". 
+Change the field hr.attendance:check_out to an computed field which depends on "timesheet_ids.unit_amount". In the compute method, set the value of check_out to `check_in + sum(timesheet_ids.mapped("unit_amount")`.
 
 Add readonly = False to the field hr.attendance:check_out.
 
@@ -46,74 +46,68 @@ Add readonly = False to the field hr.attendance:check_out.
 
 In account.analytic.line create these methods:
 
-account.analytic.line:_create_attendance
-Variables: date, employee_id, record_id
-
-Create an attendance with employee_id = employee_id, check_in = 8:00 on date in the employee's timezone, timesheet_ids = record_id.
-
-Return the attendance_id that is created
-
-
-account.analytic.line:_append_timesheet_id
-Variables: attendance, timesheet_id
-
-For the given attendance, append timesheet_id to the field timesheet_ids
-
-
-account.analytic.line:_remove_timesheet_id
-Variables: attendance, timesheet_id
-
-For the given attendance, remove timesheet_id from the field timesheet_ids
-
-
-account.analytic.line:_sync_attendance
-Variables: date, employee_id, record_id
+account.analytic.line:_get_attendance_record
+Variables: date, employee_id
 
 Look for attendances from employee_id and on date.
 
 For all attendances, unlink those that do not have the field timesheet_ids set, keep the first attendance with the field timesheet_ids set and unlink if any following attendance has the field timesheet_ids set.
 
-If an attendance is kept from the previous step, call _append_timesheet_id with this attendance and record_id, otherwise call _create_attendance with date, employee_id and record_id.
+Return the kept attendance or False.
 
-Return the attendance_id that is either found or created.
+
+account.analytic.line:_create_attendance
+Variables: date, employee_id
+
+Create an attendance with employee_id = employee_id, check_in = 8:00 on date.
+
+Return the attendance that is created.
 
 
 account.analytic.line:create
 Variables: vals_list
 
-Create the timesheet entries by vals_list.
+First get the attendance on the day of this timesheet entry (vals_list["date"]) and from the employee (vals_list["employee_id"] with the method _get_attendance_record.
 
-For each created entry, run _sync_attendance with record.date, record.employee_id and record.id. Store in this entry the attendance_id that is returned by _sync_attendance into the field attendance_id
+If an attendance is found, append it to the vals_list (vals_list["attendance_id"]), otherwise create the attendance with _create_attendance
 
+Use this snippet:
+
+```
+def create(self, vals_list): 
+	attendance = self._get_attendance_record(vals_list["date"], vals_list["employee.id"])
+	if attendance
+		vals_list["attendance_id"] = attendance
+	else
+		vals_list["attendance_id"] = self._create_attendance
+	return super().create(vals_list)
+```
 
 account.analytic.line:unlink
 
-If the field timesheet_ids in record.attendance_id has length 1, unlink the attendance entry. Otherwise run _remove_timesheet_id with record.attendance_id and record.id.
-
-
-account.analytic.line:write
-Variables: vals
-
-After the values are written for this entry, if unit_amount is in vals, trigger the compute check_out method in record.attendance_id 
+If the field timesheet_ids in record.attendance_id has length 1, unlink the attendance entry. Then run the the super().unlink() method.
 
 
 ### Views
 
 Use this task command to create the views
 
-``` bash
+```bash
 task generate-module-views addons/hr/hr_timesheet_attendance_recording hr.attendance
 ```
 
 In the form view of hr.attendance add a smart-button that shows the amount of linked timesheet entries (account.analytic.line) and when clicked shows these timesheet entries in a list.
 
+
 ### Test instructions
 
 Write in tests/TEST_INSTRUCTIONS.rst what steps need to be taken to see if and how this model works. Keep it very simple and limit to single sentences, such as 'create a timesheet entry for 1 hour' and 'check the duration of the attendance created'.
 
+
 ### Testing
 
 I will test the module myself so do not run "task all" and "task lint".
+
 
 ## Worklog
 

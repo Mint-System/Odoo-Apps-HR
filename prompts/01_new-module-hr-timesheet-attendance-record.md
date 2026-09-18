@@ -32,82 +32,67 @@ task generate-module-model addons/hr/hr_timesheet_attendance_recording hr.attend
 task generate-module-model addons/hr/hr_timesheet_attendance_recording account.analytic.line
 ```
 
-#### Fields
+### Fields
 
-Link the two models account.analytic.line and hr.attendance together with these two fields, which hold the attached entries.
-- account.analytic.line:attendance_id (many2one)
-- hr.attendance:timesheet_ids (one2many)
+Link the two models `account.analytic.line` and `hr.attendance` together with these two fields, which hold the attached entries:
 
-Change the field hr.attendance:check_out to an computed field which depends on "timesheet_ids.unit_amount". In the compute method, set the value of check_out to `check_in + sum(timesheet_ids.mapped("unit_amount")`.
+- `account.analytic.line:attendance_id` many2one
+- `hr.attendance:timesheet_ids` one2many
 
-Add readonly = False to the field hr.attendance:check_out.
+Change the field `hr.attendance:check_out` to an computed field which depends on `"timesheet_ids.unit_amount"`. In the compute method, set the value of check_out to `check_in + sum(timesheet_ids.mapped("unit_amount")`.
 
-#### Methods
+Add `readonly=False` to the field `hr.attendance:check_out`.
 
-In account.analytic.line create these methods:
+### Methods
 
-account.analytic.line:_get_attendance_record
-Variables: date, employee_id
+In `account.analytic.line` create these methods:
 
-Look for attendances from employee_id and on date.
+`account.analytic.line:_get_attendance_record(date, employee_id)`
 
-For all attendances, unlink those that do not have the field timesheet_ids set, keep the first attendance with the field timesheet_ids set and unlink if any following attendance has the field timesheet_ids set.
+Look for attendances from `employee_id` and on `date`. Return attendance_id or False. If found more than one attendance raise an validation error.
 
-Return the kept attendance or False.
+`account.analytic.line:_create_attendance(date, employee_id)`
 
+Creates an attendance with employee_id = employee_id, check_in = 8:00 on date. Returns the attendance that is created.
 
-account.analytic.line:_create_attendance
-Variables: date, employee_id
+`account.analytic.line:create(vals_list)`
 
-Create an attendance with employee_id = employee_id, check_in = 8:00 on date.
+First get the attendance on the day of this timesheet entry `vals_list["date"]` and from the employee `vals_list["employee_id"]` with the method `_get_attendance_record`.
 
-Return the attendance that is created.
+If an attendance is found, link it in the `vals_list["attendance_id"])`, otherwise create the attendance with `_create_attendance`.
 
-
-account.analytic.line:create
-Variables: vals_list
-
-First get the attendance on the day of this timesheet entry (vals_list["date"]) and from the employee (vals_list["employee_id"] with the method _get_attendance_record.
-
-If an attendance is found, append it to the vals_list (vals_list["attendance_id"]), otherwise create the attendance with _create_attendance
-
-Use this snippet:
-
-```
+```python
 def create(self, vals_list): 
-	attendance = self._get_attendance_record(vals_list["date"], vals_list["employee.id"])
-	if attendance
-		vals_list["attendance_id"] = attendance
-	else
-		vals_list["attendance_id"] = self._create_attendance
+	for val in vals_list:
+		attendance = self._get_attendance_record(val["date"], val["employee.id"])
+		if attendance
+			val["attendance_id"] = attendance
+		else
+			val["attendance_id"] = self._create_attendance
 	return super().create(vals_list)
 ```
 
-account.analytic.line:unlink
+`account.analytic.line:unlink`
 
-If the field timesheet_ids in record.attendance_id has length 1, unlink the attendance entry. Then run the the super().unlink() method.
-
+If the field `timesheet_ids` has length 1, unlink the attendance entry.
 
 ### Views
 
-Use this task command to create the views
+Use this task command to create the views:
 
 ```bash
 task generate-module-views addons/hr/hr_timesheet_attendance_recording hr.attendance
 ```
 
-In the form view of hr.attendance add a smart-button that shows the amount of linked timesheet entries (account.analytic.line) and when clicked shows these timesheet entries in a list.
-
+In the form view of `hr.attendance` add a smart-button that shows the amount of linked timesheet entries (`account.analytic.line`) and when clicked shows these timesheet entries in a list.
 
 ### Test instructions
 
-Write in tests/TEST_INSTRUCTIONS.rst what steps need to be taken to see if and how this model works. Keep it very simple and limit to single sentences, such as 'create a timesheet entry for 1 hour' and 'check the duration of the attendance created'.
-
+Write in `tests/TEST_INSTRUCTIONS.rst` what steps need to be taken to see if and how this model works. Keep it very simple and limit to single sentences, such as 'create a timesheet entry for 1 hour' and 'check the duration of the attendance created'.
 
 ### Testing
 
 I will test the module myself so do not run "task all" and "task lint".
-
 
 ## Worklog
 

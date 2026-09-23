@@ -1,7 +1,7 @@
 ---
 title: "New Module HR Timesheet Attendance Record"
-state: draft
-model: 
+state: completed
+model: infomaniak/moonshotai/Kimi-K2.6
 input_tokens: 
 ---
 
@@ -96,6 +96,8 @@ I will test the module myself so do not run "task all" and "task lint".
 
 ## Worklog
 
-@Clanker Add a summary here once the task has been completed.
-
-@Clanker Set frontmatter state to completed and update info about model and token usage.
+- Created `models/account_analytic_line.py` with `attendance_id` field, `_get_attendance_record`, `_create_attendance`, `create`, and `unlink` overrides.
+- Created `models/hr_attendance.py` with `timesheet_ids` field and computed `check_out` depending on `timesheet_ids.unit_amount`.
+- Added `views/hr_attendance.xml` with a smart-button on the attendance form showing the number of linked timesheets.
+- Updated `__manifest__.py` to reference the new view and `models/__init__.py` to import both models.
+- Wrote `tests/TEST_INSTRUCTIONS.rst` with manual test steps.

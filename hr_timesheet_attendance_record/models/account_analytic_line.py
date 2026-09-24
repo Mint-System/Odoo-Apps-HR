@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from odoo import api, fields, models, exceptions
-
+from odoo.tools.float_utils import float_is_zero
 
 class AccountAnalyticLine(models.Model):
     _inherit = "account.analytic.line"
@@ -45,11 +45,10 @@ class AccountAnalyticLine(models.Model):
 
     def unlink(self):
         attendances = self.mapped('attendance_id')
-        attendances_to_unlink = attendances.filtered(
-            lambda a: a.worked_hours is not False
-                      and float_is_zero(a.worked_hours, precision_digits=2)
-        )
         result = super().unlink()
+        attendances_to_unlink = attendances.filtered(
+            lambda a: len(a.timesheet_ids) == 0
+        )
         if attendances_to_unlink:
             attendances_to_unlink.unlink()
         return result

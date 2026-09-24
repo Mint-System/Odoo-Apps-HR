@@ -31,17 +31,17 @@ class AccountAnalyticLine(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        vals_list = [vals.copy() for vals in vals_list]
-        for vals in vals_list:
-            date = vals.get("date")
-            employee_id = vals.get("employee_id")
+        records = super().create(vals_list)
+        for record in records:
+            date = record.date
+            employee_id = record.employee_id.id
             if date and employee_id:
                 attendance = self._get_attendance_record(date, employee_id)
                 if attendance:
-                    vals["attendance_id"] = attendance
+                    record.attendance_id = attendance
                 else:
-                    vals["attendance_id"] = self._create_attendance(date, employee_id)
-        return super().create(vals_list)
+                    record.attendance_id = self._create_attendance(date, employee_id)
+        return records
 
     def unlink(self):
         attendances_to_unlink = self.env["hr.attendance"]

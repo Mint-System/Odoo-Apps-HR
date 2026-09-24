@@ -44,10 +44,12 @@ class AccountAnalyticLine(models.Model):
         return records
 
     def unlink(self):
-        attendances_to_unlink = self.env["hr.attendance"]
-        for record in self:
-            if record.attendance_id and len(record.attendance_id.timesheet_ids) == 1:
-                attendances_to_unlink |= record.attendance_id
+        attendances = self.mapped('attendance_id')
+        attendances_to_unlink = attendances.filtered(
+            lambda a: a.worked_hours is not False
+                      and float_is_zero(a.worked_hours, precision_digits=2)
+        )
         result = super().unlink()
-        attendances_to_unlink.unlink()
+        if attendances_to_unlink:
+            attendances_to_unlink.unlink()
         return result

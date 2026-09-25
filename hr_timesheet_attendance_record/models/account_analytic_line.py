@@ -41,14 +41,24 @@ class AccountAnalyticLine(models.Model):
                     record.attendance_id = attendance
                 else:
                     record.attendance_id = self._create_attendance(date, employee_id)
+            record.attendance_id._update_overtime()
         return records
+
+    def write(self, vals):
+        res = super().write(vals)
+        if "unit_amount" in vals:
+            self.attendance_id._update_overtime()
+        return res
 
     def unlink(self):
         attendances = self.mapped('attendance_id')
-        result = super().unlink()
+        res = super().unlink()
         attendances_to_unlink = attendances.filtered(
             lambda a: len(a.timesheet_ids) == 0
         )
         if attendances_to_unlink:
             attendances_to_unlink.unlink()
-        return result
+        attendances_to_update = attendances - attendances_to_unlink
+        if attendances_to_update:
+            attendances_to_update._update_overtime()
+        return res

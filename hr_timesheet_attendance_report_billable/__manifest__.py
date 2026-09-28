@@ -11,7 +11,9 @@
     "version": "17.0.1.0.0",
     "license": "AGPL-3",
     "depends": ["sale_timesheet_billable_price", "hr_timesheet_attendance"],
-    "data": [],
+    "data": [
+        "views/hr_timesheet_attendance_report.xml",
+    ],
     "installable": True,
     "application": False,
     "auto_install": False,

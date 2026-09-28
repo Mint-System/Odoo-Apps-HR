@@ -1,6 +1,6 @@
 ---
 title: "Create HR Attendance Timesheet Billable"
-state: draft
+state: completed
 model: moonshotai/Kimi-K2.6
 input_tokens: 
 ---
@@ -74,8 +74,6 @@ I will test the module myself so do not run "task all" and "task lint".
 
 ## Worklog
 
-@Clanker Add a summary here once the task has been completed.
-
-@Clanker Set frontmatter state to completed and update info about model and token usage.
+Generated inherited model and view for `hr.timesheet.attendance.report`. Added `billable_timesheet`, `non_billable_timesheet`, `internal_timesheet`, and their ratio fields. Overrode `init` method to include SQL calculations based on `timesheet_invoice_type` and `so_line`. Extended the pivot report view to display the new fields. Updated `__manifest__.py` data files and wrote test instructions.
 
 

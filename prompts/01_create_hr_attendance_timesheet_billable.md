@@ -21,28 +21,18 @@ Note: @Clanker refers to the "ai agent" (you) who is working on this task.
 
 ## Task
 
-The goal for this task is to create a new Odoo module with the description written below. The module has already been initialized. This code can be found in "addons/hr/hr_attendance_timesheet_billable".
+The goal for this task is to create a new Odoo module with the description written below. The module has already been initialized. This code can be found in "addons/hr/hr_timesheet_attendance_report_billable".
 
 ### Models
-
-The report extends the data model `project.task`.
-Use these task command to generate the inheriting model:
-
-``` bash
-task generate-module-inherit-model addons/hr/hr_attendance_timesheet_billable project.task
-```
 
 The module extends the report data model `hr.timesheet.attendance.report`.
 Use these task command to generate the inheriting model:
 
 ``` bash
-task generate-module-inherit-model addons/hr/hr_attendance_timesheet_billable hr.timesheet.attendance.report
+task generate-module-inherit-model addons/hr/hr_timesheet_attendance_report_billable hr.timesheet.attendance.report
 ```
 
 ### Fields
-
-Add a boolean field `non_billable` "Not Billable" with compute method `_compute_non_billable` to `project.task` model.
-The compute method should return True, if name field of project.task contains "Kulanz", else False.
 
 Add these fields to `hr.timesheet.attendance.report` report model by inheriting from original model:
 
@@ -58,8 +48,8 @@ If possible add fields for ratio calculations:
 ### Methods
 
 In inherited `hr.timesheet.attendance.report` model override `init` method to take into account the following calculations in sql query:
-- `billable_timesheet` counts together the recorded timesheets of project tasks not flagged by 'non_billable' and linked to a `sale.order.line` entry.
-- `non_billable_timesheet` counts together the recorded timesheets of project tasks flagged by 'non_billable' and linked to a `sale.order.line` entry.
+- `billable_timesheet` counts together the recorded timesheets of project tasks where `timesheet_invoice_type` is not 'non_billable' and linked to a `sale.order.line` entry.
+- `non_billable_timesheet` counts together the recorded timesheets of project tasks where `timesheet_invoice_type` is 'non_billable' and linked to a `sale.order.line` entry.
 - `internal_timesheet` counts together the recorded timesheets of project tasks not linked to a `sale.order.line` entry.
 
 
@@ -72,7 +62,7 @@ If possible add calculations for ratio fields:
 These new values for `hr.timesheet.attendance.report` can be shown in report "Timesheets > Reporting > Timesheets".
 
 Extend the report view `hr_timesheet_attendance.view_hr_timesheet_attendance_report_pivot`. Use this task to inherit from ths view:
-`task generate-module-inherit-view addons/hr/hr_attendance_timesheet_billable hr_timesheet_attendance.view_hr_timesheet_attendance_report_pivot hr.timesheet.attendance.report`
+`task generate-module-inherit-view addons/hr/hr_timesheet_attendance_report_billable hr_timesheet_attendance.view_hr_timesheet_attendance_report_pivot hr.timesheet.attendance.report`
 
 ### Test instructions
 

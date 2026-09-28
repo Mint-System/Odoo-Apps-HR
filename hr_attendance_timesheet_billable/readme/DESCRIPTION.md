@@ -1,1 +1,0 @@
-Compare billable and non-billable hours with attendance.

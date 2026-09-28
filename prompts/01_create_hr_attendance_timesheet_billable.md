@@ -41,21 +41,32 @@ task generate-module-inherit-model addons/hr/hr_attendance_timesheet_billable hr
 
 ### Fields
 
-Add a boolean field `not_billable` "Not Billable" to `project.task` model.
+Add a boolean field `non_billable` "Not Billable" with compute method `_compute_non_billable` to `project.task` model.
+The compute method should return True, if name field of project.task contains "Kulanz", else False.
 
-Add these fields to `hr.timesheet.attendance.report` report model:
+Add these fields to `hr.timesheet.attendance.report` report model by inheriting from original model:
 
 - `hr.timesheet.attendance.report: billable_timesheet` Float 
 - `hr.timesheet.attendance.report: non_billable_timesheet` Float
 - `hr.timesheet.attendance.report: internal_timesheet` Float
-- `hr.timesheet.attendance.report: invoiced_timesheet` Float
+
+If possible add fields for ratio calculations:
+- `hr.timesheet.attendance.report: billable_timesheet_ratio` Float
+- `hr.timesheet.attendance.report: non_billable_timesheet_ratio` Float 
+- `hr.timesheet.attendance.report: internal_timesheet_ratio` Float
 
 ### Methods
 
-In `hr.timesheet.attendance.report` override or inherit from `init` method to take into account the following calculations in sql query:
-- `billable_timesheet` counts together the recorded timesheets of project tasks not flagged by 'not_billable'.
-- `non_billable_timesheet` counts together the recorded timesheets of project tasks flagged by 'not_billable' and linked to a `sale.order.line` entry.
+In inherited `hr.timesheet.attendance.report` model override `init` method to take into account the following calculations in sql query:
+- `billable_timesheet` counts together the recorded timesheets of project tasks not flagged by 'non_billable' and linked to a `sale.order.line` entry.
+- `non_billable_timesheet` counts together the recorded timesheets of project tasks flagged by 'non_billable' and linked to a `sale.order.line` entry.
 - `internal_timesheet` counts together the recorded timesheets of project tasks not linked to a `sale.order.line` entry.
+
+
+If possible add calculations for ratio fields:
+- `billable_timesheet_ratio`: ratio of `billable_timesheet` to exiting model field `hr.timesheet.attendance.report:total_timesheet`
+- `non_billable_timesheet_ratio`: ratio of `non_billable_timesheet` to exiting model field `hr.timesheet.attendance.report:total_timesheet`
+- `internal_timesheet_ratio`: ratio of `internal_timesheet` to exiting model field `hr.timesheet.attendance.report:total_timesheet`
 
 ### Views
 These new values for `hr.timesheet.attendance.report` can be shown in report "Timesheets > Reporting > Timesheets".

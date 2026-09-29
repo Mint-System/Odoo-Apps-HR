@@ -13,9 +13,9 @@ class HrTimesheetAttendanceReport(models.Model):
     billable_timesheet = fields.Float("Billable Timesheet Hours", readonly=True)
     non_billable_timesheet = fields.Float("Non-Billable Timesheet Hours", readonly=True)
     internal_timesheet = fields.Float("Internal Timesheet Hours", readonly=True)
-    billable_timesheet_ratio = fields.Float("Billable Timesheet Ratio", readonly=True)
-    non_billable_timesheet_ratio = fields.Float("Non-Billable Timesheet Ratio", readonly=True)
-    internal_timesheet_ratio = fields.Float("Internal Timesheet Ratio", readonly=True)
+    billable_timesheet_ratio = fields.Float("Billable Timesheet Ratio", readonly=True, group_operator='avg')
+    non_billable_timesheet_ratio = fields.Float("Non-Billable Timesheet Ratio", readonly=True, group_operator='avg')
+    internal_timesheet_ratio = fields.Float("Internal Timesheet Ratio", readonly=True, group_operator='avg')
 
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)

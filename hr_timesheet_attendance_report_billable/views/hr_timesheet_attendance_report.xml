@@ -9,9 +9,9 @@
                 <field name="billable_timesheet" type="measure" widget="timesheet_uom"/>
                 <field name="non_billable_timesheet" type="measure" widget="timesheet_uom"/>
                 <field name="internal_timesheet" type="measure" widget="timesheet_uom"/>
-                <field name="billable_timesheet_ratio" type="measure"/>
-                <field name="non_billable_timesheet_ratio" type="measure"/>
-                <field name="internal_timesheet_ratio" type="measure"/>
+                <field name="billable_timesheet_ratio" type="measure" widget="percentage"/>
+                <field name="non_billable_timesheet_ratio" type="measure" widget="percentage"/>
+                <field name="internal_timesheet_ratio" type="measure" widget="percentage"/>
             </xpath>
         </field>
     </record>

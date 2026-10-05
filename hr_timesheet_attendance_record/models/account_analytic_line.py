@@ -6,7 +6,7 @@ from odoo.tools.float_utils import float_is_zero
 class AccountAnalyticLine(models.Model):
     _inherit = "account.analytic.line"
 
-    attendance_id = fields.Many2one("hr.attendance", string="Attendance")
+    attendance_id = fields.Many2one("hr.attendance", string="Attendance", ondelete="restrict")
 
     def _get_attendance_record(self, date, employee_id):
         date = fields.Date.to_date(date)
@@ -35,12 +35,11 @@ class AccountAnalyticLine(models.Model):
         for record in records:
             date = record.date
             employee_id = record.employee_id.id
-            if date and employee_id:
-                attendance = self._get_attendance_record(date, employee_id)
-                if attendance:
-                    record.attendance_id = attendance
-                else:
-                    record.attendance_id = self._create_attendance(date, employee_id)
+            attendance = self._get_attendance_record(date, employee_id)
+            if attendance:
+                record.attendance_id = attendance
+            else:
+                record.attendance_id = self._create_attendance(date, employee_id)
             record.attendance_id._update_overtime()
         return records
 

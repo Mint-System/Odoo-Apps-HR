@@ -1,6 +1,6 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
-    "name": "Hr Timesheet Attendance Record",
+    "name": "HR Timesheet Attendance Record",
     "summary": """
         Generate attendance records from timesheet entries.
     """,

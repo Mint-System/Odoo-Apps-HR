@@ -51,14 +51,11 @@ class AccountAnalyticLine(models.Model):
         return res
 
     def unlink(self):
-        attendances = self.mapped('attendance_id')
-        res = super().unlink()
-        attendances_to_unlink = attendances.filtered(
-            lambda a: len(a.timesheet_ids) == 0
-        )
-        if attendances_to_unlink:
-            attendances_to_unlink.unlink()
-        attendances_to_update = attendances - attendances_to_unlink
-        if attendances_to_update:
-            attendances_to_update._update_overtime()
-        return res
+        for rec in self:
+            attendance = rec.attendance_id
+            super(AccountAnalyticLine, rec).unlink()
+            if len(attendance.timesheet_ids) == 0:
+                attendance.unlink()
+            else:
+                attendance._update_overtime()
+        return True

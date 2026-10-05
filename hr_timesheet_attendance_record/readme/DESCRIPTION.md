@@ -1,1 +1,0 @@
-Generate attendance records from timesheet entries.

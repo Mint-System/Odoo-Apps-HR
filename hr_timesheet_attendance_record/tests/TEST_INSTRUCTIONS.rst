@@ -1,0 +1,12 @@
+- Create a timesheet entry for 1 hour.
+- Check that an attendance entry was created for that day with worked hours == 1 hour.
+- Verify that the validated overtime hours is correctly set (depends on the working schedule).
+- Verify that the attendance check_out is set to check_in + 1 hour.
+- Ajust the timesheet entry to 2 hours.
+- Verify the check out time, worked hours and validated overtime hours in the attendance.
+- Add 2 more timesheet entries to the same day.
+- Verify the check out time, worked hours and validated overtime hours in the attendance.
+- Delete one timesheet entry.
+- Verify the check out time, worked hours and validated overtime hours in the attendance.
+- Delete all timesheet entries simultenously by selecting them in the list view.
+- Verify that the attendance entry is also deleted.

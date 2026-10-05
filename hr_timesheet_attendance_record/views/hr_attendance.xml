@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="hr_attendance_view_form_inherit_timesheet" model="ir.ui.view">
+        <field name="name">hr.attendance.form.timesheet.inherit</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form" />
+        <field name="arch" type="xml">
+            <sheet position="inside">
+                <div class="oe_button_box" name="button_box">
+                    <button
+                        class="oe_stat_button"
+                        type="object"
+                        name="action_view_timesheet_ids"
+                        icon="fa-clock-o"
+                    >
+                        <field string="Timesheets" name="timesheet_count" widget="statinfo"/>
+                    </button>
+                </div>
+            </sheet>
+        </field>
+    </record>
+</odoo>

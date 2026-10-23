@@ -13,9 +13,6 @@ class HrTimesheetAttendanceReport(models.Model):
     billable_timesheet = fields.Float("Billable Timesheet Hours", readonly=True)
     non_billable_timesheet = fields.Float("Non-Billable Timesheet Hours", readonly=True)
     internal_timesheet = fields.Float("Internal Timesheet Hours", readonly=True)
-    billable_timesheet_ratio = fields.Float("Billable Timesheet Ratio", readonly=True, group_operator='avg')
-    non_billable_timesheet_ratio = fields.Float("Non-Billable Timesheet Ratio", readonly=True, group_operator='avg')
-    internal_timesheet_ratio = fields.Float("Internal Timesheet Ratio", readonly=True, group_operator='avg')
 
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
@@ -35,10 +32,7 @@ class HrTimesheetAttendanceReport(models.Model):
                     NULLIF((coalesce(sum(t.attendance), 0) - coalesce(sum(t.timesheet), 0)) * t.emp_cost, 0) AS cost_difference,
                     coalesce(sum(t.billable_timesheet), 0) AS billable_timesheet,
                     coalesce(sum(t.non_billable_timesheet), 0) AS non_billable_timesheet,
-                    coalesce(sum(t.internal_timesheet), 0) AS internal_timesheet,
-                    CASE WHEN coalesce(sum(t.timesheet), 0) != 0 THEN coalesce(sum(t.billable_timesheet), 0) / coalesce(sum(t.timesheet), 0) ELSE 0 END AS billable_timesheet_ratio,
-                    CASE WHEN coalesce(sum(t.timesheet), 0) != 0 THEN coalesce(sum(t.non_billable_timesheet), 0) / coalesce(sum(t.timesheet), 0) ELSE 0 END AS non_billable_timesheet_ratio,
-                    CASE WHEN coalesce(sum(t.timesheet), 0) != 0 THEN coalesce(sum(t.internal_timesheet), 0) / coalesce(sum(t.timesheet), 0) ELSE 0 END AS internal_timesheet_ratio
+                    coalesce(sum(t.internal_timesheet), 0) AS internal_timesheet
                 FROM (
                     SELECT
                         -hr_attendance.id AS id,

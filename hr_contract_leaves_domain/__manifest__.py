@@ -5,7 +5,7 @@
         Adds time_type to expected hours calculation in hr_contract.
     """,
     "author": "Mint System GmbH",
-    "website": "https://www.mint-system.ch",
+    "website": "https://github.com/OCA/sale-workflow",
     "category": "Repository",
     "development_status": "Production/Stable",
     "version": "17.0.1.0.0",
@@ -16,5 +16,4 @@
     "application": False,
     "auto_install": False,
     "images": ["images/screen.png"],
-    
 }

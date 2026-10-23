@@ -9,13 +9,14 @@ _logger = logging.getLogger(__name__)
 
 class HrTimesheetAttendanceReport(models.Model):
     """
-    Existing SQL query in init is overwritten. 
-    
+    Existing SQL query in init is overwritten.
+
     Timesheet entries are grouped and stored in the following field:
     - With so.line and timesheet_invoice_type != non-billable -> billable_timesheet
     - With so.line and timesheet_invoice_type == non-billable -> non_billable_timesheet
     - Without so.line -> internal_timesheet
     """
+
     _inherit = "hr.timesheet.attendance.report"
 
     billable_timesheet = fields.Float("Billable Timesheet Hours", readonly=True)

@@ -2,7 +2,7 @@
 
 import logging
 
-from odoo import _, api, fields, models
+from odoo import fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -10,5 +10,4 @@ _logger = logging.getLogger(__name__)
 class ResourceCalendarLeaves(models.Model):
     _inherit = "resource.calendar.leaves"
 
-    time_type = fields.Selection(selection_add=[('attendance', 'Attendance')])
-    
+    time_type = fields.Selection(selection_add=[("attendance", "Attendance")])

@@ -12,7 +12,7 @@
     "license": "AGPL-3",
     "depends": ["sale_timesheet_billable_price", "hr_timesheet_attendance"],
     "data": [
-        "views/hr_timesheet_attendance_report.xml",
+        "report/hr_timesheet_attendance_report_view.xml",
     ],
     "installable": True,
     "application": False,

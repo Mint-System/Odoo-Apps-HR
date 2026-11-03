@@ -44,8 +44,21 @@ class AccountAnalyticLine(models.Model):
         return records
 
     def write(self, vals):
+        current_attendance = self.attendance_id
         res = super().write(vals)
         if "unit_amount" in vals:
+            current_attendance._update_overtime()
+        if "date" in vals or "employee_id" in vals:
+            had_only_self = len(current_attendance.timesheet_ids) == 1
+            super(AccountAnalyticLine, self).write({'attendance_id': False})
+            if had_only_self:
+                current_attendance.unlink()
+            else:
+                current_attendance._update_overtime()
+            new_attendance_id = self._get_attendance_record(self.date, self.employee_id.id)
+            if not new_attendance_id:
+                new_attendance_id = self._create_attendance(self.date, self.employee_id.id)
+            super(AccountAnalyticLine, self).write({'attendance_id': new_attendance_id})
             self.attendance_id._update_overtime()
         return res
 

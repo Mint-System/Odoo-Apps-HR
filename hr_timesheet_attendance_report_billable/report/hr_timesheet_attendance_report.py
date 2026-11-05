@@ -2,7 +2,7 @@
 
 import logging
 
-from odoo import fields, models, tools
+from odoo import fields, models, tools, api
 
 _logger = logging.getLogger(__name__)
 
@@ -22,6 +22,9 @@ class HrTimesheetAttendanceReport(models.Model):
     billable_timesheet = fields.Float("Billable Timesheet Hours", readonly=True)
     non_billable_timesheet = fields.Float("Non-Billable Timesheet Hours", readonly=True)
     internal_timesheet = fields.Float("Internal Timesheet Hours", readonly=True)
+    billable_timesheet_ratio = fields.Float("Billable Timesheet Ratio", readonly=True, group_operator='avg')
+    non_billable_timesheet_ratio = fields.Float("Non-Billable Timesheet Ratio", readonly=True, group_operator='avg')
+    internal_timesheet_ratio = fields.Float("Internal Timesheet Ratio", readonly=True, group_operator='avg')
 
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
@@ -41,7 +44,10 @@ class HrTimesheetAttendanceReport(models.Model):
                     NULLIF((coalesce(sum(t.attendance), 0) - coalesce(sum(t.timesheet), 0)) * t.emp_cost, 0) AS cost_difference,
                     coalesce(sum(t.billable_timesheet), 0) AS billable_timesheet,
                     coalesce(sum(t.non_billable_timesheet), 0) AS non_billable_timesheet,
-                    coalesce(sum(t.internal_timesheet), 0) AS internal_timesheet
+                    coalesce(sum(t.internal_timesheet), 0) AS internal_timesheet,
+                    CASE WHEN coalesce(sum(t.timesheet), 0) != 0 THEN coalesce(sum(t.billable_timesheet), 0) / coalesce(sum(t.timesheet), 0) ELSE 0 END AS billable_timesheet_ratio,
+                    CASE WHEN coalesce(sum(t.timesheet), 0) != 0 THEN coalesce(sum(t.non_billable_timesheet), 0) / coalesce(sum(t.timesheet), 0) ELSE 0 END AS non_billable_timesheet_ratio,
+                    CASE WHEN coalesce(sum(t.timesheet), 0) != 0 THEN coalesce(sum(t.internal_timesheet), 0) / coalesce(sum(t.timesheet), 0) ELSE 0 END AS internal_timesheet_ratio
                 FROM (
                     SELECT
                         -hr_attendance.id AS id,
@@ -84,3 +90,31 @@ class HrTimesheetAttendanceReport(models.Model):
         """
             % self._table
         )
+
+    @api.model
+    def read_group(
+        self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True
+    ):
+        res = super().read_group(
+            domain,
+            fields,
+            groupby,
+            offset=offset,
+            limit=limit,
+            orderby=orderby,
+            lazy=lazy,
+        )
+
+        if "billable_timesheet_ratio:avg" in fields:
+            for line in res:
+                line["billable_timesheet_ratio"] = (line.get("billable_timesheet", 0.0) / line["total_timesheet"]) if line.get("total_timesheet", 0.0) else 0.0
+
+        if "non_billable_timesheet_ratio:avg" in fields:
+            for line in res:
+                line["non_billable_timesheet_ratio"] = (line.get("non_billable_timesheet", 0.0) / line["total_timesheet"]) if line.get("total_timesheet", 0.0) else 0.0
+
+        if "internal_timesheet_ratio:avg" in fields:
+            for line in res:
+                line["internal_timesheet_ratio"] = (line.get("internal_timesheet", 0.0) / line["total_timesheet"]) if line.get("total_timesheet", 0.0) else 0.0
+
+        return res

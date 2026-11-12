@@ -32,11 +32,4 @@
             </xpath>
         </field>
     </record>
-
-    <record id="hr_timesheet.menu_timesheets_reports" model="ir.ui.menu">
-        <field
-            name="groups_id"
-            eval="[(4, ref('hr_timesheet.group_hr_timesheet_user'))]"
-        />
-    </record>
 </odoo>

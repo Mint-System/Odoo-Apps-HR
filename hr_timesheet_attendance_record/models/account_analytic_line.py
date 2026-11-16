@@ -33,41 +33,46 @@ class AccountAnalyticLine(models.Model):
     def create(self, vals_list):
         records = super().create(vals_list)
         for record in records:
-            date = record.date
-            employee_id = record.employee_id.id
-            attendance = self._get_attendance_record(date, employee_id)
-            if attendance:
-                record.attendance_id = attendance
-            else:
-                record.attendance_id = self._create_attendance(date, employee_id)
-            record.attendance_id._update_overtime()
+            if record.employee_id and record.project_id:
+                date = record.date
+                employee_id = record.employee_id.id
+                attendance = self._get_attendance_record(date, employee_id)
+                if attendance:
+                    record.attendance_id = attendance
+                else:
+                    record.attendance_id = self._create_attendance(date, employee_id)
+                record.attendance_id._update_overtime()
         return records
 
     def write(self, vals):
-        current_attendance = self.attendance_id
         res = super().write(vals)
-        if "unit_amount" in vals:
-            current_attendance._update_overtime()
-        if "date" in vals or "employee_id" in vals:
-            had_only_self = len(current_attendance.timesheet_ids) == 1
-            super(AccountAnalyticLine, self).write({'attendance_id': False})
-            if had_only_self:
-                current_attendance.unlink()
-            else:
+        if self.attendance_id:
+            current_attendance = self.attendance_id
+            if "unit_amount" in vals:
                 current_attendance._update_overtime()
-            new_attendance_id = self._get_attendance_record(self.date, self.employee_id.id)
-            if not new_attendance_id:
-                new_attendance_id = self._create_attendance(self.date, self.employee_id.id)
-            super(AccountAnalyticLine, self).write({'attendance_id': new_attendance_id})
-            self.attendance_id._update_overtime()
+            if "date" in vals or "employee_id" in vals:
+                had_only_self = len(current_attendance.timesheet_ids) == 1
+                super(AccountAnalyticLine, self).write({'attendance_id': False})
+                if had_only_self:
+                    current_attendance.unlink()
+                else:
+                    current_attendance._update_overtime()
+                new_attendance_id = self._get_attendance_record(self.date, self.employee_id.id)
+                if not new_attendance_id:
+                    new_attendance_id = self._create_attendance(self.date, self.employee_id.id)
+                super(AccountAnalyticLine, self).write({'attendance_id': new_attendance_id})
+                self.attendance_id._update_overtime()
         return res
 
     def unlink(self):
         for rec in self:
-            attendance = rec.attendance_id
-            super(AccountAnalyticLine, rec).unlink()
-            if len(attendance.timesheet_ids) == 0:
-                attendance.unlink()
+            if rec.attendance_id:
+                attendance = rec.attendance_id
+                super(AccountAnalyticLine, rec).unlink()
+                if len(attendance.timesheet_ids) == 0:
+                    attendance.unlink()
+                else:
+                    attendance._update_overtime()
             else:
-                attendance._update_overtime()
+                super(AccountAnalyticLine, rec).unlink()
         return True

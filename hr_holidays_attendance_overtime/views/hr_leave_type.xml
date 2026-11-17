@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="hr_leave_type_view_form" model="ir.ui.view">
+        <field name="name">hr.leave.type.form.inherit.overtime.leave.type</field>
+        <field name="model">hr.leave.type</field>
+        <field name="inherit_id" ref="hr_holidays_attendance.hr_leave_type_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group
+                    string="Linked Overtime Rules"
+                    invisible="not overtime_deductible or requires_allocation"
+                >
+                    <field name="overtime_rule_ids" nolabel="1" colspan="2" readonly="1">
+                        <list>
+                            <field name="ruleset_id" />
+                            <field name="name" />
+                            <field name="information_display" />
+                            <field name="sequence" optional="hide" />
+                        </list>
+                    </field>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

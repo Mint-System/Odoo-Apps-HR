@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="hr_attendance_overtime_line_view_list" model="ir.ui.view">
+        <field name="name">hr.attendance.overtime.line.list.overtime.leave.type</field>
+        <field name="model">hr.attendance.overtime.line</field>
+        <field name="arch" type="xml">
+            <list create="0">
+                <field name="employee_id" />
+                <field name="date" />
+                <field name="overtime_leave_type_id" />
+                <field name="rule_ids" widget="many2many_tags" />
+                <field name="status" />
+                <field name="compensable_as_leave" optional="hide" />
+                <field name="manual_duration" widget="float_time" sum="Total" />
+            </list>
+        </field>
+    </record>
+
+    <record id="hr_attendance_overtime_line_view_pivot" model="ir.ui.view">
+        <field name="name">hr.attendance.overtime.line.pivot.overtime.leave.type</field>
+        <field name="model">hr.attendance.overtime.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Extra Hours and Overtime">
+                <field name="employee_id" type="row" />
+                <field name="overtime_leave_type_id" type="col" />
+                <field name="manual_duration" type="measure" widget="float_time" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="hr_attendance_overtime_line_view_search" model="ir.ui.view">
+        <field name="name">hr.attendance.overtime.line.search.overtime.leave.type</field>
+        <field name="model">hr.attendance.overtime.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="employee_id" />
+                <filter
+                    name="approved"
+                    string="Approved"
+                    domain="[('status', '=', 'approved')]"
+                />
+                <field name="overtime_leave_type_id" />
+                <separator />
+                <filter name="date" string="Date" date="date" />
+                <group>
+                    <filter
+                        name="group_employee"
+                        string="Employee"
+                        context="{'group_by': 'employee_id'}"
+                    />
+                    <filter
+                        name="group_leave_type"
+                        string="Time Off Type"
+                        context="{'group_by': 'overtime_leave_type_id'}"
+                    />
+                    <filter
+                        name="group_week"
+                        string="Week"
+                        context="{'group_by': 'date:week'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="hr_attendance_overtime_line_action" model="ir.actions.act_window">
+        <field name="name">Extra Hours and Overtime</field>
+        <field name="res_model">hr.attendance.overtime.line</field>
+        <field name="view_mode">pivot,list</field>
+        <field name="search_view_id" ref="hr_attendance_overtime_line_view_search" />
+        <field name="context">{'search_default_approved': 1}</field>
+    </record>
+
+    <menuitem
+        id="menu_hr_attendance_overtime_line"
+        name="Extra Hours and Overtime"
+        parent="hr_attendance.menu_hr_attendance_reporting"
+        action="hr_attendance_overtime_line_action"
+        sequence="20"
+    />
+</odoo>

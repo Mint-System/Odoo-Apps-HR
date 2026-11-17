@@ -1,0 +1,11 @@
+[project]
+name = "odoo-apps-hr"
+version = "19.0.20261117.0"
+dependencies = [
+    "odoo-addon-hr_holidays_attendance_overtime==19.0.*",
+]
+classifiers=[
+    "Programming Language :: Python",
+    "Framework :: Odoo",
+    "Framework :: Odoo :: 19.0",
+]

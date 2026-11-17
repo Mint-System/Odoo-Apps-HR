@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="hr_attendance_overtime_ruleset" model="hr.attendance.overtime.ruleset">
+        <field name="name">Extra Hours and Overtime</field>
+        <field name="company_id" eval="False" />
+        <field name="country_id" eval="False" />
+        <field name="rate_combination_mode">max</field>
+    </record>
+
+    <!-- Extra hours: worked hours above the expected hours of the contract -->
+    <record id="hr_attendance_overtime_rule_extra_hours" model="hr.attendance.overtime.rule">
+        <field name="name">Extra Hours</field>
+        <field name="ruleset_id" ref="hr_attendance_overtime_ruleset" />
+        <field name="base_off">quantity</field>
+        <field name="quantity_period">day</field>
+        <field name="expected_hours_from_contract" eval="True" />
+        <field name="compensable_as_leave" eval="True" />
+        <field name="leave_type_id" ref="hr_holidays.holiday_status_extra_hours" />
+        <!-- Maximum of worked hours per week, the extra hours are the difference to the contract -->
+        <field name="max_extra_hours" eval="45.0" />
+        <field name="sequence">10</field>
+    </record>
+
+    <!-- Overtime: extra hours above 45 hours per week -->
+    <record id="hr_attendance_overtime_rule_overtime" model="hr.attendance.overtime.rule">
+        <field name="name">Overtime</field>
+        <field name="ruleset_id" ref="hr_attendance_overtime_ruleset" />
+        <field name="base_off">quantity</field>
+        <field name="quantity_period">week</field>
+        <field name="expected_hours_from_contract" eval="False" />
+        <field name="expected_hours" eval="45.0" />
+        <field name="compensable_as_leave" eval="True" />
+        <field name="leave_type_id" ref="leave_type_overtime" />
+        <field name="sequence">20</field>
+    </record>
+</odoo>

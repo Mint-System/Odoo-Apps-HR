@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--
+        Attendances of the current week for Mitchell Admin: 5 x 12 h = 60 h.
+        The contract is 38 h per week, so the extra hours rule credits the hours
+        above the expected hours per day and the overtime rule credits everything
+        above 45 h per week.
+    -->
+    <record id="hr_attendance_demo_extra_hours_monday" model="hr.attendance">
+        <field
+            name="check_in"
+            eval="(datetime.now() - timedelta(days=datetime.now().weekday())).strftime('%Y-%m-%d 07:00:00')"
+        />
+        <field
+            name="check_out"
+            eval="(datetime.now() - timedelta(days=datetime.now().weekday())).strftime('%Y-%m-%d 19:00:00')"
+        />
+        <field name="employee_id" ref="hr.employee_admin" />
+    </record>
+    <record id="hr_attendance_demo_extra_hours_tuesday" model="hr.attendance">
+        <field
+            name="check_in"
+            eval="(datetime.now() - timedelta(days=datetime.now().weekday() - 1)).strftime('%Y-%m-%d 07:00:00')"
+        />
+        <field
+            name="check_out"
+            eval="(datetime.now() - timedelta(days=datetime.now().weekday() - 1)).strftime('%Y-%m-%d 19:00:00')"
+        />
+        <field name="employee_id" ref="hr.employee_admin" />
+    </record>
+    <record id="hr_attendance_demo_extra_hours_wednesday" model="hr.attendance">
+        <field
+            name="check_in"
+            eval="(datetime.now() - timedelta(days=datetime.now().weekday() - 2)).strftime('%Y-%m-%d 07:00:00')"
+        />
+        <field
+            name="check_out"
+            eval="(datetime.now() - timedelta(days=datetime.now().weekday() - 2)).strftime('%Y-%m-%d 19:00:00')"
+        />
+        <field name="employee_id" ref="hr.employee_admin" />
+    </record>
+    <record id="hr_attendance_demo_extra_hours_thursday" model="hr.attendance">
+        <field
+            name="check_in"
+            eval="(datetime.now() - timedelta(days=datetime.now().weekday() - 3)).strftime('%Y-%m-%d 07:00:00')"
+        />
+        <field
+            name="check_out"
+            eval="(datetime.now() - timedelta(days=datetime.now().weekday() - 3)).strftime('%Y-%m-%d 19:00:00')"
+        />
+        <field name="employee_id" ref="hr.employee_admin" />
+    </record>
+    <record id="hr_attendance_demo_overtime_friday" model="hr.attendance">
+        <field
+            name="check_in"
+            eval="(datetime.now() - timedelta(days=datetime.now().weekday() - 4)).strftime('%Y-%m-%d 07:00:00')"
+        />
+        <field
+            name="check_out"
+            eval="(datetime.now() - timedelta(days=datetime.now().weekday() - 4)).strftime('%Y-%m-%d 19:00:00')"
+        />
+        <field name="employee_id" ref="hr.employee_admin" />
+    </record>
+
+    <!-- Assign the ruleset to the contract of Mitchell Admin -->
+    <record id="hr.employee_admin_hr_version" model="hr.version">
+        <field
+            name="ruleset_id"
+            ref="hr_holidays_attendance_overtime.hr_attendance_overtime_ruleset"
+        />
+    </record>
+</odoo>

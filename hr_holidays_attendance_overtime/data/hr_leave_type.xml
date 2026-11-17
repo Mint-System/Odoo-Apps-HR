@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Extra hours: reuse the time off type of hr_holidays, only show it on the dashboard -->
+    <record id="hr_holidays.holiday_status_extra_hours" model="hr.leave.type">
+        <field name="hide_on_dashboard" eval="False" />
+    </record>
+
+    <!-- Overtime: extra hours above the weekly limit -->
+    <record id="leave_type_overtime" model="hr.leave.type">
+        <field name="name">Overtime</field>
+        <field name="request_unit">hour</field>
+        <field name="requires_allocation" eval="False" />
+        <field name="overtime_deductible" eval="True" />
+        <field name="leave_validation_type">manager</field>
+        <field name="hide_on_dashboard" eval="False" />
+        <field name="company_id" eval="False" />
+        <field name="country_id" eval="False" />
+        <field name="icon_id" ref="hr_holidays.icon_4" />
+        <field name="sequence">6</field>
+    </record>
+</odoo>

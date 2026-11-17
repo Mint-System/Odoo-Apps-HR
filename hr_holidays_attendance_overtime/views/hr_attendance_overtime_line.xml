@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="hr_attendance_overtime_line_view_list" model="ir.ui.view">
-        <field name="name">hr.attendance.overtime.line.list.overtime.leave.type</field>
+        <field name="name">hr_holidays_attendance_overtime.hr_attendance_overtime_line_view_list</field>
         <field name="model">hr.attendance.overtime.line</field>
         <field name="arch" type="xml">
             <list create="0">
@@ -17,7 +17,7 @@
     </record>
 
     <record id="hr_attendance_overtime_line_view_pivot" model="ir.ui.view">
-        <field name="name">hr.attendance.overtime.line.pivot.overtime.leave.type</field>
+        <field name="name">hr_holidays_attendance_overtime.hr_attendance_overtime_line_view_pivot</field>
         <field name="model">hr.attendance.overtime.line</field>
         <field name="arch" type="xml">
             <pivot string="Extra Hours and Overtime">
@@ -29,7 +29,7 @@
     </record>
 
     <record id="hr_attendance_overtime_line_view_search" model="ir.ui.view">
-        <field name="name">hr.attendance.overtime.line.search.overtime.leave.type</field>
+        <field name="name">hr_holidays_attendance_overtime.hr_attendance_overtime_line_view_search</field>
         <field name="model">hr.attendance.overtime.line</field>
         <field name="arch" type="xml">
             <search>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="hr_leave_type_view_form" model="ir.ui.view">
-        <field name="name">hr.leave.type.form.inherit.overtime.leave.type</field>
+        <field name="name">hr_holidays_attendance_overtime.hr_leave_type_view_form</field>
         <field name="model">hr.leave.type</field>
         <field name="inherit_id" ref="hr_holidays_attendance.hr_leave_type_view_form" />
         <field name="arch" type="xml">

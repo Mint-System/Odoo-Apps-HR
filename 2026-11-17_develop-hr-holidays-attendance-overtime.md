@@ -80,21 +80,14 @@ Requirements given by the author while reviewing the module:
 
 Here is an example for 38 h contact, working 11h a day for an entire week:
 
- ┌───────────┬────────┬────────┬─────────────┐
- │ Weekday   │ Date   │ Hours  │ Type        │
- ├───────────┼────────┼────────┼─────────────┤
- │ Monday    │ Nov 16 │ 3.4 h  │ Überstunden │
- ├───────────┼────────┼────────┼─────────────┤
- │ Tuesday   │ Nov 17 │ 3.4 h  │ Überstunden │
- ├───────────┼────────┼────────┼─────────────┤
- │ Wednesday │ Nov 18 │ 0.2 h  │ Überstunden │
- ├───────────┼────────┼────────┼─────────────┤
- │ Thursday  │ Nov 19 │ —      │ Überstunden │
- ├───────────┼────────┼────────┼─────────────┤
- │ Friday    │ Nov 20 │ —      │ Überstunden │
- ├───────────┼────────┼────────┼─────────────┤
- │ Friday    │ Nov 20 │ 10     │ Überzeit    │
- └───────────┴────────┴────────┴─────────────┘
+| Weekday   | Date   | Hours | Type        |
+| --------- | ------ | ----- | ----------- |
+| Monday    | Nov 16 | 3.4 h | Überstunden |
+| Tuesday   | Nov 17 | 3.4 h | Überstunden |
+| Wednesday | Nov 18 | 0.2 h | Überstunden |
+| Thursday  | Nov 19 | —     | Überstunden |
+| Friday    | Nov 20 | —     | Überstunden |
+| Friday    | Nov 20 | 10 h  | Überzeit    |
 
 ### Testing
 

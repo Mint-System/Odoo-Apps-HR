@@ -1,5 +1,5 @@
 ---
-commit_ref: 54fcd7795638563a54ec3ca0ba70bbc1486c4375
+commit_ref: 7c41bf7adb0a047bdffeda8784ae45b1927fd765
 title: "hr_timesheet_attendance_report_billable_add_kulanz"
 author: "laurens kooijman <laurenskooijman@gmail.com>"
 session_id: 01a2074f-b514-7158-aa42-2b0e8138eb0a

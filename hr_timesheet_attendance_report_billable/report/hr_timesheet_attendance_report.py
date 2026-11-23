@@ -19,12 +19,14 @@ class HrTimesheetAttendanceReport(models.Model):
 
     _inherit = "hr.timesheet.attendance.report"
 
-    billable_timesheet = fields.Float("Billable Timesheet Hours", readonly=True)
-    non_billable_timesheet = fields.Float("Non-Billable Timesheet Hours", readonly=True)
-    internal_timesheet = fields.Float("Internal Timesheet Hours", readonly=True)
-    billable_timesheet_ratio = fields.Float("Billable Timesheet Ratio", readonly=True, group_operator='avg')
-    non_billable_timesheet_ratio = fields.Float("Non-Billable Timesheet Ratio", readonly=True, group_operator='avg')
-    internal_timesheet_ratio = fields.Float("Internal Timesheet Ratio", readonly=True, group_operator='avg')
+    billable_timesheet = fields.Float("Billable", readonly=True)
+    non_billable_timesheet = fields.Float("Non-Billable", readonly=True)
+    internal_timesheet = fields.Float("Internal", readonly=True)
+    billable_timesheet_ratio = fields.Float("Billable %", readonly=True, group_operator='avg')
+    non_billable_timesheet_ratio = fields.Float("Non-Billable %", readonly=True, group_operator='avg')
+    internal_timesheet_ratio = fields.Float("Internal %", readonly=True, group_operator='avg')
+    courtesy = fields.Float("Courtesy", readonly=True)
+    courtesy_ratio = fields.Float("Courtesy %", readonly=True, group_operator='avg')
 
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
@@ -45,8 +47,10 @@ class HrTimesheetAttendanceReport(models.Model):
                     coalesce(sum(t.billable_timesheet), 0) AS billable_timesheet,
                     coalesce(sum(t.non_billable_timesheet), 0) AS non_billable_timesheet,
                     coalesce(sum(t.internal_timesheet), 0) AS internal_timesheet,
+                    coalesce(sum(t.courtesy), 0) AS courtesy,
                     CASE WHEN coalesce(sum(t.timesheet), 0) != 0 THEN coalesce(sum(t.billable_timesheet), 0) / coalesce(sum(t.timesheet), 0) ELSE 0 END AS billable_timesheet_ratio,
                     CASE WHEN coalesce(sum(t.timesheet), 0) != 0 THEN coalesce(sum(t.non_billable_timesheet), 0) / coalesce(sum(t.timesheet), 0) ELSE 0 END AS non_billable_timesheet_ratio,
+                    CASE WHEN coalesce(sum(t.timesheet), 0) != 0 THEN coalesce(sum(t.courtesy), 0) / coalesce(sum(t.timesheet), 0) ELSE 0 END AS courtesy_ratio,
                     CASE WHEN coalesce(sum(t.timesheet), 0) != 0 THEN coalesce(sum(t.internal_timesheet), 0) / coalesce(sum(t.timesheet), 0) ELSE 0 END AS internal_timesheet_ratio
                 FROM (
                     SELECT
@@ -65,6 +69,7 @@ class HrTimesheetAttendanceReport(models.Model):
                         hr_employee.company_id as company_id,
                         NULL AS billable_timesheet,
                         NULL AS non_billable_timesheet,
+                        NULL AS courtesy,
                         NULL AS internal_timesheet
                     FROM hr_attendance
                     LEFT JOIN hr_employee ON hr_employee.id = hr_attendance.employee_id
@@ -78,10 +83,13 @@ class HrTimesheetAttendanceReport(models.Model):
                         ts.date AS date,
                         ts.company_id AS company_id,
                         CASE WHEN ts.so_line IS NOT NULL AND ts.timesheet_invoice_type != 'non_billable' THEN ts.unit_amount ELSE 0 END AS billable_timesheet,
-                        CASE WHEN ts.so_line IS NOT NULL AND ts.timesheet_invoice_type = 'non_billable' THEN ts.unit_amount ELSE 0 END AS non_billable_timesheet,
+                        CASE WHEN ts.so_line IS NOT NULL AND ts.timesheet_invoice_type = 'non_billable' AND (pp.default_code IS NULL OR pp.default_code != 'KUL') THEN ts.unit_amount ELSE 0 END AS non_billable_timesheet,
+                        CASE WHEN ts.so_line IS NOT NULL AND ts.timesheet_invoice_type = 'non_billable' AND pp.default_code = 'KUL' THEN ts.unit_amount ELSE 0 END AS courtesy,
                         CASE WHEN ts.so_line IS NULL THEN ts.unit_amount ELSE 0 END AS internal_timesheet
                     FROM account_analytic_line AS ts
                     LEFT JOIN hr_employee ON hr_employee.id = ts.employee_id
+                    LEFT JOIN sale_order_line sol ON sol.id = ts.so_line
+                    LEFT JOIN product_product pp ON pp.id = sol.product_id
                     WHERE ts.project_id IS NOT NULL
                 ) AS t
                 GROUP BY t.employee_id, t.date, t.company_id, t.emp_cost
@@ -113,8 +121,13 @@ class HrTimesheetAttendanceReport(models.Model):
             for line in res:
                 line["non_billable_timesheet_ratio"] = (line.get("non_billable_timesheet", 0.0) / line["total_timesheet"]) if line.get("total_timesheet", 0.0) else 0.0
 
+        if "courtesy_ratio:avg" in fields:
+            for line in res:
+                line["courtesy_ratio"] = (line.get("courtesy", 0.0) / line["total_timesheet"]) if line.get("total_timesheet", 0.0) else 0.0
+
         if "internal_timesheet_ratio:avg" in fields:
             for line in res:
                 line["internal_timesheet_ratio"] = (line.get("internal_timesheet", 0.0) / line["total_timesheet"]) if line.get("total_timesheet", 0.0) else 0.0
+
 
         return res

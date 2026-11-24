@@ -1,13 +1,13 @@
-# Odoo Apps: HR
+# Odoo Apps: Hr
 
-Collection of hr model related modules.
+Odoo modules extending the `hr` module.
 
 ## Usage
 
-Clone module into Odoo addon directory.
+Clone this repo into the Odoo addons directory.
 
 ```bash
-git clone git@github.com:mint-system/odoo-apps-hr.git ./addons/hr
+git clone git@github.com:Mint-System/Odoo-Apps-Hr.git ./addons/hr
 ```
 
 ## Available modules
@@ -19,6 +19,7 @@ git clone git@github.com:mint-system/odoo-apps-hr.git ./addons/hr
 | [hr_attendance_overtime_hours](hr_attendance_overtime_hours) |         Show planned and worked hours in overtime view. |
 | [hr_attendance_overtime_negative_hours](hr_attendance_overtime_negative_hours) |         Show negative hours in leave overview. |
 | [hr_employee_attendance_report](hr_employee_attendance_report) |         Attendance and leave report. |
+| [hr_employee_paid_out_overtime_report](hr_employee_paid_out_overtime_report) |         Shows List of employees with overtime to be paid out. |
 | [hr_employee_skill](hr_employee_skill) |         Views to manage HR employee skills. |
 | [hr_holidays_remaining_leaves](hr_holidays_remaining_leaves) |         Show remaining leaves per employee in allocation overview. |
 | [hr_timesheet_from_until](hr_timesheet_from_until) |         Calculate duration from start and end time fields. |

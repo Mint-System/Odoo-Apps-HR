@@ -11,7 +11,7 @@
                 <field name="rule_ids" widget="many2many_tags" />
                 <field name="status" />
                 <field name="compensable_as_leave" optional="hide" />
-                <field name="manual_duration" widget="float_time" sum="Total" />
+                <field name="manual_duration" widget="float_time" sum="Total" string="Hours (encoded)" />
             </list>
         </field>
     </record>
@@ -23,7 +23,7 @@
             <pivot string="Extra Hours and Overtime">
                 <field name="employee_id" type="row" />
                 <field name="overtime_leave_type_id" type="col" />
-                <field name="manual_duration" type="measure" widget="float_time" />
+                <field name="manual_duration" type="measure" widget="float_time" string="Hours (encoded)" />
             </pivot>
         </field>
     </record>

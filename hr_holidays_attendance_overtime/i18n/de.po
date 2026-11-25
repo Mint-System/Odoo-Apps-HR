@@ -6,11 +6,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-17 14:27+0000\n"
-"PO-Revision-Date: 2026-11-17 14:27+0000\n"
+"POT-Creation-Date: 2026-11-25 13:10+0000\n"
+"PO-Revision-Date: 2026-11-25 13:10+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -19,7 +18,6 @@ msgstr ""
 #. module: hr_holidays_attendance_overtime
 #. odoo-python
 #: code:addons/hr_holidays_attendance_overtime/models/hr_leave_type.py:0
-#, python-format
 msgid "%s hours available"
 msgstr "%s Stunden verfügbar"
 
@@ -27,6 +25,11 @@ msgstr "%s Stunden verfügbar"
 #: model_terms:ir.ui.view,arch_db:hr_holidays_attendance_overtime.hr_attendance_overtime_line_view_search
 msgid "Approved"
 msgstr "Genehmigt"
+
+#. module: hr_holidays_attendance_overtime
+#: model:ir.model,name:hr_holidays_attendance_overtime.model_hr_attendance
+msgid "Attendance"
+msgstr "Anwesenheit"
 
 #. module: hr_holidays_attendance_overtime
 #: model:ir.model,name:hr_holidays_attendance_overtime.model_hr_attendance_overtime_line
@@ -39,8 +42,10 @@ msgid "Date"
 msgstr "Datum"
 
 #. module: hr_holidays_attendance_overtime
+#: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_attendance__display_name
 #: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_attendance_overtime_line__display_name
 #: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_attendance_overtime_rule__display_name
+#: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_attendance_overtime_ruleset__display_name
 #: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_employee__display_name
 #: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_leave__display_name
 #: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_leave_type__display_name
@@ -54,22 +59,22 @@ msgid "Employee"
 msgstr "Mitarbeiter"
 
 #. module: hr_holidays_attendance_overtime
+#: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_attendance_overtime_ruleset__employee_count
+msgid "Employee Count"
+msgstr "Anzahl Mitarbeiter"
+
+#. module: hr_holidays_attendance_overtime
 #. odoo-python
 #: code:addons/hr_holidays_attendance_overtime/models/hr_attendance_overtime_ruleset.py:0
+#: model_terms:ir.ui.view,arch_db:hr_holidays_attendance_overtime.hr_attendance_overtime_ruleset_view_form
 msgid "Employees"
 msgstr "Mitarbeiter"
 
 #. module: hr_holidays_attendance_overtime
-#: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_attendance_overtime_ruleset__employee_count
-msgid "Employees Count"
-msgstr "Anzahl Mitarbeiter"
-
-#. module: hr_holidays_attendance_overtime
+#: model:hr.attendance.overtime.ruleset,name:hr_holidays_attendance_overtime.hr_attendance_overtime_ruleset
 #: model:ir.actions.act_window,name:hr_holidays_attendance_overtime.hr_attendance_overtime_line_action
 #: model:ir.ui.menu,name:hr_holidays_attendance_overtime.menu_hr_attendance_overtime_line
 #: model_terms:ir.ui.view,arch_db:hr_holidays_attendance_overtime.hr_attendance_overtime_line_view_pivot
-#: model:hr.attendance.overtime.ruleset,name:hr_holidays_attendance_overtime.hr_attendance_overtime_ruleset
-#: model_terms:ir.ui.view,arch_db:hr_holidays_attendance_overtime.hr_employee_view_form
 msgid "Extra Hours and Overtime"
 msgstr "Überstunden und Überzeit"
 
@@ -81,12 +86,21 @@ msgid ""
 " rule with the highest sequence wins."
 msgstr ""
 "Stunden aus dieser Regel werden dem Saldo dieser Abwesenheitsart "
-"gutgeschrieben und können nur über diese Abwesenheitsart kompensiert werden. "
-"Treffen mehrere Regeln zu, gilt die Regel mit der höchsten Reihenfolge."
+"gutgeschrieben und können nur über diese Abwesenheitsart kompensiert werden."
+" Treffen mehrere Regeln zu, gilt die Regel mit der höchsten Reihenfolge."
 
 #. module: hr_holidays_attendance_overtime
+#: model:ir.model.fields,help:hr_holidays_attendance_overtime.field_hr_attendance__weekly_overtime_hours
+msgid ""
+"Hours of the overtime rules with a weekly period, e.g. the hours above the "
+"weekly limit. They are shown on the last attendance of the week."
+msgstr ""
+
+#. module: hr_holidays_attendance_overtime
+#: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_attendance__id
 #: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_attendance_overtime_line__id
 #: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_attendance_overtime_rule__id
+#: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_attendance_overtime_ruleset__id
 #: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_employee__id
 #: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_leave__id
 #: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_leave_type__id
@@ -100,9 +114,30 @@ msgid "Linked Overtime Rules"
 msgstr "Verknüpfte Überstundenregeln"
 
 #. module: hr_holidays_attendance_overtime
+#: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_attendance_overtime_rule__max_extra_hours
+msgid "Max Hours per Week"
+msgstr "Max. Stunden pro Woche"
+
+#. module: hr_holidays_attendance_overtime
+#: model:ir.model.fields,help:hr_holidays_attendance_overtime.field_hr_attendance_overtime_rule__max_extra_hours
+msgid ""
+"Maximum of worked hours per week this rule credits, e.g. 45 hours. The extra"
+" hours are the difference between this limit and the hours of the employee "
+"contract, e.g. 7 hours for a 38 hour contract. Leave empty for no limit."
+msgstr ""
+"Maximale Arbeitsstunden pro Woche, die diese Regel gutschreibt, z.B. 45 "
+"Stunden. Die Überstunden sind die Differenz zwischen diesem Limit und den "
+"Stunden des Arbeitsvertrags, z.B. 7 Stunden bei einem 38-Stunden-Vertrag. "
+"Leer lassen für kein Limit."
+
+#. module: hr_holidays_attendance_overtime
+#: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_attendance_overtime_ruleset__name
+msgid "Name"
+msgstr ""
+
+#. module: hr_holidays_attendance_overtime
 #. odoo-python
 #: code:addons/hr_holidays_attendance_overtime/models/hr_leave.py:0
-#, python-format
 msgid ""
 "Not enough balance for %(type)s: the balance after this request would be "
 "%(balance).2f h."
@@ -121,38 +156,19 @@ msgid "Overtime Rule"
 msgstr "Überstundenregel"
 
 #. module: hr_holidays_attendance_overtime
-#: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_attendance_overtime_rule__max_extra_hours
-msgid "Max Hours per Week"
-msgstr "Max. Stunden pro Woche"
-
-#. module: hr_holidays_attendance_overtime
-#: model:ir.model.fields,help:hr_holidays_attendance_overtime.field_hr_attendance_overtime_rule__max_extra_hours
-msgid ""
-"Maximum of worked hours per week this rule credits, e.g. 45 hours. The extra "
-"hours are the difference between this limit and the hours of the employee "
-"contract, e.g. 7 hours for a 38 hour contract. Leave empty for no limit."
-msgstr ""
-"Maximale Arbeitsstunden pro Woche, die diese Regel gutschreibt, z.B. 45 "
-"Stunden. Die Überstunden sind die Differenz zwischen diesem Limit und den "
-"Stunden des Arbeitsvertrags, z.B. 7 Stunden bei einem 38-Stunden-Vertrag. "
-"Leer lassen für kein Limit."
+#: model:ir.model,name:hr_holidays_attendance_overtime.model_hr_attendance_overtime_ruleset
+msgid "Overtime Ruleset"
+msgstr "Regelsatz für Überstunden"
 
 #. module: hr_holidays_attendance_overtime
 #. odoo-python
 #: code:addons/hr_holidays_attendance_overtime/models/hr_attendance_overtime_rule.py:0
-#, python-format
 msgid "Rule '%(name)s' has a negative maximum of extra hours."
 msgstr "Die Regel '%(name)s' hat ein negatives Maximum an Überstunden."
 
 #. module: hr_holidays_attendance_overtime
-#: model:ir.model,name:hr_holidays_attendance_overtime.model_hr_attendance_overtime_ruleset
-msgid "Overtime Ruleset"
-msgstr "Überstunden-Regelsatz"
-
-#. module: hr_holidays_attendance_overtime
 #. odoo-python
 #: code:addons/hr_holidays_attendance_overtime/models/hr_attendance_overtime_rule.py:0
-#, python-format
 msgid ""
 "The time off type '%(type)s' must have 'Deduct Extra Hours' enabled and must"
 " not require an allocation."
@@ -163,7 +179,7 @@ msgstr ""
 #. module: hr_holidays_attendance_overtime
 #: model:ir.model,name:hr_holidays_attendance_overtime.model_hr_leave
 msgid "Time Off"
-msgstr "Abwesenheit"
+msgstr "Abwesenheiten"
 
 #. module: hr_holidays_attendance_overtime
 #: model:ir.model,name:hr_holidays_attendance_overtime.model_hr_leave_type
@@ -176,7 +192,8 @@ msgstr "Abwesenheitsart"
 #. module: hr_holidays_attendance_overtime
 #: model:ir.model.fields,help:hr_holidays_attendance_overtime.field_hr_attendance_overtime_line__overtime_leave_type_id
 msgid "Time off type the hours of this line are credited to."
-msgstr "Abwesenheitsart, auf die die Stunden dieser Zeile gutgeschrieben werden."
+msgstr ""
+"Abwesenheitsart, auf die die Stunden dieser Zeile gutgeschrieben werden."
 
 #. module: hr_holidays_attendance_overtime
 #: model_terms:ir.ui.view,arch_db:hr_holidays_attendance_overtime.hr_attendance_overtime_line_view_list
@@ -189,15 +206,19 @@ msgid "Week"
 msgstr "Woche"
 
 #. module: hr_holidays_attendance_overtime
-#: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_attendance_weekly_overtime_hours
+#: model:ir.model.fields,field_description:hr_holidays_attendance_overtime.field_hr_attendance__weekly_overtime_hours
 msgid "Weekly Overtime Hours"
-msgstr "Wöchentliche Überzeit"
+msgstr ""
 
 #. module: hr_holidays_attendance_overtime
-#: model:ir.model.fields,help:hr_holidays_attendance_overtime.field_hr_attendance_weekly_overtime_hours
-msgid ""
-"Hours of the overtime rules with a weekly period, e.g. the hours above the "
-"weekly limit. They are shown on the last attendance of the week."
+#. odoo-python
+#: code:addons/hr_holidays_attendance_overtime/models/hr_attendance_overtime_ruleset.py:0
+msgid "version_id.ruleset_id"
 msgstr ""
-"Stunden der Überzeitregeln mit einer Wochenperiode, z.B. die Stunden über dem "
-"Wochenlimit. Sie werden beim letzten Eintrag der Woche angezeigt."
+
+
+#. module: hr_holidays_attendance_overtime
+#: model_terms:ir.ui.view,arch_db:hr_holidays_attendance_overtime.hr_attendance_overtime_line_view_list
+#: model_terms:ir.ui.view,arch_db:hr_holidays_attendance_overtime.hr_attendance_overtime_line_view_pivot
+msgid "Hours (encoded)"
+msgstr "Stunden (erfasst)"

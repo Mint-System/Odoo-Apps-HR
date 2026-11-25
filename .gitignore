@@ -86,3 +86,7 @@ docs/_build/
 
 # OCA rules
 !static/lib/
+
+# taskfile
+tmp
+prompt.md

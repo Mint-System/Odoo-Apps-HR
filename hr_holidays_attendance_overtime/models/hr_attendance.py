@@ -81,6 +81,16 @@ class HrAttendance(models.Model):
             if attendance:
                 attendance.weekly_overtime_hours = hours
 
+    def _update_overtime(self, attendance_domain=None):
+        """Recompute the weekly overtime after the overtime lines are regenerated."""
+        if not attendance_domain:
+            attendance_domain = self._get_overtimes_to_update_domain()
+        res = super()._update_overtime(attendance_domain)
+        attendances = self.exists() | self.search(attendance_domain)
+        self.env.add_to_compute(self._fields["weekly_overtime_hours"], attendances)
+        return res
+
+
     def _get_week_key(self, record):
         """Return the key of the employee and the week of an attendance or line.
 
